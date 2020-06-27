@@ -502,11 +502,11 @@ def mp2zp(m, z, T=0.0, P=0.0, prop={}):
 
     #-- Use mobility diameter to get particle electro and mechanical mobl. ---#
     if T==0.0 or P==0.0:
-        [Zp,B] = dm2zp(d,z)
+        B, Zp = dm2zp(d,z)
     else:
-        [Zp,B] = dm2zp(d,z,T,P)
+        B, Zp = dm2zp(d,z,T,P)
 
-    return Zp, B, d
+    return B, Zp, d
 
 
 
