@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import tfer_pma
+import tfer_pma # import relevant functions to evaluate the PMA transfer function
 
 
 # define input variables

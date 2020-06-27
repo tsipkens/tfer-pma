@@ -48,7 +48,7 @@ def tfer_1S(sp, m, d, z, prop={}):
 #== PARSE_INPUTS ============================================================#
 # A function to evaluate setpoint parameters including C0, alpha, and beta.
 # Author:  Timothy A. Sipkens, 2019-05-01
-#-------------------------------------------------------------------------#
+#
 # Required variables:
 #   sp      Mass corresponding to the measurement set point of the APM
 #   d           Struct containing mutliple setpoint parameters (V, alpha, etc.)
@@ -440,7 +440,6 @@ def mp2zp(m, z, T=0.0, P=0.0, prop={}):
 #-------------------------------------------------------------------------#
 def prop_pma(opts='Olfert'):
 
-
     #-- CPMA parameters from Olfert lab ----------------------------------#
     if opts=='Olfert':
         prop = {
@@ -452,7 +451,6 @@ def prop_pma(opts='Olfert'):
             'Q': 3/1000/60, # volume flow rate (m ** 3/s) (prev: ~1 lpm)
             'omega_hat': 32/33 # ratio of angular speeds
         }
-
 
     #-- CPMA/APM parameters from Buckley et al. --------------------------#
     elif opts=='Buckley':
@@ -466,8 +464,6 @@ def prop_pma(opts='Olfert'):
             'Q': 1.02e-3/60, # volume flow rate (m ** 3/s) (prev: ~1 lpm)
             'omega_hat': 1 # ratio of angular speeds
         }
-
-
 
     #-- Parameters related to CPMA geometry ----------------------------------#
     prop['rc'] = (prop['r1']+prop['r2'])/2
