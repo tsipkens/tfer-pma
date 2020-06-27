@@ -5,6 +5,8 @@
 
 The attached python functions evaluate the transfer function of particle mass analyzers (PMAs), including the centrifugal particle mass analyzer (CPMA) and aerosol particle mass analyzer (APM). This is primarily done using a novel set of expressions derived from particle tracking methods, information for which is given in an associated paper [(Sipkens, Olfert, and Rogak, 2020a)][ast20]. Further information on the different methods in this program is given as header information for each function.
 
+This repository is intended to mirror the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. 
+
 ----------------------------------------------------------------------
 
 #### License
