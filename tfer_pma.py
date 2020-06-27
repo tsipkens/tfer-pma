@@ -2,12 +2,13 @@
 
 import sys
 import scipy.optimize
+import scipy.special
 import numpy as np
 
 
 
 #== TFER_1S ==============================================================#
-#   Evaluates the transfer function for a PMA in Case A.
+#   Evaluates the transfer function for a PMA in Case 1S.
 #   Author:   Timothy Sipkens, 2019-10-22
 #
 # Inputs:
@@ -40,6 +41,93 @@ def tfer_1S(sp, m, d, z, prop={}):
     rb = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r2'])))
 
     Lambda = (1 / (2 * prop['del'])) * (rb - ra)
+
+    return Lambda, G0
+
+
+
+#== TFER_1C ==============================================================#
+#   Evaluates the transfer function for a PMA in Case 1C.
+#   Author:   Timothy Sipkens, 2019-10-22
+#
+# Inputs:
+#   sp          Structure defining various setpoint parameters
+#               (e.g. m_star, V). Use 'get_setpoint' method to generate
+#               this structure.
+#   m           Particle mass
+#   d           Particle mobility diameter
+#   z           Integer charge state
+#   prop        Device properties (e.g. classifier length)
+#
+# Outputs:
+#   Lambda      Transfer function
+#   G0          Function mapping final to initial radial position
+#-------------------------------------------------------------------------#
+def tfer_1C(sp, m, d, z, prop={}):
+
+    tau,C0,_,_ = parse_inputs(sp, m, d, z, prop);
+        # parse inputs for common parameters
+
+    #-- Taylor series expansion constants ------------------------------------#
+    C3 = tau * (sp['alpha'] ** 2 * prop['rc'] + 2 * sp['alpha'] * sp['beta'] / prop['rc'] + \
+        sp['beta'] ** 2 / (prop['rc'] ** 3) - C0 / (m * prop['rc']));
+    C4 = tau * (sp['alpha'] ** 2 - 2 * sp['alpha'] * sp['beta'] / (prop['rc'] ** 2) - \
+        3 * sp['beta'] ** 2 / (prop['rc'] ** 4) + C0 / (m * (prop['rc'] ** 2)));
+
+    #-- Evaluate G0 and transfer function ------------------------------------#
+    G0 = lambda r: prop['rc'] + (r - prop['rc'] + C3 / C4) * \
+        np.exp(-C4 * prop['L'] / prop['v_bar']) - C3 / C4;
+
+    ra = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r1'])));
+    rb = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r2'])));
+
+    Lambda = (1 / (2 * prop['del'])) * (rb - ra);
+
+    return Lambda, G0
+
+
+
+#== TFER_1C_DIFF =========================================================#
+#   Evaluates the transfer function for a PMA in Case 1c (w/ diffusion).
+#   Author:       Timothy Sipkens, 2018-12-27
+#
+# Inputs:
+#   sp          Structure defining various setpoint parameters
+#               (e.g. m_star, V). Use 'get_setpoint' method to generate
+#               this structure.
+#   m           Particle mass
+#   d           Particle mobility diameter
+#   z           Integer charge state
+#   prop        Device properties (e.g. classifier length)
+#
+# Outputs:
+#   Lambda      Transfer function
+#   G0          Function mapping final to initial radial position
+#-------------------------------------------------------------------------#
+def tfer_1C_diff(sp, m, d, z, prop={}):
+
+    _,_,D,_ = parse_inputs(sp, m, d, z, prop); # get diffusion coeff.
+    sig = np.sqrt(2 * prop['L'] * D / prop['v_bar']); # diffusive spreading parameter
+
+    #-- Evaluate relevant functions ------------------------------------------%
+    _,G0 = tfer_1C(sp, m, d, z, prop);
+        # get G0 function for this case
+        
+    rho_fun = lambda G , r: (G - r) / (np.sqrt(2) * sig); # recurring quantity
+    kap_fun = lambda G , r: \
+        (G - r) * scipy.special.erf(rho_fun(G,r)) + \
+        sig * np.sqrt(2 / np.pi) * np.exp(-rho_fun(G,r) ** 2); # define function for kappa
+
+    #-- Evaluate the transfer function and its terms -------------------------%
+    K22 = kap_fun(G0(prop['r2']), prop['r2']);
+    K21 = kap_fun(G0(prop['r2']), prop['r1']);
+    K12 = kap_fun(G0(prop['r1']), prop['r2']);
+    K11 = kap_fun(G0(prop['r1']), prop['r1']);
+    Lambda = -1 / (4 * prop['del']) * (K22 - K12 - K21 + K11);
+    
+    # f_small = K22 > 1e2 # flag large values out of error fun. eval.
+    Lambda[K22 > 1e2] = 0; # remove cases with large values out of error fun. eval.
+    Lambda[np.absolute(Lambda) < 1e-10] = 0; # remove cases with roundoff error
 
     return Lambda, G0
 
@@ -80,13 +168,12 @@ def parse_inputs(sp, m, d=0, z=1, prop={}):
         B,_,_ = mp2zp(m, z, prop['T'], prop['p'], prop)
     else: # if mobility diameter is specified
         B,_,_ = dm2zp(d, z, prop['T'], prop['p'])
-
-
+        
     #-- Evaluate output parameters -------------------------------------------#
     tau = B * m
     D = prop['D'](B) * z # diffusion as a function of mechanical mobiltiy and charge state
     C0 = sp['V'] * q / np.log(1 / prop['r_hat']) # calcualte recurring C0 parameter
-
+    
     # if required, calculate equilbirium radius
     if np.round((np.sqrt(C0 / sp['m_star']) - np.sqrt(C0 / sp['m_star'] - 4 * sp['alpha']*sp['beta'])) / (2*sp['alpha']), 15)==prop['rc']:
         rs = np.real((np.sqrt(C0 / m)- \
@@ -133,7 +220,6 @@ def get_setpoint(prop={}, *args):
         prop = prop_pma()
     #-------------------------------------------------------------------------#
 
-
     #-- Parse inputs for setpoint --------------------------------------------#
     sp = {} # make empty dictionary for setpoint
     if len(args)==2:
@@ -143,20 +229,17 @@ def get_setpoint(prop={}, *args):
         sp[args[0]] = args[1]
         sp[args[2]] = args[3]
 
-
-
     #-- Set up mobility calculations -----------------------------------------#
     e = 1.60218e-19 # electron charge [C]
 
-
     #== Proceed depending on which setpoint parameters are specified =========#
     #== CASE 1: m_star is not specified, use V and omega =====================#
-    if sp['m_star']==0:
+    if not 'm_star' in sp:
         # case if m_star is not specified
         # requires that voltage, 'V', and speed, 'omega' are specified
 
         #-- Evaluate angular speed of inner electrode ------------------------#
-        if sp['omega1']==0:
+        if not 'omega1' in sp:
             sp['omega1'] = sp['omega'] / \
                 ((prop['r_hat'] ** 2 - prop['omega_hat'])/(prop['r_hat'] ** 2 - 1)+ \
                 prop['r1'] ** 2 * (prop['omega_hat'] - 1)/(prop['r_hat'] ** 2 - 1)/prop['rc'] ** 2)

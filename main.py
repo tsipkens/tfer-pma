@@ -21,9 +21,19 @@ prop['rho0'] = rho_eff * np.pi / 6; # copy mass-mobility relation info (only use
 prop['Dm'] = 3
 
 sp,_ = tfer_pma.get_setpoint(prop, 'm_star', m_star, 'Rm', 10)
+# sp,_ = tfer_pma.get_setpoint(prop, 'V', 24.44, 'omega', 2543.9) # alt. phrasing
 
-Lambda,G0 = tfer_pma.tfer_1S(sp, m, d, z, prop)
+
+# evaluate the transfer functions
+Lambda_1S,_ = tfer_pma.tfer_1S(sp, m, d, z, prop)
+Lambda_1C,_ = tfer_pma.tfer_1C(sp, m, d, z, prop)
+Lambda_1C_diff,_ = tfer_pma.tfer_1C_diff(sp, m, d, z, prop)
 
 
-plt.plot(m, Lambda)
+# plot the various transfer functions 
+plt.plot(m, Lambda_1S)
+plt.plot(m, Lambda_1C)
+plt.plot(m, Lambda_1C_diff)
 plt.show()
+
+
