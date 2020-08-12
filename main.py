@@ -8,14 +8,16 @@ import tfer_pma # import relevant functions to evaluate the PMA transfer functio
 
 # define input variables
 m_star = 0.01e-18
-m = np.arange(0.8,1.2,0.001) * m_star
-d = None
-z = 1.
+m = np.arange(0.8,1.2,0.001) * m_star # numpy array spanning 80 to 120% m_star
+d = None # mobility diameter (none uses mass-mobility relation)
+z = 1. # integer charge state
 
 
 # B,Zp,_ = tfer_pma.tfer_1S(m_star,m,d,z,prop)
-prop = tfer_pma.prop_pma()
+prop = tfer_pma.prop_pma() # get default PMA properties
 
+# Modify some of the properties, 
+# in this case for the mass-mobility relation.
 rho_eff = 900; # effective density
 prop['rho0'] = rho_eff * np.pi / 6; # copy mass-mobility relation info (only used to find Rm)
 prop['Dm'] = 3
