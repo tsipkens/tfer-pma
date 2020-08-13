@@ -7,8 +7,11 @@ The attached python functions evaluate the transfer function of particle mass an
 
 This repository is intended to mirror the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. 
 
-### Quick start
+### Dependencies
 
+This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requries that these packages be installed. 
+
+### Quick start
 To start, import the numpy library and, since we will be plotting data, the matplotlib.pyplot module,
 
 ```Python
@@ -116,9 +119,9 @@ This code should be cited by:
 
 #### References
 
-[Sipkens, T. A., J. S. Olfert, and S. N. Rogak. 2020a. New approaches to calculate the transfer function of particle mass analyzers. *Aerosol Sci. Technol.* 54:1, 111-127. DOI: 10.1080/02786826.2019.1680794.][ast20]
-
 [Reavell, K., J. P. R. Symonds, and M. G. Rushton. 2011. Simplified approximations to centrifugal particle mass analyser performance. Poster presented at the European Aerosol Conference, Manchester, UK, September 4.][reavell]
+
+[Sipkens, T. A., J. S. Olfert, and S. N. Rogak. 2020a. New approaches to calculate the transfer function of particle mass analyzers. *Aerosol Sci. Technol.* 54:1, 111-127. DOI: 10.1080/02786826.2019.1680794.][ast20]
 
 [ast20]: https://doi.org/10.1080/02786826.2019.1680794
 
