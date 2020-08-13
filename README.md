@@ -7,7 +7,7 @@ The attached python functions evaluate the transfer function of particle mass an
 
 This repository is intended to mirror the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. 
 
-### Demontration
+### Quick start
 
 To start, import the numpy library and, since we will be plotting data, the matplotlib.pyplot module,
 
