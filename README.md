@@ -11,7 +11,7 @@ This repository is intended to mirror the [mat-tfer-pma](https://github.com/tsip
 
 This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requries that these packages be installed. 
 
-### Quick start
+### A simple demonstration
 To start, import the numpy library and, since we will be plotting data, the matplotlib.pyplot module,
 
 ```Python
