@@ -9,9 +9,11 @@ This repository is intended to mirror the [mat-tfer-pma](https://github.com/tsip
 
 ### Dependencies
 
-This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requries that these packages be installed. 
+This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed. 
 
 ### A simple demonstration
+**NOTE**: This demonstration is also included as a Jupyter Notebook at [main.ipynb](https://github.com/tsipkens/py-tfer-pma/blob/master/main.ipynb). Only very minor differences exist between that implementation and the one presented below (e.g. outputting the setpoint dictionary using the json package).
+
 To start, import the numpy library and, since we will be plotting data, the matplotlib.pyplot module,
 
 ```Python
