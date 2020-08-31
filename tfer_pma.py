@@ -304,9 +304,14 @@ def get_setpoint(prop={}, *args):
     if not prop:
         prop = prop_pma()
     #-------------------------------------------------------------------------#
-
+    
+    #-- Initialize sp structure ----------------------------------------------#
+    #   This allows for consistent order of first five entries
+    sp = {'m_star': [], 'V': [], 'omega': [], 
+          'omega1': [], 'Rm': []} # intialize empty dictionary
+    #-------------------------------------------------------------------------#
+    
     #-- Parse inputs for setpoint --------------------------------------------#
-    sp = {} # make empty dictionary for setpoint
     if len(args)==2:
         sp[args[0]] = args[1]
         sp['Rm'] = 3 # by default use resolution, with value of 3
@@ -319,12 +324,12 @@ def get_setpoint(prop={}, *args):
 
     #== Proceed depending on which setpoint parameters are specified =========#
     #== CASE 1: m_star is not specified, use V and omega =====================#
-    if not 'm_star' in sp:
+    if not sp['m_star']:
         # case if m_star is not specified
         # requires that voltage, 'V', and speed, 'omega' are specified
 
         #-- Evaluate angular speed of inner electrode ------------------------#
-        if not 'omega1' in sp:
+        if not sp['omega1']:
             sp['omega1'] = sp['omega'] / \
                 ((prop['r_hat'] ** 2 - prop['omega_hat'])/(prop['r_hat'] ** 2 - 1)+ \
                 prop['r1'] ** 2 * (prop['omega_hat'] - 1)/(prop['r_hat'] ** 2 - 1)/prop['rc'] ** 2)
@@ -342,7 +347,7 @@ def get_setpoint(prop={}, *args):
 
 
     #== CASE 2: m_star and omega1 are specified ==============================#
-    elif 'omega1' in sp: # if angular speed of inner electrode is specified
+    elif sp['omega1']: # if angular speed of inner electrode is specified
 
         #-- Azimuth velocity distribution and voltage ------------------------#
         sp['alpha'] = sp['omega1'] * (prop['r_hat'] ** 2-prop['omega_hat']) / (prop['r_hat'] ** 2 - 1)
@@ -356,7 +361,7 @@ def get_setpoint(prop={}, *args):
 
 
     #== CASE 3: m_star and omega are specified ===============================#
-    elif 'omega' in sp: # if angular speed at gap center is specified
+    elif sp['omega']: # if angular speed at gap center is specified
 
         #-- Evaluate angular speed of inner electrode ------------------------#
         sp['omega1'] = sp['omega'] /  \
@@ -374,7 +379,7 @@ def get_setpoint(prop={}, *args):
 
 
     #== CASE 4: m_star and V are specified ===================================#
-    elif 'V' in sp: # if voltage is specified
+    elif sp['V']: # if voltage is specified
 
         v_theta_rc = np.sqrt(sp['V'] * e / (sp['m_star'] * np.log(1/prop['r_hat'])))
             # q = e, z = 1 for setpoint
@@ -389,7 +394,7 @@ def get_setpoint(prop={}, *args):
 
 
     #== CASE 5: m_star and Rm are specified ==================================#
-    elif 'Rm' in sp: # if resolution is specified
+    elif sp['Rm']: # if resolution is specified
 
         #-- Use definition of Rm to derive angular speed at centerline -------#
         #-- See Reavell et al. (2011) for resolution definition --#
@@ -417,7 +422,7 @@ def get_setpoint(prop={}, *args):
 
     m_star = sp['m_star'] # output m_star independently
 
-    if not 'Rm' in sp.keys():
+    if not sp['Rm']:
         sp['Rm'], sp['m_max'] = get_resolution(sp['m_star'], sp['omega'], prop)
             # evaluate resolution in corresponding subfunction
             # involves a minimization routine
@@ -429,7 +434,9 @@ def get_setpoint(prop={}, *args):
 #== GET_RESOLUTION =======================================================#
 #   Solver to evaluate the resolution from m_star and prop.
 def get_resolution(m_star, omega, prop):
-
+    
+    print('Finding resolution...')
+    
     n_B = get_nb(m_star, prop)
 
     B_star,_,_ = mp2zp(m_star, 1, \
@@ -441,8 +448,12 @@ def get_resolution(m_star, omega, prop):
     m_rat = lambda Rm: 1 / Rm + 1 # function for mass ratio
     fun = lambda Rm: (m_rat(Rm)) ** (n_B + 1) - (m_rat(Rm)) ** n_B # LHS of Eq. (10) in Reveall et al.
 
-    Rm = scipy.optimize.fmin(lambda Rm: (t0 - fun(Rm))**2, x0=[5]) # minimization ot find Rm
+    Rm = scipy.optimize.fmin(lambda Rm: (t0 - fun(Rm))**2, x0=5) # minimization ot find Rm
+    Rm = Rm[0] # convert ndarray to float
     m_max = m_star * (1 / Rm + 1) # approx. upper end of non-diffusing tfer. function
+    
+    print('Complete.')
+    print(' ')
 
     return Rm, m_max
 
