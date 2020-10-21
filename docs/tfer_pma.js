@@ -414,13 +414,13 @@ var linspace = function(a, b, n) {
 };
 
 var parse_fun = function(sp, m, d, prop, fun) {
-  var Lambda = linspace(0, 1, 80)
-  for (ii in m) {
-    __left0__ = fun(sp, m[ii], d[ii], 0, prop, fun)
-    __left1__ = fun(sp, m[ii], d[ii], 1, prop, fun)
-    __left2__ = fun(sp, m[ii], d[ii], 2, prop, fun)
-    __left3__ = fun(sp, m[ii], d[ii], 3, prop, fun)
-    Lambda[ii] = __left0__[0] + __left1__[0] + __left2__[0] + __left3__[0]
+  var Lambda = Array(m.length)
+  for (ii in m) { // loop over particle mass
+    Lambda[ii] = 0 // initialize at zero
+    for (zz in z_vec) { // loop over integer charge states
+      __left0__ = fun(sp, m[ii], d[ii], z_vec[zz], prop, fun)
+      Lambda[ii] = Lambda[ii] + __left0__[0]
+    }
   }
   return Lambda;
 };
@@ -460,7 +460,7 @@ console.log('sp = ')
 console.log(sp)
 console.log(' ')
 
-var mr_vec = linspace(0.7, 3.7, 601)
+var mr_vec = linspace(1e-19, 3.7, 601)
 var m_vec = mr_vec.map(function(x) {
   return x * m_star;
 });
@@ -468,6 +468,8 @@ var m_vec = mr_vec.map(function(x) {
 var d = m_vec.map(function(x) {
   return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
 })
+
+var z_vec = [0,1,2,3]
 
 var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
 var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
@@ -639,7 +641,7 @@ var svg = d3.select("#my_dataviz")
 
 // Add X axis
 var x = d3.scaleLinear()
-  .domain([0.7, 3.7])
+  .domain([0, 3.7])
   .range([0, width]);
 var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
@@ -809,6 +811,26 @@ d3.select("#omegahnum").on("change", function(d) {
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
+
+function updateZ(data) {
+  z_vec = [] // re-initialize array of integer charge states
+
+  // For each check box:
+  d3.selectAll(".cbZ").each(function(d) {
+    cb = d3.select(this)
+    if (cb.property("checked")) {
+      z_vec.push(cb.property("value"))
+    }
+  })
+
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop)
+}
+d3.selectAll(".cbZ").on("change", updateZ); // when button changes, run function
+
+//------------------------------------------------------------------------//
+// generic data updater
 function updateData(Rm, m_star, prop) {
   m100 = rho_eff100 * (pi * Math.pow(100e-9, 3) / 6) // effective density @ 1 nm
   prop['m0'] = m100 * Math.pow((1/100), prop['Dm']) // adjust mass-mobility relation parameters
@@ -860,18 +882,18 @@ function updateData(Rm, m_star, prop) {
   document.getElementById('Vval').value = sp['V'].toPrecision(3);
   document.getElementById('Wval').value = sp['omega'].toPrecision(4);
   document.getElementById('dmval1').value =
-    (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(3);
+    (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval2').value =
-    (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(3);
+    (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
 }
 
 // run initallly to get control values and display in outputs on HTML page
 document.getElementById('Vval').value = sp['V'].toPrecision(3);
 document.getElementById('Wval').value = sp['omega'].toPrecision(4);
 document.getElementById('dmval1').value =
-  (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
+  (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
 document.getElementById('dmval2').value =
-  (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
+  (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
 document.getElementById('omegahnum').value = prop['omega_hat'];
 //------------------------------------------------------------------------//
 

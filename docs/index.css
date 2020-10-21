@@ -36,6 +36,11 @@ body {
   color: #444444;
 }
 
+.cbZ {
+  width:10px;
+  height:10px;
+}
+
 /* For main components */
 div.main {
   margin: 0 auto;

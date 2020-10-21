@@ -55,6 +55,14 @@
         <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
       </p>
 
+      <p align="justify">
+        The default view shows contributions from uncharged particles as well as
+        the sum over integer charge states <i>z</i> = 1 through 3. Note that Case 1S has
+        an anomaly for <i>z</i> = 1 that is a consequence of solve for the
+        equilibrium raidus, which appears as a linear increase in the transfer
+        function for m/m* > 2 and demonstrates a limitation of that approach. 
+      </p>
+
       <h3>Legend</h3>
       <div id="my_legend"></div>
 
@@ -89,6 +97,14 @@
           min="20" max="1e4" step="20" value="20"
           style="width:50px;height:10px;">
           kg/m³
+      </div>
+
+      <div>
+        <b>Integer charge states </b>
+        | <input type="checkbox" class="cbZ" value="0" checked><label>Uncharged</label>
+        | <input type="checkbox" class="cbZ" value="1" checked><label><i>z</i> = 1</label>
+        | <input type="checkbox" class="cbZ" value="2" checked><label><i>z</i> = 2</label>
+        | <input type="checkbox" class="cbZ" value="3" checked><label><i>z</i> = 3</label>
       </div>
 
       <h3>Setpoint</h3>
