@@ -561,7 +561,7 @@ svg_legend.append("path")
   )
 svg_legend.append("text")
   .attr("x", 25).attr("y", 50)
-  .text("Case 1C, diffusing").attr("alignment-baseline", "middle")
+  .text("Case 1C + Diffusion").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 5,
   y: 49
@@ -585,7 +585,7 @@ svg_legend.append("path")
   )
 svg_legend.append("text")
   .attr("x", 25).attr("y", 70)
-  .text("Case W1, exact for ω2/ω1 = 1").attr("alignment-baseline", "middle")
+  .text("Case W1 (Only when ω2/ω1 = 1, where it is exact)").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 5,
   y: 69
