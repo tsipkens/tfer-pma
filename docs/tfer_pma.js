@@ -39,7 +39,7 @@ var prop_pma = function(opts) {
     return (kB * prop['T']) * B;
   });
   prop['Dm'] = 3;
-  prop['rho0'] = 524;
+  prop['m0'] = 4.7124e-25; // mass @ dm = 1 in fg
   return prop;
 };
 
@@ -221,10 +221,10 @@ var mp2zp = function(m, z, T, P, prop) {
     ;
     var prop = {};
   };
-  if (!('rho0' in prop) || !('Dm' in prop)) {
+  if (!('m0' in prop) || !('Dm' in prop)) {
     sys.exit('Please specify the mass-mobility relation parameters in prop.');
   }
-  var d = Math.pow(m / prop['rho0'], 1 / prop['Dm']);
+  var d = Math.pow(m / prop['m0'], 1 / prop['Dm']) * 1e-9;
   if (T == 0.0 || P == 0.0) {
     var __left0__ = dm2zp(d, z);
     var B = __left0__[0];
@@ -416,10 +416,11 @@ var linspace = function(a, b, n) {
 var parse_fun = function(sp, m, d, prop, fun) {
   var Lambda = linspace(0, 1, 80)
   for (ii in m) {
+    __left0__ = fun(sp, m[ii], d[ii], 0, prop, fun)
     __left1__ = fun(sp, m[ii], d[ii], 1, prop, fun)
     __left2__ = fun(sp, m[ii], d[ii], 2, prop, fun)
     __left3__ = fun(sp, m[ii], d[ii], 3, prop, fun)
-    Lambda[ii] = __left1__[0] + __left2__[0] + __left3__[0]
+    Lambda[ii] = __left0__[0] + __left1__[0] + __left2__[0] + __left3__[0]
   }
   return Lambda;
 };
@@ -438,10 +439,10 @@ prop = prop_pma()
 prop['omega_hat'] = 0.9696
 // prop['omega_hat'] = 1
 
-var rho_eff = 900; // effective density
-prop['rho0'] = rho_eff * pi / 6 // adjust mass-mobility relation parameters
-prop['Dm'] = 3
-
+var rho_eff100 = 510 // effective density
+var m100 = rho_eff100 * (pi * Math.pow(100e-9, 3) / 6) // effective density @ 1 nm
+prop['Dm'] = 2.48
+prop['m0'] = m100 * Math.pow((1/100), prop['Dm']) // adjust mass-mobility relation parameters
 var m_star = 0.01e-18
 
 console.log('prop = ')
@@ -465,7 +466,7 @@ var m_vec = mr_vec.map(function(x) {
 });
 
 var d = m_vec.map(function(x) {
-  return Math.pow(x / prop['rho0'], 1 / prop['Dm']);
+  return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
 })
 
 var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
@@ -484,17 +485,23 @@ if (prop['omega_hat'] == 1) {
 //------------------------------------------------------------------------//
 // GENERATE PLOTS
 
-var Rmvals = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
+// write rho_eff100 and Dm to HTML outputs
+document.getElementById('rhonum').value = rho_eff100
+document.getElementById('Dmnum').value = prop['Dm']
 
+// read resolution and mass setpoint sliders
+var Rmvals = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
 function displayRmval(val) {
   document.getElementById('Rmval').value = Rmvals[val - 1];
 }
+displayRmval(document.getElementById('RmSlider').value)
 
-var mvals = [5e-22, 1e-21, 5e-21, 1e-20, 5e-20, 1e-19, 5e-19, 1e-18, 5e-18, 1e-17, 5e-17, 1e-16]
-
+var mvals = [5e-4, 1e-3, 5e-3, 0.01, 0.05, 0.1, 0.5,
+  1, 5, 10, 50, 100, 500, 1000]
 function displaymval(val) {
   document.getElementById('mval').value = mvals[val - 1];
 }
+displaymval(document.getElementById('mSlider').value)
 
 
 // for legend
@@ -750,21 +757,22 @@ if (prop['omega_hat'] == 1) {
 }
 
 
-
+// adjust plot based on controls -----------------------------------------//
+// control for resolution
 d3.select("#RmSlider").on("change", function(d) {
   val = this.value
   Rm = Rmvals[val - 1]
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
-
+// control for mass setpoint
 d3.select("#mSlider").on("change", function(d) {
   val = this.value
-  m_star = mvals[val - 1]
+  m_star = mvals[val - 1] / 1e18 // include conversion to kg
   Rm = sp['Rm']
   updateData(Rm, m_star, prop)
 })
-
+// control for flow rate
 d3.select("#Qnum").on("change", function(d) {
   val = this.value
   prop['Q'] = val / 1000 / 60
@@ -774,15 +782,16 @@ d3.select("#Qnum").on("change", function(d) {
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
+// control for effective density
 d3.select("#rhonum").on("change", function(d) {
   val = this.value
-  prop['rho0'] = val
-  rho_eff = prop['rho0'] * 6 / pi
+  rho_eff100 = val // effective density @ 100 nm read from control
 
   Rm = sp['Rm']
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
+// control for mass-mobility exponent control
 d3.select("#Dmnum").on("change", function(d) {
   val = this.value
   prop['Dm'] = val
@@ -791,6 +800,7 @@ d3.select("#Dmnum").on("change", function(d) {
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
+// control for omega ratio
 d3.select("#omegahnum").on("change", function(d) {
   val = this.value
   prop['omega_hat'] = val
@@ -799,18 +809,22 @@ d3.select("#omegahnum").on("change", function(d) {
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
-
 function updateData(Rm, m_star, prop) {
+  m100 = rho_eff100 * (pi * Math.pow(100e-9, 3) / 6) // effective density @ 1 nm
+  prop['m0'] = m100 * Math.pow((1/100), prop['Dm']) // adjust mass-mobility relation parameters
+
   m_vec = mr_vec.map(function(x) {
     return x * m_star;
-  })
+  }) // gets points at which to evaluate the transfer function
   d = m_vec.map(function(x) {
-    return Math.pow(x / prop['rho0'], 1 / prop['Dm']);
-  })
+    return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
+  }) // gets new mobility diameters using mass-mobility relation
 
+  // generate a new setpoint
   __left0__ = get_setpoint(prop, 'm_star', m_star, 'Rm', Rm)
   sp = __left0__[0]
 
+  // evaulate transfer functions at new conditions
   var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
   var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
   var Lambda_1S = parse_fun(sp, m_vec, d, prop, tfer_1S)
@@ -818,6 +832,7 @@ function updateData(Rm, m_star, prop) {
     var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
   }
 
+  // generate data vector to be used in updating the plot
   var data = []
   for (ii = 0; ii < m_vec.length; ii++) {
     if (prop['omega_hat'] == 1) {
@@ -837,26 +852,32 @@ function updateData(Rm, m_star, prop) {
       })
     }
   }
+
+  // send to generiv plot updater defined below
   updatePlot(data)
 
+  // run on update to display control values in outputs on HTML page
   document.getElementById('Vval').value = sp['V'].toPrecision(3);
   document.getElementById('Wval').value = sp['omega'].toPrecision(4);
   document.getElementById('dmval1').value =
-    (Math.pow(sp['m_star'] / prop['rho0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
+    (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(3);
   document.getElementById('dmval2').value =
-    (Math.pow(2 * sp['m_star'] / prop['rho0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
+    (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(3);
 }
+
+// run initallly to get control values and display in outputs on HTML page
 document.getElementById('Vval').value = sp['V'].toPrecision(3);
 document.getElementById('Wval').value = sp['omega'].toPrecision(4);
 document.getElementById('dmval1').value =
-  (Math.pow(sp['m_star'] / prop['rho0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
+  (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
 document.getElementById('dmval2').value =
-  (Math.pow(2 * sp['m_star'] / prop['rho0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
+  (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm']) * 1e9).toPrecision(3);
 document.getElementById('omegahnum').value = prop['omega_hat'];
+//------------------------------------------------------------------------//
 
-
-// a function that update the chart
+// a generic function that updates the chart -----------------------------//
 function updatePlot(data) {
+  // consider 1C case
   d3.select("#l1c")
     .datum(data)
     .transition()
@@ -869,6 +890,7 @@ function updatePlot(data) {
       })
     )
 
+  // consider 1S case
   d3.select("#l1s")
     .datum(data)
     .transition()
@@ -881,6 +903,7 @@ function updatePlot(data) {
       })
     )
 
+  // consider 1C diffusing case
   d3.select("#l1cd")
     .datum(data)
     .transition()
@@ -894,8 +917,9 @@ function updatePlot(data) {
     )
 
   // consider the W1 case
-  // (including adding/removing line when ω2/ω1 is not unity)
-  if (prop['omega_hat'] == 1) {
+  // including removing line when ω2/ω1 is not unity or
+  // adding line when ω2/ω1 is changed to unity
+  if (prop['omega_hat'] == 1) { // add line if w2/w1 is changed to unity
     if (d3.select("#lw1").empty()) {
       svg.append("path")
         .datum(data)
@@ -911,7 +935,7 @@ function updatePlot(data) {
             return y(d.yw1)
           })
         )
-    } else {
+    } else { // adjust line if w2/w1 remains unity
       d3.select("#lw1")
         .datum(data)
         .transition()
@@ -924,13 +948,12 @@ function updatePlot(data) {
           })
         )
     }
-  } else {
+  } else { // remove line if w2/w1 is no longer unity
     if (!(d3.select("#lw1").empty())) {
       d3.select("#lw1").remove();
     }
   }
 
 }
-
-
 //------------------------------------------------------------------------//
+//END PLOT ---------------------------------------------------------------//

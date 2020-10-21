@@ -47,12 +47,12 @@
         <a href="https://doi.org/10.1080/02786826.2019.1680794">
           Sipkens et al. (2020)
         </a>
-        for more information on the underlying functions. A supporting
+        for more information on the underlying analytical functions. A supporting
         repository, including Python code for evaluating the PMA transfer
         function is available
         <a href="https://github.com/tsipkens/py-tfer-pma">here</a>.
         A Matlab version is also available
-        <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>. 
+        <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
       </p>
 
       <h3>Legend</h3>
@@ -82,12 +82,12 @@
         <b>Mass-mobility relation </b> |
         Exponent, <i>D</i><sub>m</sub> =
         <input id="Dmnum" type="number"
-          min="0.1" max="4" step="0.05" value="3"
+          min="0.1" max="4" step="0.05" value="0.1"
           style="width:45px;height:10px;"> |
-        Pre-factor, ρ<sub>0</sub> =
+        Effective density @ <i>d</i><sub>m</sub> = 100 nm, ρ<sub>eff,100</sub> =
         <input id="rhonum" type="number"
-          min="200" max="1e4" step="200" value="471.2"
-          style="width:80px;height:10px;">
+          min="20" max="1e4" step="20" value="20"
+          style="width:50px;height:10px;">
           kg/m³
       </div>
 
@@ -97,9 +97,9 @@
       <div class="control">
         <b>Mass setpoint </b> |
         <input type="range" name="mSlider" id="mSlider"
-          min="1" max="12" value="4" style="height:6px;"
+          min="1" max="14" value="4" style="height:6px;"
           onchange="displaymval(this.value);"> |
-        <i>m</i> * = <output id="mval">1e-20</output> fg
+        <i>m</i> * = <output id="mval">-</output> fg
       </div>
 
       <div class="control">
@@ -107,7 +107,7 @@
         <input type="range" name="RmSlider" id="RmSlider"
           min="1" max="13" value= "7" style="height:6px;"
           onchange="displayRmval(this.value);"> |
-        <i>R</i><sub>m</sub> = <output id="Rmval">5</output>
+        <i>R</i><sub>m</sub> = <output id="Rmval">-</output>
       </div>
 
       <div class="control">
