@@ -3,3 +3,4 @@
 
 # Get linguist to ignore Jupyter files
 *.ipynb linguist-vendored
+*.js linguist-vendored
