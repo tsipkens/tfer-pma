@@ -596,7 +596,7 @@ svg_legend.append("path")
   .datum(d1c_diff)
   .attr("fill", "none")
   .attr("stroke", "#d64161")
-  .attr("stroke-width", 2)
+  .attr("stroke-width", 1)
   .attr("d", d3.line()
     .x(function(d) {
       return d.x;
@@ -616,7 +616,7 @@ var margin = {
     top: 0,
     right: 1.5,
     bottom: 50,
-    left: 60
+    left: 45
   },
   width = 750 - margin.left - margin.right,
   height = 350 - margin.top - margin.bottom;
