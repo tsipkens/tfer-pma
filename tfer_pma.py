@@ -691,8 +691,8 @@ def prop_pma(opts='Olfert'):
 
     #-- Default mass-mobility information -------------#
     prop['Dm'] = 3 # mass-mobility exponent
-    prop['m0'] = 524 # mass-mobility relation density
-    # Common alternate: Dm = 2.48 m0 = 0.0612
+    prop['m0'] = 4.7124e-25 # mass-mobility relation density
+    # Common alternate: Dm = 2.48 m0 = 2.9280e-24
 
 
     return prop
