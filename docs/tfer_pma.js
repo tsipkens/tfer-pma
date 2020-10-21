@@ -537,7 +537,8 @@ svg_legend.append("path")
   )
 svg_legend.append("text")
   .attr("x", 25).attr("y", 30)
-  .text("Case 1C").attr("alignment-baseline", "middle")
+  .text("Case 1C (Recommended over Case 1S)")
+  .attr("alignment-baseline", "middle")
 d1c = [{
   x: 5,
   y: 29
