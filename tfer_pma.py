@@ -266,7 +266,38 @@ def parse_inputs(sp, m, d=0, z=1, prop={}):
     else:
         rs = np.real((np.sqrt(C0 / m) + \
             np.sqrt(C0 / m - 4 * sp['alpha'] * sp['beta'])) / (2 * sp['alpha']))
-
+    
+    # Calculate equilbirium radius
+    # Note: Whether to pick the +ive of -ive root for rs is chosen based on a
+    # heuristic approach. Specifically, the root closer to the centerline is
+    # chosen, except when the -ive root is zero (which is the case for APM 
+    # conditions, where the +ive root should always be used).
+    # to start, evaluate +ive and -ive roots
+    r_m = (np.sqrt(C0/m) - \
+        np.sqrt(C0/m - 4*sp['alpha']*sp['beta'])) / (2*sp['alpha'])
+    r_p = (np.sqrt(C0/m) + \
+        np.sqrt(C0/m - 4*sp['alpha']*sp['beta'])) / (2*sp['alpha'])
+    
+    # assign one of the two roots to rs
+    rs = r_m; # by default use -ive root
+    for ii in range(len(rs)): # loop through each rs
+        # determine which root is closer to centerline radius
+        idx = np.argmin([np.absolute(r_m[ii] - prop['rc']), \
+                         np.absolute(r_p[ii] - prop['rc'])])
+        
+        # avoid zero values for APM case
+        if r_m[ii]==0:
+            idx = 2;
+            
+        # if closer to +ive root, use +ive root
+        if idx==2:
+            rs[ii] = r_p[ii];
+            
+        # zero out cases where no equilibrium radius exists (also removes complex numbers)
+        if C0/m[ii] < (4*sp['alpha']*sp['beta']):
+            rs[ii] = 0;
+    
+    
     return tau, C0, D, rs
 
 
