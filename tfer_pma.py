@@ -266,38 +266,38 @@ def parse_inputs(sp, m, d=0, z=1, prop={}):
     else:
         rs = np.real((np.sqrt(C0 / m) + \
             np.sqrt(C0 / m - 4 * sp['alpha'] * sp['beta'])) / (2 * sp['alpha']))
-    
+
     # Calculate equilbirium radius
     # Note: Whether to pick the +ive of -ive root for rs is chosen based on a
     # heuristic approach. Specifically, the root closer to the centerline is
-    # chosen, except when the -ive root is zero (which is the case for APM 
+    # chosen, except when the -ive root is zero (which is the case for APM
     # conditions, where the +ive root should always be used).
     # to start, evaluate +ive and -ive roots
     r_m = (np.sqrt(C0/m) - \
         np.sqrt(C0/m - 4*sp['alpha']*sp['beta'])) / (2*sp['alpha'])
     r_p = (np.sqrt(C0/m) + \
         np.sqrt(C0/m - 4*sp['alpha']*sp['beta'])) / (2*sp['alpha'])
-    
+
     # assign one of the two roots to rs
     rs = r_m; # by default use -ive root
     for ii in range(len(rs)): # loop through each rs
         # determine which root is closer to centerline radius
         idx = np.argmin([np.absolute(r_m[ii] - prop['rc']), \
                          np.absolute(r_p[ii] - prop['rc'])])
-        
+
         # avoid zero values for APM case
         if r_m[ii]==0:
             idx = 2;
-            
+
         # if closer to +ive root, use +ive root
         if idx==2:
             rs[ii] = r_p[ii];
-            
+
         # zero out cases where no equilibrium radius exists (also removes complex numbers)
         if C0/m[ii] < (4*sp['alpha']*sp['beta']):
             rs[ii] = 0;
-    
-    
+
+
     return tau, C0, D, rs
 
 
@@ -335,13 +335,13 @@ def get_setpoint(prop={}, *args):
     if not prop:
         prop = prop_pma()
     #-------------------------------------------------------------------------#
-    
+
     #-- Initialize sp structure ----------------------------------------------#
     #   This allows for consistent order of first five entries
-    sp = {'m_star': [], 'V': [], 'omega': [], 
+    sp = {'m_star': [], 'V': [], 'omega': [],
           'omega1': [], 'Rm': []} # intialize empty dictionary
     #-------------------------------------------------------------------------#
-    
+
     #-- Parse inputs for setpoint --------------------------------------------#
     if len(args)==2:
         sp[args[0]] = args[1]
@@ -465,9 +465,9 @@ def get_setpoint(prop={}, *args):
 #== GET_RESOLUTION =======================================================#
 #   Solver to evaluate the resolution from m_star and prop.
 def get_resolution(m_star, omega, prop):
-    
+
     print('Finding resolution...')
-    
+
     n_B = get_nb(m_star, prop)
 
     B_star,_,_ = mp2zp(m_star, 1, \
@@ -482,7 +482,7 @@ def get_resolution(m_star, omega, prop):
     Rm = scipy.optimize.fmin(lambda Rm: (t0 - fun(Rm))**2, x0=5) # minimization ot find Rm
     Rm = Rm[0] # convert ndarray to float
     m_max = m_star * (1 / Rm + 1) # approx. upper end of non-diffusing tfer. function
-    
+
     print('Complete.')
     print(' ')
 
@@ -619,12 +619,12 @@ def Cc(d, T=0.0, p=0.0):
 def mp2zp(m, z, T=0.0, P=0.0, prop={}):
 
     #-- Parse inputs ---------------------------------------------------------#
-    if not bool(prop) or hasattr(prop, 'rho0') or hasattr(prop, 'Dm'):
+    if not bool(prop) or hasattr(prop, 'm0') or hasattr(prop, 'Dm'):
          sys.exit('Please specify the mass-mobility relation parameters in prop.')
              # if isempty or missing elements, produce error
     #-------------------------------------------------------------------------#
 
-    d = (m / prop['rho0']) ** (1 / prop['Dm'])
+    d = 1e-9 * (m / prop['m0']) ** (1 / prop['Dm'])
         # use mass-mobility relationship to get mobility diameter
 
     #-- Use mobility diameter to get particle electro and mechanical mobl. ---#
@@ -691,8 +691,8 @@ def prop_pma(opts='Olfert'):
 
     #-- Default mass-mobility information -------------#
     prop['Dm'] = 3 # mass-mobility exponent
-    prop['rho0'] = 524 # mass-mobility relation density
-    # Common alternate: Dm = 2.48 rho0 = 0.0612
+    prop['m0'] = 524 # mass-mobility relation density
+    # Common alternate: Dm = 2.48 m0 = 0.0612
 
 
     return prop

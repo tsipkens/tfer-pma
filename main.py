@@ -16,10 +16,10 @@ z = 1. # integer charge state
 # B,Zp,_ = tfer_pma.tfer_1S(m_star,m,d,z,prop)
 prop = tfer_pma.prop_pma() # get default PMA properties
 
-# Modify some of the properties, 
+# Modify some of the properties,
 # in this case for the mass-mobility relation.
 rho_eff = 900; # effective density
-prop['rho0'] = rho_eff * np.pi / 6; # copy mass-mobility relation info (only used to find Rm)
+prop['m0'] = rho_eff * np.pi / 6 * 1e-27; # copy mass-mobility relation info (only used to find Rm)
 prop['Dm'] = 3
 
 # prop['omega_hat'] = 1; # ratio of angular speeds (CPMA < 1 vs APM = 1)
@@ -36,7 +36,7 @@ if prop['omega_hat']==1:
     Lambda_W1,_ = tfer_pma.tfer_W1(sp, m, d, z, prop)
     Lambda_W1_diff,_ = tfer_pma.tfer_W1_diff(sp, m, d, z, prop)
 
-# plot the various transfer functions 
+# plot the various transfer functions
 plt.plot(m, Lambda_1S)
 plt.plot(m, Lambda_1C)
 plt.plot(m, Lambda_1C_diff)
@@ -59,6 +59,3 @@ plt.plot(m123, Lambda_1C_z3)
 plt.plot(m123, Lambda_1C_z1 + Lambda_1C_z2 + Lambda_1C_z3, 'k--')
     # different widths stem from resolution only applying to first peak
 plt.show()
-
-
-
