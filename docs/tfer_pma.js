@@ -501,8 +501,9 @@ function displayRmval(val) {
 }
 displayRmval(document.getElementById('RmSlider').value)
 
-var mvals = [5e-4, 1e-3, 5e-3, 0.01, 0.05, 0.1, 0.5,
-  1, 5, 10, 50, 100, 500, 1000]
+var mvals = [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3,
+  0.01, 0.02, 0.05, 0.1, 0.2, 0.5,
+  1, 2, 5, 10, 20, 50, 100, 200, 500, 1000]
 function displaymval(val) {
   document.getElementById('mval').value = mvals[val - 1];
 }
