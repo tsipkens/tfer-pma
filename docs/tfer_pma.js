@@ -397,6 +397,8 @@ var parse_inputs = function(sp, m, d, z, prop) {
     rs = 0;
   }
 
+  rs = Math.max(rs, 1e-20) // avoids division by zero for z = 0 case
+
   return [tau, C0, D, rs];
 };
 
@@ -418,7 +420,7 @@ var parse_fun = function(sp, m, d, prop, fun) {
   for (ii in m) { // loop over particle mass
     Lambda[ii] = 0 // initialize at zero
     for (zz in z_vec) { // loop over integer charge states
-      __left0__ = fun(sp, m[ii], d[ii], z_vec[zz], prop, fun)
+      __left0__ = fun(sp, m[ii], d[ii], z_vec[zz], prop)
       Lambda[ii] = Lambda[ii] + __left0__[0]
     }
   }
@@ -460,7 +462,7 @@ console.log('sp = ')
 console.log(sp)
 console.log(' ')
 
-var mr_vec = linspace(1e-19, 3.7, 601)
+var mr_vec = linspace(1e-5, 3.7, 601)
 var m_vec = mr_vec.map(function(x) {
   return x * m_star;
 });
@@ -742,6 +744,7 @@ svg.append("path")
   )
 
 if (prop['omega_hat'] == 1) {
+
   svg.append("path")
     .datum(data)
     .attr("id", "lw1")
