@@ -471,13 +471,14 @@ var d = m_vec.map(function(x) {
   return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
 })
 
-var z_vec = [0,1,2,3]
+var z_vec = [1,2,3]
 
 var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
 var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
 var Lambda_1S = parse_fun(sp, m_vec, d, prop, tfer_1S)
 if (prop['omega_hat'] == 1) {
   var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
+  var Lambda_W1_diff = parse_fun(sp, m_vec, d, prop, tfer_W1_diff)
 }
 
 
@@ -518,7 +519,7 @@ var margin_legend = {
 var svg_legend = d3.select("#my_legend")
   .append("svg")
   .attr("width", 250 + margin_legend.left + margin_legend.right)
-  .attr("height", 78)
+  .attr("height", 98)
   .append("g");
 
 // legend for lines
@@ -617,6 +618,30 @@ svg_legend.append("path")
       return d.y;
     })
   )
+svg_legend.append("text")
+  .attr("x", 25).attr("y", 90)
+  .text("Case W1 + Diffusion (Only when ω2/ω1 = 1)").attr("alignment-baseline", "middle")
+d1c_diff = [{
+  x: 5,
+  y: 89
+}, {
+  x: 20,
+  y: 89
+}]
+svg_legend.append("path")
+  .datum(d1c_diff)
+  .attr("fill", "none")
+  .attr("stroke", "#d64161")
+  .attr('stroke-dasharray', "4 2")
+  .attr("stroke-width", 1)
+  .attr("d", d3.line()
+    .x(function(d) {
+      return d.x;
+    })
+    .y(function(d) {
+      return d.y;
+    })
+  )
 
 
 
@@ -684,7 +709,8 @@ for (ii = 0; ii < m_vec.length; ii++) {
       yc: Lambda_1C[ii],
       ys: Lambda_1S[ii],
       yc_diff: Lambda_1C_diff[ii],
-      yw1: Lambda_W1[ii]
+      yw1: Lambda_W1[ii],
+      yw1_diff: Lambda_W1_diff[ii]
     })
   } else {
     data.push({
@@ -744,7 +770,6 @@ svg.append("path")
   )
 
 if (prop['omega_hat'] == 1) {
-
   svg.append("path")
     .datum(data)
     .attr("id", "lw1")
@@ -757,6 +782,22 @@ if (prop['omega_hat'] == 1) {
       })
       .y(function(d) {
         return y(d.yw1)
+      })
+    )
+
+  svg.append("path")
+    .datum(data)
+    .attr("id", "lw1d")
+    .attr("fill", "none")
+    .attr("stroke", "#d64161")
+    .attr('stroke-dasharray', "4 2")
+    .attr("stroke-width", 1)
+    .attr("d", d3.line()
+      .x(function(d) {
+        return x(d.x)
+      })
+      .y(function(d) {
+        return y(d.yw1_diff)
       })
     )
 }
@@ -855,6 +896,7 @@ function updateData(Rm, m_star, prop) {
   var Lambda_1S = parse_fun(sp, m_vec, d, prop, tfer_1S)
   if (prop['omega_hat'] == 1) {
     var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
+    var Lambda_W1_diff = parse_fun(sp, m_vec, d, prop, tfer_W1_diff)
   }
 
   // generate data vector to be used in updating the plot
@@ -866,7 +908,8 @@ function updateData(Rm, m_star, prop) {
         yc: Lambda_1C[ii],
         ys: Lambda_1S[ii],
         yc_diff: Lambda_1C_diff[ii],
-        yw1: Lambda_W1[ii]
+        yw1: Lambda_W1[ii],
+        yw1_diff: Lambda_W1_diff[ii]
       })
     } else {
       data.push({
@@ -960,6 +1003,21 @@ function updatePlot(data) {
             return y(d.yw1)
           })
         )
+      svg.append("path")
+        .datum(data)
+        .attr("id", "lw1d")
+        .attr("fill", "none")
+        .attr("stroke", "#d64161")
+        .attr('stroke-dasharray', "4 2")
+        .attr("stroke-width", 1)
+        .attr("d", d3.line()
+          .x(function(d) {
+            return x(d.x)
+          })
+          .y(function(d) {
+            return y(d.yw1_diff)
+          })
+        )
     } else { // adjust line if w2/w1 remains unity
       d3.select("#lw1")
         .datum(data)
@@ -972,10 +1030,22 @@ function updatePlot(data) {
             return y(d.yw1)
           })
         )
+      d3.select("#lw1d")
+        .datum(data)
+        .transition()
+        .attr("d", d3.line()
+          .x(function(d) {
+            return x(d.x)
+          })
+          .y(function(d) {
+            return y(d.yw1_diff)
+          })
+        )
     }
   } else { // remove line if w2/w1 is no longer unity
     if (!(d3.select("#lw1").empty())) {
       d3.select("#lw1").remove();
+      d3.select("#lw1d").remove();
     }
   }
 

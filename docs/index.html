@@ -25,7 +25,9 @@
   <div class="navbar-custom">
     <div id="navbar">
       <ul class="nav">
-        <li><a href="#"><b style="font-family:Montserrat;font-size:11pt;color:black;">PMA TRANSFER FUNCTION</b></a></li>
+        <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794">
+          <b style="font-family:Montserrat;font-size:12pt;color:black;">PMA TRANSFER FUNCTION</b>
+        </a></li>
         <li><a href="#">Created by Timothy Sipkens</a></li>
       </ul>
     </div>
@@ -40,9 +42,6 @@
         This viz examines the transfer function of particle mass analyzers
         like the centrifugal particle mass analyer (CPMA) or aerosol particle
         mass analyzer (APM).
-      </p>
-
-      <p align="justify">
         We refer the reader to
         <a href="https://doi.org/10.1080/02786826.2019.1680794">
           Sipkens et al. (2020)
@@ -53,14 +52,21 @@
         <a href="https://github.com/tsipkens/py-tfer-pma">here</a>.
         A Matlab version is also available
         <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
+        The default view shows contributions from
+        integer charge states <i>z</i> = 1 through 3.
       </p>
 
       <p align="justify">
-        The default view shows contributions from uncharged particles as well as
-        the sum over integer charge states <i>z</i> = 1 through 3. Note that Case 1S has
-        an anomaly for <i>z</i> = 1 that is a consequence of solve for the
-        equilibrium raidus, which appears as a linear increase in the transfer
-        function for m/m* > 2 and demonstrates a limitation of that approach.
+        We note that Case 1S, following from the approach proposed <body>
+        <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
+        results in various anomalies. In the default view, there is
+        an anomaly for the <i>z</i> = 1 transfer function that is a consequence
+        of solving for the equilibrium raidus, which appears as a linear increase
+        in the transfer function for m/m* > 2 and demonstrates a limitation
+        of that approach. Other anomalies include problems with calculating the
+        uncharged (<i>z</i> = 0) contributions. The method is generally stable
+        for the ω2/ω1 = 1, the case originally intended by
+        <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
       </p>
 
       <h3>Legend</h3>
@@ -78,12 +84,12 @@
       </div>
 
       <div class="control">
-        <b>Ratio of angular speeds </b> |
-        ω2/ω1 =
+        <b>Ratio of angular speeds </b>
+        <b style="color:blue">(APM when ω2/ω1 = 1) </b>
+        | ω2/ω1 =
         <input id="omegahnum" type="number"
           min="0.5" max="1.1" step="0.001" value="0"
           style="width:60px;height:10px;">
-        | <b>NOTE</b>: APM when ω2/ω1 = 1
       </div>
 
       <div class="control">
@@ -101,7 +107,7 @@
 
       <div>
         <b>Integer charge states </b>
-        | <input type="checkbox" class="cbZ" value="0" checked><label>Uncharged</label>
+        | <input type="checkbox" class="cbZ" value="0" unchecked><label>Uncharged</label>
         | <input type="checkbox" class="cbZ" value="1" checked><label><i>z</i> = 1</label>
         | <input type="checkbox" class="cbZ" value="2" checked><label><i>z</i> = 2</label>
         | <input type="checkbox" class="cbZ" value="3" checked><label><i>z</i> = 3</label>
