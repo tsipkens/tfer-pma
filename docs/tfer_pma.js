@@ -651,7 +651,7 @@ svg_legend.append("path")
 
 // set the dimensions and margins of the graph
 var margin = {
-    top: 35,
+    top: 0,
     right: 1.5,
     bottom: 50,
     left: 45
@@ -675,7 +675,7 @@ var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x).ticks(5));
 var xAxis2 = svg.append("g")
-  .call(d3.axisTop(x).ticks(5));
+  .call(d3.axisTop(x).ticks(0));
 
 // Add Y axis
 var y = d3.scaleLinear()
@@ -1053,43 +1053,63 @@ function updatePlot(data) {
 
 
 // add labels for charge states
-svg.append("circle")
+// set the dimensions and margins of the graph
+var margin = {
+    top: 30,
+    right: 1.5,
+    bottom: 0,
+    left: 45
+  },
+  width = 750 - margin.left - margin.right,
+  height = 32 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg3 = d3.select("#myz")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var xAxis3 = svg3.append("g")
+  .call(d3.axisTop(x).tickValues([1,2,3]))
+
+svg3.append("circle")
   .attr("cx", function(d) { return x(1) })
   .attr("cy", -18)
   .attr("r", 10)
   .style("fill", "#fff2cc")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
-svg.append("text")
+svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(1) + ',-14)')
   .style("font-size", "11px")
   .text("+1")
-svg.append("circle")
+svg3.append("circle")
   .attr("cx", function(d) { return x(2) })
   .attr("cy", -18)
   .attr("r", 10)
   .style("fill", "#fff2cc")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
-svg.append("text")
+svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(2) + ',-14)')
   .style("font-size", "11px")
   .text("+2")
-svg.append("circle")
+svg3.append("circle")
   .attr("cx", function(d) { return x(3) })
   .attr("cy", -18)
   .attr("r", 10)
   .style("fill", "#fff2cc")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
-svg.append("text")
+svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(3) + ',-14)')
   .style("font-size", "11px")
   .text("+3")
-svg.append("text")
+svg3.append("text")
   .attr("text-anchor", "left")
   .attr('transform', 'translate(' + 30 + ',-13)')
   .style("font-size", "13px")
