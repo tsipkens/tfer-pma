@@ -651,7 +651,7 @@ svg_legend.append("path")
 
 // set the dimensions and margins of the graph
 var margin = {
-    top: 0,
+    top: 35,
     right: 1.5,
     bottom: 50,
     left: 45
@@ -675,7 +675,7 @@ var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x).ticks(5));
 var xAxis2 = svg.append("g")
-  .call(d3.axisTop(x).ticks(0));
+  .call(d3.axisTop(x).ticks(5));
 
 // Add Y axis
 var y = d3.scaleLinear()
@@ -1049,7 +1049,51 @@ function updatePlot(data) {
       d3.select("#lw1d").remove();
     }
   }
-
 }
+
+
+// add labels for charge states
+svg.append("circle")
+  .attr("cx", function(d) { return x(1) })
+  .attr("cy", -18)
+  .attr("r", 10)
+  .style("fill", "#fff2cc")
+  .attr("stroke", "black")
+  .attr("stroke-width", 1.2)
+svg.append("text")
+  .attr("text-anchor", "middle")
+  .attr('transform', 'translate(' + x(1) + ',-14)')
+  .style("font-size", "11px")
+  .text("+1")
+svg.append("circle")
+  .attr("cx", function(d) { return x(2) })
+  .attr("cy", -18)
+  .attr("r", 10)
+  .style("fill", "#fff2cc")
+  .attr("stroke", "black")
+  .attr("stroke-width", 1.2)
+svg.append("text")
+  .attr("text-anchor", "middle")
+  .attr('transform', 'translate(' + x(2) + ',-14)')
+  .style("font-size", "11px")
+  .text("+2")
+svg.append("circle")
+  .attr("cx", function(d) { return x(3) })
+  .attr("cy", -18)
+  .attr("r", 10)
+  .style("fill", "#fff2cc")
+  .attr("stroke", "black")
+  .attr("stroke-width", 1.2)
+svg.append("text")
+  .attr("text-anchor", "middle")
+  .attr('transform', 'translate(' + x(3) + ',-14)')
+  .style("font-size", "11px")
+  .text("+3")
+svg.append("text")
+  .attr("text-anchor", "left")
+  .attr('transform', 'translate(' + 40 + ',-13)')
+  .style("font-size", "13px")
+  .text("Integer charge state > ")
+
 //------------------------------------------------------------------------//
 //END PLOT ---------------------------------------------------------------//
