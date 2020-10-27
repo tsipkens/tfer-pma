@@ -1091,9 +1091,9 @@ svg.append("text")
   .text("+3")
 svg.append("text")
   .attr("text-anchor", "left")
-  .attr('transform', 'translate(' + 40 + ',-13)')
+  .attr('transform', 'translate(' + 30 + ',-13)')
   .style("font-size", "13px")
-  .text("Integer charge state > ")
+  .text("Integer charge state, z > ")
 
 //------------------------------------------------------------------------//
 //END PLOT ---------------------------------------------------------------//
