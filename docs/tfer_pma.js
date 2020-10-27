@@ -679,7 +679,7 @@ var xAxis2 = svg.append("g")
 
 // Add Y axis
 var y = d3.scaleLinear()
-  .domain([-0.05, 1.8])
+  .domain([-0.05, 1.5])
   .range([height, 0]);
 svg.append("g")
   .call(d3.axisLeft(y).ticks(5));
