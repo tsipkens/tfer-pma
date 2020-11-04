@@ -1,7 +1,7 @@
 body {
   margin: auto 0px;
   padding: 0px;
-  font-family: 'Roboto', san-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 10pt;
 }
 
@@ -50,6 +50,10 @@ div.main {
 
 div.control {
   padding-bottom: 5px;
+}
+
+.slider {
+  height:5px;
 }
 
 a {
