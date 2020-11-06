@@ -49,9 +49,6 @@ var get_setpoint = function(prop) {
     ;
     var prop = {};
   };
-  if (!(prop)) {
-    var prop = prop_pma();
-  }
   var sp = {
     'm_star': null,
     'V': null,
@@ -806,21 +803,21 @@ if (prop['omega_hat'] == 1) {
 
 // adjust plot based on controls -----------------------------------------//
 // control for resolution
-d3.select("#RmSlider").on("change", function(d) {
+d3.select("#RmSlider").on("change", function() {
   val = this.value
   Rm = Rmvals[val - 1]
   m_star = sp['m_star']
   updateData(Rm, m_star, prop)
 })
 // control for mass setpoint
-d3.select("#mSlider").on("change", function(d) {
+d3.select("#mSlider").on("change", function() {
   val = this.value
   m_star = mvals[val - 1] / 1e18 // include conversion to kg
   Rm = sp['Rm']
   updateData(Rm, m_star, prop)
 })
 // control for flow rate
-d3.select("#Qnum").on("change", function(d) {
+d3.select("#Qnum").on("change", function() {
   val = this.value
   prop['Q'] = val / 1000 / 60
   prop['v_bar'] = prop['Q'] / prop['A']
@@ -830,7 +827,7 @@ d3.select("#Qnum").on("change", function(d) {
   updateData(Rm, m_star, prop)
 })
 // control for effective density
-d3.select("#rhonum").on("change", function(d) {
+d3.select("#rhonum").on("change", function() {
   val = this.value
   rho_eff100 = val // effective density @ 100 nm read from control
 
@@ -839,7 +836,7 @@ d3.select("#rhonum").on("change", function(d) {
   updateData(Rm, m_star, prop)
 })
 // control for mass-mobility exponent control
-d3.select("#Dmnum").on("change", function(d) {
+d3.select("#Dmnum").on("change", function() {
   val = this.value
   prop['Dm'] = val
 
@@ -848,9 +845,40 @@ d3.select("#Dmnum").on("change", function(d) {
   updateData(Rm, m_star, prop)
 })
 // control for omega ratio
-d3.select("#omegahnum").on("change", function(d) {
+d3.select("#omegahnum").on("change", function() {
   val = this.value
   prop['omega_hat'] = val
+
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop)
+})
+
+// control for r1
+function afterRadiusUpdate (prop) {
+  prop['del'] = (prop['r2'] - prop['r1']) / 2
+  prop['rc'] = (prop['r2'] + prop['r1']) / 2
+  prop['r_hat'] = prop['r1'] / prop['r2']
+  prop['A'] = pi * (Math.pow(prop['r2'], 2) - Math.pow(prop['r1'], 2));
+  prop['v_bar'] = prop['Q'] / prop['A'];
+  return prop
+}
+d3.select("#r1num").on("change", function() {
+  val = this.value
+  prop['r1'] = val / 100
+  prop = afterRadiusUpdate(prop)
+  document.getElementById('r2num').min = prop['r1'] * 100 + 0.005 // prevent overlapping radii
+
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop)
+})
+// control for r2
+d3.select("#r2num").on("change", function() {
+  val = this.value
+  prop['r2'] = val / 100
+  prop = afterRadiusUpdate(prop)
+  document.getElementById('r1num').max = prop['r2'] * 100 - 0.005 // prevent overlapping radii
 
   Rm = sp['Rm']
   m_star = sp['m_star']
@@ -873,6 +901,47 @@ function updateZ(data) {
   updateData(Rm, m_star, prop)
 }
 d3.selectAll(".cbZ").on("change", updateZ); // when button changes, run function
+
+// for links in text to set specific conditions (e.g., jump to APM)
+d3.select("#setapm").on("click", function() {
+  prop['omega_hat'] = 1
+  document.getElementById('omegahnum').value = 1
+
+  prop['Q'] = 0.5 / 1000 / 60;
+  document.getElementById('Qnum').value = 0.5
+
+  prop['r1'] = 0.1;
+  prop['r2'] = 0.103;
+  prop = afterRadiusUpdate(prop)
+  document.getElementById('r1num').value = 0.1 * 100
+  document.getElementById('r2num').value = 0.103 * 100
+  document.getElementById('r1num').max = 0.103 * 100 - 0.005
+  document.getElementById('r2num').min = 0.1 * 100 + 0.005
+
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop)
+})
+
+d3.select("#setcpma").on("click", function() {
+  prop['omega_hat'] = 0.9696
+  document.getElementById('omegahnum').value = 1
+
+  prop['Q'] = 3 / 1000 / 60;
+  document.getElementById('Qnum').value = 3
+
+  prop['r1'] = 0.06;
+  prop['r2'] = 0.061;
+  prop = afterRadiusUpdate(prop)
+  document.getElementById('r1num').value = 0.06 * 100
+  document.getElementById('r2num').value = 0.061 * 100
+  document.getElementById('r1num').max = 0.061 * 100 - 0.005
+  document.getElementById('r2num').min = 0.06 * 100 + 0.005
+
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop);
+})
 
 //------------------------------------------------------------------------//
 // generic data updater
@@ -932,6 +1001,8 @@ function updateData(Rm, m_star, prop) {
     (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval2').value =
     (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
+  document.getElementById('dmval3').value =
+    (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
 }
 
 // run initallly to get control values and display in outputs on HTML page
@@ -941,7 +1012,13 @@ document.getElementById('dmval1').value =
   (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
 document.getElementById('dmval2').value =
   (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
+document.getElementById('dmval3').value =
+  (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
 document.getElementById('omegahnum').value = prop['omega_hat'];
+document.getElementById('r1num').value = prop['r1'] * 100;
+document.getElementById('r1num').max = prop['r2'] * 100 - 0.005;
+document.getElementById('r2num').value = prop['r2'] * 100;
+document.getElementById('r2num').min = prop['r1'] * 100 + 0.005;
 //------------------------------------------------------------------------//
 
 // a generic function that updates the chart -----------------------------//
@@ -1074,10 +1151,10 @@ var xAxis3 = svg3.append("g")
   .call(d3.axisTop(x).tickValues([1,2,3]))
 
 svg3.append("circle")
-  .attr("cx", function(d) { return x(1) })
+  .attr("cx", function() { return x(1) })
   .attr("cy", -18)
-  .attr("r", 10)
-  .style("fill", "#ffccda")
+  .attr("r", 11)
+  .style("fill", "#ffdfed")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
 svg3.append("text")
@@ -1086,10 +1163,10 @@ svg3.append("text")
   .style("font-size", "11px")
   .text("+1")
 svg3.append("circle")
-  .attr("cx", function(d) { return x(2) })
+  .attr("cx", function() { return x(2) })
   .attr("cy", -18)
-  .attr("r", 10)
-  .style("fill", "#ffccda")
+  .attr("r", 11)
+  .style("fill", "#ffdfed")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
 svg3.append("text")
@@ -1098,10 +1175,10 @@ svg3.append("text")
   .style("font-size", "11px")
   .text("+2")
 svg3.append("circle")
-  .attr("cx", function(d) { return x(3) })
+  .attr("cx", function() { return x(3) })
   .attr("cy", -18)
-  .attr("r", 10)
-  .style("fill", "#ffccda")
+  .attr("r", 11)
+  .style("fill", "#ffdfed")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
 svg3.append("text")

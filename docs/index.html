@@ -14,7 +14,7 @@
   <script src="https://unpkg.com/mathjs/lib/browser/math.js" type="text/javascript"></script>
 
   <!-- Load fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
   <link href="index.css" rel="stylesheet">
 </head>
 
@@ -26,7 +26,7 @@
     <div id="navbar">
       <ul class="nav">
         <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794">
-          <b style="font-size:12pt;">PMA TRANSFER FUNCTION</b> Evaluator
+          <b style="font-size:12pt;font-weight:700">PMA TRANSFER FUNCTION</b> Evaluator
         </a></li>
         <li><a href="#">Created by Timothy Sipkens</a></li>
       </ul>
@@ -57,6 +57,18 @@
       </p>
 
       <p align="justify">
+        <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
+        when ω2/ω1 = 1, e.g.,
+        <a href="#my_dataviz" id="setapm">this point</a>.
+      </p>
+
+      <p align="justify">
+        Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
+        are achieved when ω2/ω1 = 0.9696, e.g.,
+        <a href="#my_dataviz" id="setcpma">this point</a>.
+      </p>
+
+      <p align="justify">
         We note that Case 1S, following from the approach proposed <body>
         <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
         results in various anomalies. In the default view, there is
@@ -84,12 +96,29 @@
       </div>
 
       <div class="control">
+        <b>Radii </b> |
+        <i>r</i><sub>1</sub> =
+        <input id="r1num" type="number"
+          min="1" max="20" step="0.01" value="0"
+          style="width:60px;height:10px;"> cm |
+        <i>r</i><sub>2</sub> =
+        <input id="r2num" type="number"
+          min="1" max="20" step="0.01" value="0"
+          style="width:60px;height:10px;"> cm
+      </div>
+
+      <div class="control">
+        <b>Length </b> |
+        <i>L</i> = 20 cm
+      </div>
+
+      <div class="control">
         <b>Ratio of angular speeds </b>
-        | <span style="color:#C70039">(APM when ω2/ω1 = 1) </span>
         | ω2/ω1 =
         <input id="omegahnum" type="number"
           min="0.5" max="1.1" step="0.001" value="0"
           style="width:60px;height:10px;">
+        <span style="color:#CCCCCC">| (APM when ω2/ω1 = 1) </span>
       </div>
 
       <div class="control">
@@ -158,7 +187,8 @@
       <div class="control">
         <b>Mobility diameter </b> |
         <i>d</i><sub>m</sub> @ <i>m</i> * = <output id="dmval1">-</output> nm |
-        <i>d</i><sub>m</sub> @ 2<i>m</i> * = <output id="dmval2">-</output> nm
+        <i>d</i><sub>m</sub> @ 2<i>m</i> * = <output id="dmval2">-</output> nm |
+        <i>d</i><sub>m</sub> @ 3<i>m</i> * = <output id="dmval3">-</output> nm
       </div>
 
       <div id="myz" style="margin-top:10px;"></div>
@@ -184,6 +214,7 @@
   </div>
 
   <script src="tfer_pma.js"></script>
+};
 
 </body>
 
