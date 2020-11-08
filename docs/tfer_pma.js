@@ -412,8 +412,54 @@ var linspace = function(a, b, n) {
   return ret;
 };
 
+
+//-- CHARGING FUNCTIONS ----------------------------------------//
+//   Incomplete at the moment.
+var tfer_charge = function(d, z) {
+
+  var e = 1.602177e-19, // elementary charge
+    epi = 8.85418e-12, // dielectric constant (for air) [F/m]
+    kB = 1.38065e-23, // Boltzmann's constant
+    Z_Z = 0.875, // ion mobility ratio (Wiedensohler, 1988)
+    T = 298; // temperature
+
+  var fn = Array(z.length).fill(0).map(x => Array(d.length).fill(0)); // initialize fn
+
+  for (dd in d) {
+    for (zz in z) {
+      if (z[zz] < 3) { // if charge state less than 3
+        // Gopalakrishnan below z = 3
+        a = [
+          [-0.3880, -8.0157, -40.714],
+          [0.4545, 3.2536, 17.487],
+          [-0.1634, -0.5018, -2.6146],
+          [0.0091, 0.0223, 0.1282]
+        ];
+        exponent = 0;
+        for (jj = 0; jj < 4; jj++) { // loop through coefficients in a
+          exponent = exponent + (a[jj][z[zz]] * Math.log(d[dd] * 1e9) ** jj);
+        }
+        fn[zz][dd] = Math.exp(exponent);
+      } else { // Wiedensohler for z = 3 and above
+        fn[zz][dd] = e / Math.sqrt(4 * pi * pi * epi * kB * T * d[dd]) *
+          Math.exp(0 - (z[zz] - 2 * pi * epi * kB * T * Math.log(Z_Z) * d[dd] / e ** 2) ** 2 /
+            (4 * pi * epi * kB * T * d[dd] / e ** 2));
+
+        if (fn[zz][dd] < 6e-5) {
+          fn[zz][dd] = 0
+        } // truncate small values
+      }
+    }
+  }
+
+  return fn
+}
+
+
+
 var parse_fun = function(sp, m, d, prop, fun) {
-  var Lambda = Array(m.length)
+  var Lambda = Array(m.length),
+      f_charge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
   for (ii in m) { // loop over particle mass
     Lambda[ii] = 0 // initialize at zero
     for (zz in z_vec) { // loop over integer charge states
@@ -423,6 +469,7 @@ var parse_fun = function(sp, m, d, prop, fun) {
   }
   return Lambda;
 };
+
 
 console.log('Load complete.')
 console.log(' ')
@@ -441,7 +488,7 @@ prop['omega_hat'] = 0.9696
 var rho_eff100 = 510 // effective density
 var m100 = rho_eff100 * (pi * Math.pow(100e-9, 3) / 6) // effective density @ 1 nm
 prop['Dm'] = 2.48
-prop['m0'] = m100 * Math.pow((1/100), prop['Dm']) // adjust mass-mobility relation parameters
+prop['m0'] = m100 * Math.pow((1 / 100), prop['Dm']) // adjust mass-mobility relation parameters
 var m_star = 0.01e-18
 
 console.log('prop = ')
@@ -468,7 +515,7 @@ var d = m_vec.map(function(x) {
   return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
 })
 
-var z_vec = [1,2,3]
+var z_vec = [1, 2, 3]
 
 var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
 var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
@@ -493,6 +540,7 @@ document.getElementById('Dmnum').value = prop['Dm']
 
 // read resolution and mass setpoint sliders
 var Rmvals = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
+
 function displayRmval(val) {
   document.getElementById('Rmval').value = Rmvals[val - 1];
 }
@@ -500,7 +548,9 @@ displayRmval(document.getElementById('RmSlider').value)
 
 var mvals = [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3,
   0.01, 0.02, 0.05, 0.1, 0.2, 0.5,
-  1, 2, 5, 10, 20, 50, 100, 200, 500, 1000]
+  1, 2, 5, 10, 20, 50, 100, 200, 500, 1000
+]
+
 function displaymval(val) {
   document.getElementById('mval').value = mvals[val - 1];
 }
@@ -855,7 +905,7 @@ d3.select("#omegahnum").on("change", function() {
 })
 
 // control for r1
-function afterRadiusUpdate (prop) {
+function afterRadiusUpdate(prop) {
   prop['del'] = (prop['r2'] - prop['r1']) / 2
   prop['rc'] = (prop['r2'] + prop['r1']) / 2
   prop['r_hat'] = prop['r1'] / prop['r2']
@@ -947,7 +997,7 @@ d3.select("#setcpma").on("click", function() {
 // generic data updater
 function updateData(Rm, m_star, prop) {
   m100 = rho_eff100 * (pi * Math.pow(100e-9, 3) / 6) // effective density @ 1 nm
-  prop['m0'] = m100 * Math.pow((1/100), prop['Dm']) // adjust mass-mobility relation parameters
+  prop['m0'] = m100 * Math.pow((1 / 100), prop['Dm']) // adjust mass-mobility relation parameters
 
   m_vec = mr_vec.map(function(x) {
     return x * m_star;
@@ -1148,13 +1198,15 @@ var svg3 = d3.select("#myz")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 var xAxis3 = svg3.append("g")
-  .call(d3.axisTop(x).tickValues([1,2,3]))
+  .call(d3.axisTop(x).tickValues([1, 2, 3]))
 
 svg3.append("circle")
-  .attr("cx", function() { return x(1) })
+  .attr("cx", function() {
+    return x(1)
+  })
   .attr("cy", -18)
   .attr("r", 11)
-  .style("fill", "#ffdfed")
+  .style("fill", "#ededed")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
 svg3.append("text")
@@ -1163,10 +1215,12 @@ svg3.append("text")
   .style("font-size", "11px")
   .text("+1")
 svg3.append("circle")
-  .attr("cx", function() { return x(2) })
+  .attr("cx", function() {
+    return x(2)
+  })
   .attr("cy", -18)
   .attr("r", 11)
-  .style("fill", "#ffdfed")
+  .style("fill", "#ededed")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
 svg3.append("text")
@@ -1175,10 +1229,12 @@ svg3.append("text")
   .style("font-size", "11px")
   .text("+2")
 svg3.append("circle")
-  .attr("cx", function() { return x(3) })
+  .attr("cx", function() {
+    return x(3)
+  })
   .attr("cy", -18)
   .attr("r", 11)
-  .style("fill", "#ffdfed")
+  .style("fill", "#ededed")
   .attr("stroke", "black")
   .attr("stroke-width", 1.2)
 svg3.append("text")

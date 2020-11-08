@@ -10,6 +10,16 @@ b { /* Format all bolds */
   font-weight: 600;
 }
 
+h1 {
+  text-align: center;
+  font-size:30px;
+}
+
+a {
+  color: #C90334;
+  text-decoration: none;
+}
+
 /*  For navigation */
 .nav {
   display: flex;
@@ -24,12 +34,14 @@ b { /* Format all bolds */
 }
 
 .nav li {
+  text-align: right;
   display: block;
   padding: 20px;
 }
 
 .nav li:first-child {
   margin-right: auto;
+  text-align: left;
 }
 
 .nav li a {
@@ -41,6 +53,15 @@ b { /* Format all bolds */
   color: #444444;
 }
 
+#img1 { /* formatting for image below title */
+  width=:90%;
+  max-width:230px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:45px;
+}
+
 .cbZ {
   width:10px;
   height:10px;
@@ -49,7 +70,8 @@ b { /* Format all bolds */
 /* For main components */
 div.main {
   margin: 0 auto;
-  width: 750px;
+  width:95%;
+  max-width: 750px;
   padding-top: 100px;
 }
 
@@ -94,13 +116,9 @@ div.control {
   cursor: pointer;
 }
 
-a {
-  color: #4e79a7;
-}
-
 hr {
   border: none;
   border-top: 1px solid #DDDDDD;
-  margin-top: 35px;
-  margin-bottom: 35px;
+  margin-top: 45px;
+  margin-bottom: 45px;
 }

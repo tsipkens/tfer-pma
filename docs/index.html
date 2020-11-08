@@ -26,8 +26,8 @@
     <div id="navbar">
       <ul class="nav">
         <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794">
-          <b style="font-size:12pt;font-weight:700">PMA TRANSFER FUNCTION</b> Evaluator
-        </a></li>
+            <b style="font-size:12pt;font-weight:700">PMA TRANSFER FUNCTION</b> Evaluator
+          </a></li>
         <li><a href="#">Created by Timothy Sipkens</a></li>
       </ul>
     </div>
@@ -36,40 +36,45 @@
   <div class="main">
 
 
-    <h2>PMA transfer function evaluation</h2>
+    <h1 style="padding-top:30px;color:#C90334;margin-bottom:0px;">PMA transfer function</h1>
+    <h1 style="font-size:20px;margin-top:0px;padding-bottom:10px">evaluator</h1>
 
-      <p align="justify">
-        This viz examines the transfer function of particle mass analyzers
-        like the centrifugal particle mass analyer (CPMA) or aerosol particle
-        mass analyzer (APM).
-        We refer the reader to
-        <a href="https://doi.org/10.1080/02786826.2019.1680794">
-          Sipkens et al. (2020)
-        </a>
-        for more information on the underlying analytical functions. A supporting
-        repository, including Python code for evaluating the PMA transfer
-        function is available
-        <a href="https://github.com/tsipkens/py-tfer-pma">here</a>.
-        A Matlab version is also available
-        <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
-        The default view shows contributions from
-        integer charge states <i>z</i> = 1 through 3.
-      </p>
+    <img src="imgs/top_G0_img.png" id="img1"></img>
 
-      <p align="justify">
-        <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
-        when ω2/ω1 = 1, e.g.,
-        <a href="#my_dataviz" id="setapm">this point</a>.
-      </p>
+    <p align="justify">
+      This viz examines the transfer function of particle mass analyzers
+      like the centrifugal particle mass analyer (CPMA) or aerosol particle
+      mass analyzer (APM).
+      We refer the reader to
+      <a href="https://doi.org/10.1080/02786826.2019.1680794">
+        Sipkens et al. (2020)
+      </a>
+      for more information on the underlying analytical functions. A supporting
+      repository, including Python code for evaluating the PMA transfer
+      function is available
+      <a href="https://github.com/tsipkens/py-tfer-pma">here</a>.
+      A Matlab version is also available
+      <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
+      The default view shows contributions from
+      integer charge states <i>z</i> = 1 through 3.
+    </p>
 
-      <p align="justify">
-        Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
-        are achieved when ω2/ω1 = 0.9696, e.g.,
-        <a href="#my_dataviz" id="setcpma">this point</a>.
-      </p>
+    <p align="justify">
+      <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
+      when ω2/ω1 = 1, e.g.,
+      <a href="#my_dataviz" id="setapm">this point</a>.
+    </p>
 
-      <p align="justify">
-        We note that Case 1S, following from the approach proposed <body>
+    <p align="justify">
+      Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
+      are achieved when ω2/ω1 = 0.9696, e.g.,
+      <a href="#my_dataviz" id="setcpma">this point</a>.
+    </p>
+
+    <p align="justify">
+      We note that Case 1S, following from the approach proposed
+
+      <body>
         <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
         results in various anomalies. In the default view, there is
         an anomaly for the <i>z</i> = 1 transfer function that is a consequence
@@ -79,142 +84,129 @@
         uncharged (<i>z</i> = 0) contributions. The method is generally stable
         for the ω2/ω1 = 1, the case originally intended by
         <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
-      </p>
+    </p>
 
-      <h3>Legend</h3>
-      <div id="my_legend"></div>
+    <h3>Legend</h3>
+    <div id="my_legend"></div>
 
-      <h3>Properties</h3>
+    <h3>Properties</h3>
 
-      <div class="control">
-        <b>Flow rate </b> |
-        <i>Q</i> =
-        <input id="Qnum" type="number"
-          min="0.5" max="100" step="0.1" value="3"
-          style="width:40px;height:10px;">
-        LPM
-      </div>
+    <div class="control">
+      <b>Flow rate </b> |
+      <i>Q</i> =
+      <input id="Qnum" type="number" min="0.5" max="100" step="0.1" value="3" style="width:40px;height:10px;">
+      LPM
+    </div>
 
-      <div class="control">
-        <b>Radii </b> |
-        <i>r</i><sub>1</sub> =
-        <input id="r1num" type="number"
-          min="1" max="20" step="0.01" value="0"
-          style="width:60px;height:10px;"> cm |
-        <i>r</i><sub>2</sub> =
-        <input id="r2num" type="number"
-          min="1" max="20" step="0.01" value="0"
-          style="width:60px;height:10px;"> cm
-      </div>
+    <div class="control">
+      <b>Radii </b> |
+      <i>r</i><sub>1</sub> =
+      <input id="r1num" type="number" min="1" max="20" step="0.01" value="0" style="width:60px;height:10px;"> cm |
+      <i>r</i><sub>2</sub> =
+      <input id="r2num" type="number" min="1" max="20" step="0.01" value="0" style="width:60px;height:10px;"> cm
+    </div>
 
-      <div class="control">
-        <b>Length </b> |
-        <i>L</i> = 20 cm
-      </div>
+    <div class="control">
+      <b>Length </b> |
+      <i>L</i> = 20 cm
+    </div>
 
-      <div class="control">
-        <b>Ratio of angular speeds </b>
-        | ω2/ω1 =
-        <input id="omegahnum" type="number"
-          min="0.5" max="1.1" step="0.001" value="0"
-          style="width:60px;height:10px;">
-        <span style="color:#CCCCCC">| (APM when ω2/ω1 = 1) </span>
-      </div>
+    <div class="control">
+      <b>Ratio of angular speeds </b>
+      | ω2/ω1 =
+      <input id="omegahnum" type="number" min="0.5" max="1.1" step="0.001" value="0" style="width:60px;height:10px;">
+      <span style="color:#CCCCCC">| (APM when ω2/ω1 = 1) </span>
+    </div>
 
-      <div class="control">
-        <b>Mass-mobility relation </b> |
-        Exponent, <i>D</i><sub>m</sub> =
-        <input id="Dmnum" type="number"
-          min="0.1" max="4" step="0.05" value="0.1"
-          style="width:45px;height:10px;"> |
-        Effective density @ <i>d</i><sub>m</sub> = 100 nm, ρ<sub>eff,100</sub> =
-        <input id="rhonum" type="number"
-          min="20" max="1e4" step="20" value="20"
-          style="width:50px;height:10px;">
-          kg/m³
-      </div>
+    <div class="control">
+      <b>Mass-mobility relation </b> |
+      Exponent, <i>D</i><sub>m</sub> =
+      <input id="Dmnum" type="number" min="0.1" max="4" step="0.05" value="0.1" style="width:45px;height:10px;"> |
+      Effective density @ <i>d</i><sub>m</sub> = 100 nm, ρ<sub>eff,100</sub> =
+      <input id="rhonum" type="number" min="20" max="1e4" step="20" value="20" style="width:50px;height:10px;">
+      kg/m³
+    </div>
 
-      <div>
-        <b>Integer charge states </b> |
-        <label class="cb">
-          <input type="checkbox" class="cbZ" value="0" unchecked>Uncharged
-        </label> |
+    <div>
+      <b>Integer charge states </b> |
+      <label class="cb">
+        <input type="checkbox" class="cbZ" value="0" unchecked>Uncharged
+      </label> |
 
-        <label class="cb">
-          <input type="checkbox" class="cbZ" value="1" checked><i>z</i> = 1
-        </label>
+      <label class="cb">
+        <input type="checkbox" class="cbZ" value="1" checked><i>z</i> = 1
+      </label>
 
-        <label class="cb"> |
-          <input type="checkbox" class="cbZ" value="2" checked><i>z</i> = 2
-        </label> |
+      <label class="cb"> |
+        <input type="checkbox" class="cbZ" value="2" checked><i>z</i> = 2
+      </label> |
 
-        <label class="cb">
-          <input type="checkbox" class="cbZ" value="3" checked><i>z</i> = 3
-        </label>
-      </div>
+      <label class="cb">
+        <input type="checkbox" class="cbZ" value="3" checked><i>z</i> = 3
+      </label>
+    </div>
 
-      <h3>Setpoint</h3>
+    <h3>Setpoint</h3>
 
-      <!-- Add a slider -->
-      <div class="control">
-        <b>Mass setpoint </b> |
-        <input type="range" name="mSlider" id="mSlider"
-          min="1" max="23" value="8"
-          onchange="displaymval(this.value);"
-          class="slider"> |
-        <i>m</i> * = <output id="mval">-</output> fg
-      </div>
+    <!-- Add a slider -->
+    <div class="control">
+      <b>Mass setpoint </b> |
+      <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> |
+      <i>m</i> * = <output id="mval">-</output> fg
+    </div>
 
-      <div class="control">
-        <b>Resolution </b> |
-        <input type="range" name="RmSlider" id="RmSlider"
-          min="1" max="13" value= "7"
-          onchange="displayRmval(this.value);"
-          class="slider"> |
-        <i>R</i><sub>m</sub> = <output id="Rmval">-</output>
-      </div>
+    <div class="control">
+      <b>Resolution </b> |
+      <input type="range" name="RmSlider" id="RmSlider" min="1" max="13" value="7" onchange="displayRmval(this.value);" class="slider"> |
+      <i>R</i><sub>m</sub> = <output id="Rmval">-</output>
+    </div>
 
-      <div class="control">
-        <b>Voltage </b> |
-        <i>V</i> = <output id="Vval">-</output> V
-      </div>
+    <div class="control">
+      <b>Voltage </b> |
+      <i>V</i> = <output id="Vval">-</output> V
+    </div>
 
-      <div class="control">
-        <b>Angular speed </b> |
-        ω = <output id="Wval">-</output> rad/s
-      </div>
+    <div class="control">
+      <b>Angular speed </b> |
+      ω = <output id="Wval">-</output> rad/s
+    </div>
 
-      <div class="control">
-        <b>Mobility diameter </b> |
-        <i>d</i><sub>m</sub> @ <i>m</i> * = <output id="dmval1">-</output> nm |
-        <i>d</i><sub>m</sub> @ 2<i>m</i> * = <output id="dmval2">-</output> nm |
-        <i>d</i><sub>m</sub> @ 3<i>m</i> * = <output id="dmval3">-</output> nm
-      </div>
+    <div class="control">
+      <b>Mobility diameter </b> |
+      <i>d</i><sub>m</sub> @ <i>m</i> * = <output id="dmval1">-</output> nm |
+      <i>d</i><sub>m</sub> @ 2<i>m</i> * = <output id="dmval2">-</output> nm |
+      <i>d</i><sub>m</sub> @ 3<i>m</i> * = <output id="dmval3">-</output> nm
+    </div>
 
-      <div id="myz" style="margin-top:10px;"></div>
+    <div id="myz" style="margin-top:10px;"></div>
 
-      <!-- Create a div where the graph will take place -->
-      <div id="my_dataviz"></div>
+    <!-- Create a div where the graph will take place -->
+    <div id="my_dataviz"></div>
 
-      <hr>
+  </div>
 
-      <h4>Citing this work</h4>
+  <hr>
 
-      <p align="justify">
-        Consider citing this repository directly, as well as the corresponding paper:
-      </p>
+  <div class="main" style="padding-top:0px;">
+    <h4>Citing this work</h4>
 
-      <p align="justify" style="padding-bottom:35px;padding-right:10px;padding-left:10px;">
-        <a href="https://doi.org/10.1080/02786826.2019.1680794">
-          T. A. Sipkens, J. S. Olfert, S. N. Rogak.
-          <i>Aerosol Science and Technology</i>. (2020).
-        </a>
-      </p>
+    <p align="justify">
+      Consider citing the
+      <a href="https://github.com/tsipkens/py-tfer-pma">associated repository</a>
+      directly, as well as the corresponding paper:
+    </p>
+
+    <p align="justify" style="padding-bottom:35px;padding-right:10px;padding-left:10px;">
+      <a href="https://doi.org/10.1080/02786826.2019.1680794">
+        T. A. Sipkens, J. S. Olfert, S. N. Rogak.
+        <i>Aerosol Science and Technology</i>. (2020).
+      </a>
+    </p>
 
   </div>
 
   <script src="tfer_pma.js"></script>
-};
+  };
 
 </body>
 
