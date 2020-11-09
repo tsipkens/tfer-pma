@@ -36,7 +36,7 @@
   <div class="main">
 
 
-    <h1 style="padding-top:30px;color:#C90334;margin-bottom:0px;">PMA transfer function</h1>
+    <h1 style="padding-top:40px;color:#D84D75;margin-bottom:0px;">PMA transfer function</h1>
     <h1 style="font-size:20px;margin-top:0px;padding-bottom:10px">evaluator</h1>
 
     <img src="imgs/top_G0_img.png" id="img1"></img>
@@ -47,8 +47,7 @@
       mass analyzer (APM).
       We refer the reader to
       <a href="https://doi.org/10.1080/02786826.2019.1680794">
-        Sipkens et al. (2020)
-      </a>
+        Sipkens et al. (2020)</a>
       for more information on the underlying analytical functions. A supporting
       repository, including Python code for evaluating the PMA transfer
       function is available
@@ -56,18 +55,18 @@
       A Matlab version is also available
       <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
       The default view shows contributions from
-      integer charge states <i>z</i> = 1 through 3.
+      integer charge states z = 1 through 3.
     </p>
 
     <p align="justify">
       <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
-      when ω2/ω1 = 1, e.g.,
+      when ω<sub>2</sub>/ω<sub>1</sub> = 1, e.g.,
       <a href="#my_dataviz" id="setapm">this point</a>.
     </p>
 
     <p align="justify">
       Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
-      are achieved when ω2/ω1 = 0.9696, e.g.,
+      are achieved when ω<sub>2</sub>/ω<sub>1</sub> = 0.9696, e.g.,
       <a href="#my_dataviz" id="setcpma">this point</a>.
     </p>
 
@@ -77,12 +76,12 @@
       <body>
         <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
         results in various anomalies. In the default view, there is
-        an anomaly for the <i>z</i> = 1 transfer function that is a consequence
+        an anomaly for the z = 1 transfer function that is a consequence
         of solving for the equilibrium raidus, which appears as a linear increase
         in the transfer function for m/m* > 2 and demonstrates a limitation
         of that approach. Other anomalies include problems with calculating the
-        uncharged (<i>z</i> = 0) contributions. The method is generally stable
-        for the ω2/ω1 = 1, the case originally intended by
+        uncharged (z = 0) contributions. The method is generally stable
+        for the ω<sub>2</sub>/ω<sub>1</sub> = 1, the case originally intended by
         <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
     </p>
 
@@ -93,57 +92,71 @@
 
     <div class="control">
       <b>Flow rate </b> |
-      <i>Q</i> =
+      Q =
       <input id="Qnum" type="number" min="0.5" max="100" step="0.1" value="3" style="width:40px;height:10px;">
       LPM
     </div>
 
     <div class="control">
       <b>Radii </b> |
-      <i>r</i><sub>1</sub> =
+      r<sub>1</sub> =
       <input id="r1num" type="number" min="1" max="20" step="0.01" value="0" style="width:60px;height:10px;"> cm |
-      <i>r</i><sub>2</sub> =
+      r<sub>2</sub> =
       <input id="r2num" type="number" min="1" max="20" step="0.01" value="0" style="width:60px;height:10px;"> cm
     </div>
 
     <div class="control">
       <b>Length </b> |
-      <i>L</i> = 20 cm
+      L = 20 cm
     </div>
 
     <div class="control">
       <b>Ratio of angular speeds </b>
-      | ω2/ω1 =
+      | ω<sub>2</sub>/ω<sub>1</sub> =
       <input id="omegahnum" type="number" min="0.5" max="1.1" step="0.001" value="0" style="width:60px;height:10px;">
-      <span style="color:#CCCCCC">| (APM when ω2/ω1 = 1) </span>
+      <span style="color:#CCCCCC">| (APM when ω<sub>2</sub>/ω<sub>1</sub> = 1) </span>
     </div>
 
     <div class="control">
       <b>Mass-mobility relation </b> |
-      Exponent, <i>D</i><sub>m</sub> =
+      Exponent, D<sub>m</sub> =
       <input id="Dmnum" type="number" min="0.1" max="4" step="0.05" value="0.1" style="width:45px;height:10px;"> |
-      Effective density @ <i>d</i><sub>m</sub> = 100 nm, ρ<sub>eff,100</sub> =
+      Effective density @ d<sub>m</sub> = 100 nm, ρ<sub>eff,100</sub> =
       <input id="rhonum" type="number" min="20" max="1e4" step="20" value="20" style="width:50px;height:10px;">
       kg/m³
     </div>
 
-    <div>
+    <div style="margin-bottom:10px;">
       <b>Integer charge states </b> |
-      <label class="cb">
-        <input type="checkbox" class="cbZ" value="0" unchecked>Uncharged
+
+      <input type="checkbox" class="cbZ" id="cbZ0" value="0" unchecked>
+      <label class="cb" for="cbZ0">
+        Uncharged
       </label> |
 
-      <label class="cb">
-        <input type="checkbox" class="cbZ" value="1" checked><i>z</i> = 1
-      </label>
-
-      <label class="cb"> |
-        <input type="checkbox" class="cbZ" value="2" checked><i>z</i> = 2
+      <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
+      <label class="cb" for="cbZ1">
+        z = 1
       </label> |
 
-      <label class="cb">
-        <input type="checkbox" class="cbZ" value="3" checked><i>z</i> = 3
+      <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
+      <label class="cb" for="cbZ2">
+        z = 2
+      </label> |
+
+      <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
+      <label class="cb" for="cbZ3">
+        z = 3
       </label>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <b>Include charging? </b> |
+      <input type="checkbox" class="fCharge" id="fCharge" value="0" unchecked>
+      <label class="cb" for="fCharge"></label>
+      <span style="color:#CCCCCC">
+        | (Wiedensohler for z > 2 | Gopalakrishnan for z < 3)
+      </span>
     </div>
 
     <h3>Setpoint</h3>
@@ -152,18 +165,18 @@
     <div class="control">
       <b>Mass setpoint </b> |
       <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> |
-      <i>m</i> * = <output id="mval">-</output> fg
+      m* = <output id="mval">-</output> fg
     </div>
 
     <div class="control">
       <b>Resolution </b> |
       <input type="range" name="RmSlider" id="RmSlider" min="1" max="13" value="7" onchange="displayRmval(this.value);" class="slider"> |
-      <i>R</i><sub>m</sub> = <output id="Rmval">-</output>
+      R<sub>m</sub> = <output id="Rmval">-</output>
     </div>
 
     <div class="control">
       <b>Voltage </b> |
-      <i>V</i> = <output id="Vval">-</output> V
+      V = <output id="Vval">-</output> V
     </div>
 
     <div class="control">
@@ -173,9 +186,9 @@
 
     <div class="control">
       <b>Mobility diameter </b> |
-      <i>d</i><sub>m</sub> @ <i>m</i> * = <output id="dmval1">-</output> nm |
-      <i>d</i><sub>m</sub> @ 2<i>m</i> * = <output id="dmval2">-</output> nm |
-      <i>d</i><sub>m</sub> @ 3<i>m</i> * = <output id="dmval3">-</output> nm
+      d<sub>m</sub> @ m* = <output id="dmval1">-</output> nm |
+      d<sub>m</sub> @ 2m* = <output id="dmval2">-</output> nm |
+      d<sub>m</sub> @ 3m* = <output id="dmval3">-</output> nm
     </div>
 
     <div id="myz" style="margin-top:10px;"></div>
@@ -185,28 +198,31 @@
 
   </div>
 
-  <hr>
-
-  <div class="main" style="padding-top:0px;">
-    <h4>Citing this work</h4>
-
-    <p align="justify">
-      Consider citing the
-      <a href="https://github.com/tsipkens/py-tfer-pma">associated repository</a>
-      directly, as well as the corresponding paper:
-    </p>
-
-    <p align="justify" style="padding-bottom:35px;padding-right:10px;padding-left:10px;">
-      <a href="https://doi.org/10.1080/02786826.2019.1680794">
-        T. A. Sipkens, J. S. Olfert, S. N. Rogak.
-        <i>Aerosol Science and Technology</i>. (2020).
-      </a>
-    </p>
-
-  </div>
-
   <script src="tfer_pma.js"></script>
-  };
+
+  <div class="footer">
+    <div class="main" style="padding-top:10px;padding-bottom:10px;">
+      <h4>Citing this work</h4>
+
+      <p align="justify">
+        Code supporting this viz is open source and available in an
+        <a href="https://github.com/tsipkens/py-tfer-pma">associated repository</a>.
+        The analytical transfer functions are given in the corresponding paper:
+      </p>
+
+      <p align="justify" style="padding-right:10px;padding-left:10px;">
+        <a href="https://doi.org/10.1080/02786826.2019.1680794">
+          T. A. Sipkens, J. S. Olfert, S. N. Rogak.
+          <i>Aerosol Science and Technology</i>. (2020).
+        </a>
+      </p>
+
+      <p align="justify" style="padding-bottom:35px;">
+        This paper should be cited when referring to the underlying functions.
+      </p>
+
+    </div>
+  </div>
 
 </body>
 

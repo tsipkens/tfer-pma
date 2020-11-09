@@ -66,31 +66,48 @@ var get_setpoint = function(prop) {
   var e = 1.60218e-19;
   if (sp['m_star'] == null) {
     if (!(sp['omega1'])) {
-      sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) / (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
+      sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) /
+        (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) /
+        (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
     }
-    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['m_star'] = sp['V'] / ((Math.log(1 / prop['r_hat']) / e) * Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2));
+    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['m_star'] = sp['V'] / ((Math.log(1 / prop['r_hat']) / e) *
+      Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2));
     sp['omega'] = sp['alpha'] + sp['beta'] / Math.pow(prop['rc'], 2);
     sp['omega2'] = sp['alpha'] + sp['beta'] / Math.pow(prop['r2'], 2);
   } else if (sp['omega1'] != null) {
-    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['V'] = ((sp['m_star'] * Math.log(1 / prop['r_hat'])) / e) * Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2);
+    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['V'] = ((sp['m_star'] * Math.log(1 / prop['r_hat'])) / e) *
+      Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2);
     sp['omega2'] = sp['alpha'] + sp['beta'] / Math.pow(prop['r2'], 2);
     sp['omega'] = sp['alpha'] + sp['beta'] / Math.pow(prop['rc'], 2);
   } else if (sp['omega'] != null) {
-    sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) / (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
-    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['V'] = ((sp['m_star'] * Math.log(1 / prop['r_hat'])) / e) * Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2);
+    sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) /
+      (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
+    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['V'] = ((sp['m_star'] * Math.log(1 / prop['r_hat'])) / e) *
+      Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2);
     sp['omega2'] = sp['alpha'] + sp['beta'] / Math.pow(prop['r2'], 2);
   } else if (sp['V'] != null) {
     var v_theta_rc = Math.sqrt((sp['V'] * e) / (sp['m_star'] * Math.log(1 / prop['r_hat'])));
-    var A = (prop['rc'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) / (Math.pow(prop['r_hat'], 2) - 1) + (1 / prop['rc']) * ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1));
+    var A = (prop['rc'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
+      (Math.pow(prop['r_hat'], 2) - 1) + (1 / prop['rc']) * ((Math.pow(prop['r1'], 2) *
+        (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1));
     sp['omega1'] = v_theta_rc / A;
-    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1);
+    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1);
     sp['omega2'] = sp['alpha'] + sp['beta'] / Math.pow(prop['r2'], 2);
     sp['omega'] = sp['alpha'] + sp['beta'] / Math.pow(prop['rc'], 2);
   } else if (sp['Rm'] != null) {
@@ -98,12 +115,19 @@ var get_setpoint = function(prop) {
     var __left0__ = mp2zp(sp['m_star'], 1, prop['T'], prop['p'], prop);
     var B_star = __left0__[0];
     sp['m_max'] = sp['m_star'] * (1 / sp['Rm'] + 1);
-    sp['omega'] = Math.sqrt(prop['Q'] / ((((((sp['m_star'] * B_star) * 2) * pi) * Math.pow(prop['rc'], 2)) * prop['L']) * (Math.pow(sp['m_max'] / sp['m_star'], n_B + 1) - Math.pow(sp['m_max'] / sp['m_star'], n_B))));
-    sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) / (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
-    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) / (Math.pow(prop['r_hat'], 2) - 1);
-    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) / (Math.pow(prop['r_hat'], 2) - 1);
+    sp['omega'] = Math.sqrt(prop['Q'] / ((((((sp['m_star'] * B_star) * 2) * pi) *
+      Math.pow(prop['rc'], 2)) * prop['L']) * (Math.pow(sp['m_max'] / sp['m_star'], n_B + 1) -
+      Math.pow(sp['m_max'] / sp['m_star'], n_B))));
+    sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) /
+      (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
+    sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
+      (Math.pow(prop['r_hat'], 2) - 1);
+    sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
+      (Math.pow(prop['r_hat'], 2) - 1);
     sp['omega2'] = sp['alpha'] + sp['beta'] / Math.pow(prop['r2'], 2);
-    sp['V'] = ((sp['m_star'] * Math.log(1 / prop['r_hat'])) / e) * Math.pow(sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc'], 2);
+    sp['V'] = ((sp['m_star'] * Math.log(1 / prop['r_hat'])) / e) * Math.pow(sp['alpha'] * prop['rc'] +
+      sp['beta'] / prop['rc'], 2);
   } else {
     console.log('No setpoint specified.');
   }
@@ -456,15 +480,19 @@ var tfer_charge = function(d, z) {
 }
 
 
-
+var fCharge = 0;
 var parse_fun = function(sp, m, d, prop, fun) {
   var Lambda = Array(m.length),
-      f_charge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
+      tCharge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
   for (ii in m) { // loop over particle mass
     Lambda[ii] = 0 // initialize at zero
     for (zz in z_vec) { // loop over integer charge states
       __left0__ = fun(sp, m[ii], d[ii], z_vec[zz], prop)
-      Lambda[ii] = Lambda[ii] + __left0__[0]
+      if (fCharge==1) {
+         Lambda[ii] = Lambda[ii] + __left0__[0] * tCharge[zz][ii]
+      } else {
+        Lambda[ii] = Lambda[ii] + __left0__[0]
+      }
     }
   }
   return Lambda;
@@ -725,12 +753,15 @@ var xAxis2 = svg.append("g")
   .call(d3.axisTop(x).ticks(0));
 
 // Add Y axis
+var yMax = 1.6,
+    yMin = -0.05;
+
 var y = d3.scaleLinear()
-  .domain([-0.05, 1.6])
+  .domain([yMin, yMax])
   .range([height, 0]);
-svg.append("g")
+var yAxis = svg.append("g")
   .call(d3.axisLeft(y).ticks(5));
-svg.append("g")
+var yAxis2 = svg.append("g")
   .attr("transform", "translate(" + width + ",0)")
   .call(d3.axisRight(y).ticks(0))
 
@@ -993,6 +1024,13 @@ d3.select("#setcpma").on("click", function() {
   updateData(Rm, m_star, prop);
 })
 
+d3.select("#fCharge").on("click", function() {
+  fCharge = 1 - fCharge;
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop)
+})
+
 //------------------------------------------------------------------------//
 // generic data updater
 function updateData(Rm, m_star, prop) {
@@ -1009,7 +1047,7 @@ function updateData(Rm, m_star, prop) {
   // generate a new setpoint
   __left0__ = get_setpoint(prop, 'm_star', m_star, 'Rm', Rm)
   sp = __left0__[0]
-
+  
   // evaulate transfer functions at new conditions
   var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
   var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
@@ -1018,6 +1056,8 @@ function updateData(Rm, m_star, prop) {
     var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
     var Lambda_W1_diff = parse_fun(sp, m_vec, d, prop, tfer_W1_diff)
   }
+  yMax = 1.6 * Math.max(...Lambda_1C);
+  yMin = -0.05 * Math.max(...Lambda_1C);
 
   // generate data vector to be used in updating the plot
   var data = []
@@ -1073,6 +1113,14 @@ document.getElementById('r2num').min = prop['r1'] * 100 + 0.005;
 
 // a generic function that updates the chart -----------------------------//
 function updatePlot(data) {
+
+  y = d3.scaleLinear()
+    .domain([yMin, yMax])
+    .range([height, 0]);
+  yAxis.call(d3.axisLeft(y).ticks(5));
+  yAxis2.attr("transform", "translate(" + width + ",0)")
+    .call(d3.axisRight(y).ticks(0))
+
   // consider 1C case
   d3.select("#l1c")
     .datum(data)
@@ -1181,22 +1229,22 @@ function updatePlot(data) {
 
 // add labels for charge states
 // set the dimensions and margins of the graph
-var margin = {
+var marginl = {
     top: 30,
     right: 1.5,
     bottom: 0,
     left: 45
   },
-  width = 750 - margin.left - margin.right,
-  height = 32 - margin.top - margin.bottom;
+  widthl = 750 - marginl.left - marginl.right,
+  heightl = 32 - marginl.top - marginl.bottom;
 
 // append the svg object to the body of the page
 var svg3 = d3.select("#myz")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
+  .attr("width", widthl + marginl.left + marginl.right)
+  .attr("height", heightl + marginl.top + marginl.bottom)
   .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("transform", "translate(" + marginl.left + "," + marginl.top + ")");
 var xAxis3 = svg3.append("g")
   .call(d3.axisTop(x).tickValues([1, 2, 3]))
 
