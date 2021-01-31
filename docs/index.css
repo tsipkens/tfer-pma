@@ -1,9 +1,21 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Pacifico&family=Open+Sans:wght@300;400;500;600&family=Roboto:wght@300&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: auto 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
-  font-size: 10pt;
+  font-weight: 200;
+  font-size: 12pt;
 }
 
 b {
@@ -12,79 +24,126 @@ b {
   font-weight: 600;
 }
 
+p {
+  text-align: justify;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin: 0px;
+}
+
 h1 {
+  font-size: 40pt;
+  line-height: 45pt;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  margin-top: 90px;
+  margin-bottom: 50px;
   text-align: center;
-  font-size: 30px;
+}
+
+h3 {
+  padding-bottom:10px;
 }
 
 a {
-  color: #C90334;
-  text-decoration: none;
+  color: #222222;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: #E81F7B;
 }
 
 /*  For navigation */
-.nav {
+header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #FAFAFA;
-  list-style: none;
   margin: 0px;
   padding: 0px;
   border-bottom: 1px solid #DDDDDD;
-  position: fixed;
-  width: 100%;
   font-size: 10pt;
+  z-index: 20;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
 }
 
-.nav li {
-  text-align: right;
-  display: block;
-  padding: 20px;
+.nav-list {
+  list-style: none;
 }
 
-.nav li:first-child {
-  margin-right: auto;
-  text-align: left;
+.nav-list li {
+  display: inline-block;
+  padding: 0.5% 10px;
 }
 
-.nav li a {
-  color: #666666;
+.nav-link {
   text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease 0s;
+  font-weight: 400;
+  top: -500px;
 }
 
-.nav li a:hover {
-  color: #444444;
+.nav-link:hover {
+  color: #E81F7B;
+}
+
+a.anchor {
+  display: block;
+  position: relative;
+  top: -60px;
+  visibility: hidden;
+}
+
+div.footer {
+  background-color: #FAFAFA;
+  margin-top: 30px;
+  padding-top: 30px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  border-top: 1px solid #DDDDDD;
+}
+
+#data-link-a img:nth-child(2) {
+  display: none;
+}
+#data-link-a:hover img:nth-child(2) {
+  display: block;
+}
+#data-link-a:hover img:first-child {
+  display: none;
 }
 
 #img1 {
   /* formatting for image below title */
-  width=: 90%;
-  max-width: 230px;
+  width: 100%;
+  max-width: 240px;
   display: block;
+  padding-bottom: 45px;
   margin-left: auto;
   margin-right: auto;
-  padding-bottom: 45px;
 }
 
 /* For main components */
 div.main {
   margin: 0 auto;
   width: 95%;
-  max-width: 750px;
+  max-width: 900px;
   padding-top: 50px;
   padding-bottom: 50px
 }
 
-div.footer {
-  background-color: #FAFAFA;
-  border-top: 1px solid #DDDDDD;
-}
-
 div.control {
   padding-bottom: 5px;
+}
+
+.textinput {
+  width: 60px;
+  height: 15px;
 }
 
 /* for red slider */
@@ -138,7 +197,6 @@ input[type=checkbox].cbZ {
 
 .cbZ:checked + label:before {
   content: '\2714 ';
-  font-size: 10px;
 }
 
 .cbZ + label {
@@ -146,16 +204,18 @@ input[type=checkbox].cbZ {
   border: 1px solid #CECECE;
   padding: 0px;
   padding-bottom: 1px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin: 2px;
-  border-radius: 3px;
+  height: 25px;
+  border-radius: 25px;
+  width: 900px;
 }
 
 .cbZ + label:before {
   content: '\2714 ';
   color: #FFFFFF;
-  font-size: 10px;
+  font-size: 10pt;
 }
 
 input[type=checkbox].fCharge {
