@@ -1,13 +1,21 @@
 
-# Python tools for PMA transfer function evaluation (py-tfer-pma)
+# Tools for PMA transfer function evaluation
+
+**Available languages:** *Matlab*, *Python*, *Javscript*
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
-The attached python functions evaluate the transfer function of particle mass analyzers (PMAs), including the centrifugal particle mass analyzer (CPMA) and aerosol particle mass analyzer (APM). This is primarily done using a novel set of expressions derived from particle tracking methods, information for which is given in an associated paper [(Sipkens, Olfert, and Rogak, 2020a)][ast20]. Further information on the different methods in this program is given as header information for each function.
+The attached code evaluates the transfer function of particle mass analyzers (PMAs), including the centrifugal particle mass analyzer (CPMA) and aerosol particle mass analyzer (APM), in multiple languages, including Python and Javascript (used to build a web app). This is primarily done using a novel set of expressions derived from particle tracking methods, information for which is given in an associated paper [(Sipkens, Olfert, and Rogak, 2020a)][ast20]. Further information on the different methods in this program is given as header information for each function.
 
-This repository is intended to mirror the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. 
+This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) as a submodule, which incorporates a Matlab version from a separate repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. What follows mostly pertains to the Python version available in this code. 
 
 **NOTE**: A web demonstration of these functions is available [here](https://tsipkens.github.io/py-tfer-pma/), with the source code provided in the `docs/` folder. 
+
+## MATLAB VERSION
+
+As noted above, see  [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma), included as a submodule in the `matlab\` folder. 
+
+## PYTHON VERSION
 
 ### Dependencies
 
