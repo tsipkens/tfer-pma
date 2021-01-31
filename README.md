@@ -7,22 +7,22 @@
 
 The attached code evaluates the transfer function of particle mass analyzers (PMAs), including the centrifugal particle mass analyzer (CPMA) and aerosol particle mass analyzer (APM), in multiple languages, including Python and Javascript (used to build a web app). This is primarily done using a novel set of expressions derived from particle tracking methods, information for which is given in an associated paper [(Sipkens, Olfert, and Rogak, 2020a)][ast20]. Further information on the different methods in this program is given as header information for each function.
 
-This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) as a submodule, which incorporates a Matlab version from a separate repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. What follows mostly pertains to the Python version available in this code. 
+This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) as a submodule, which incorporates a Matlab version from a separate repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. What follows mostly pertains to the Python version available in this code.
 
-**NOTE**: A web demonstration of these functions is available [here](https://tsipkens.github.io/py-tfer-pma/), with the source code provided in the `docs/` folder. 
+**NOTE**: A web demonstration of these functions is available [here](https://tsipkens.github.io/tfer-pma/), with the source code provided in the `docs/` folder.
 
 ## MATLAB VERSION
 
-As noted above, see  [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma), included as a submodule in the `matlab\` folder. 
+As noted above, see  [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma), included as a submodule in the `matlab\` folder.
 
 ## PYTHON VERSION
 
 ### Dependencies
 
-This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed. 
+This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed.
 
 ### A simple demonstration
-**NOTE**: This demonstration is also included as a Jupyter Notebook at [main.ipynb](https://github.com/tsipkens/py-tfer-pma/blob/master/main.ipynb). Only very minor differences exist between that implementation and the one presented below (e.g. outputting the setpoint dictionary using the json package).
+**NOTE**: This demonstration is also included as a Jupyter Notebook at [main.ipynb](https://github.com/tsipkens/tfer-pma/blob/master/py/main.ipynb). Only very minor differences exist between that implementation and the one presented below (e.g. outputting the setpoint dictionary using the json package).
 
 To start, import the numpy library and, since we will be plotting data, the matplotlib.pyplot module,
 
@@ -54,7 +54,7 @@ Next, generate a dictionary that contains the properties of the particle mass an
 ```Python
 prop = tfer_pma.prop_pma() # get default PMA properties
 
-# Modify some of the properties, 
+# Modify some of the properties,
 # in this case for the mass-mobility relation.
 rho_eff = 900; # effective density
 prop['rho0'] = rho_eff * np.pi / 6; # only used to find Rm
@@ -73,27 +73,27 @@ Now we generate a setpoint dictionary. This quantity is crucial in this program,
 sp,_ = tfer_pma.get_setpoint(prop, 'm_star', m_star, 'Rm', 10)
 ```
 
-The output dictionary will also contain information like the voltage, `sp['V']`; angular speeds of the inner and outer electrodes, `sp['omega1']` and `sp['omega2']`, respectively; among other relevant properties. One can also use other pairings, such as specifying the voltage and centerline rotation speed: 
+The output dictionary will also contain information like the voltage, `sp['V']`; angular speeds of the inner and outer electrodes, `sp['omega1']` and `sp['omega2']`, respectively; among other relevant properties. One can also use other pairings, such as specifying the voltage and centerline rotation speed:
 
 ```Python
 sp,_ = tfer_pma.get_setpoint(prop, 'V', 24.44, 'omega', 2543.9)
 ```
 
-This should give a similar setpoint to the preceding statement, but specifies the setpoint in a different way. It is worth noting that most combinations of two of these parameters will be sufficient to specify to setpoint, with the exception of combining the rotational speed or voltage with a resolution, which will result in an error. 
+This should give a similar setpoint to the preceding statement, but specifies the setpoint in a different way. It is worth noting that most combinations of two of these parameters will be sufficient to specify to setpoint, with the exception of combining the rotational speed or voltage with a resolution, which will result in an error.
 
-Finally, let's evaluate the transfer function for some of the cases considered in [Sipkens, Olfert, and Rogak (2020a)][ast20]. First, consider **Case 1S**, where the fluid velocity profile is approximated using a 1st-order Taylor series expansion about the equilibrium radius. To do so: 
+Finally, let's evaluate the transfer function for some of the cases considered in [Sipkens, Olfert, and Rogak (2020a)][ast20]. First, consider **Case 1S**, where the fluid velocity profile is approximated using a 1st-order Taylor series expansion about the equilibrium radius. To do so:
 
 ```Python
 Lambda_1S,_ = tfer_pma.tfer_1S(sp, m, d, z, prop)
 ```
 
-Here, `Lambda_1S` will be a numpy array of the same length as `m`. The other expressions from [Sipkens, Olfert, and Rogak (2020a)][ast20] can be realized using different methods from tfer_pma module, generally adopting intuitive names corresponding to the case codes from that work. For example, for **Case 1C**: 
+Here, `Lambda_1S` will be a numpy array of the same length as `m`. The other expressions from [Sipkens, Olfert, and Rogak (2020a)][ast20] can be realized using different methods from tfer_pma module, generally adopting intuitive names corresponding to the case codes from that work. For example, for **Case 1C**:
 
 ```Python
 Lambda_1C,_ = tfer_pma.tfer_1C(sp, m, d, z, prop)
 ```
 
-Adding diffusion to this scenario can be done by adding `_diff` to the end of the method name above: 
+Adding diffusion to this scenario can be done by adding `_diff` to the end of the method name above:
 
 ```Python
 Lambda_1C_diff,_ = tfer_pma.tfer_1C_diff(sp, m, d, z, prop)
@@ -102,14 +102,14 @@ Lambda_1C_diff,_ = tfer_pma.tfer_1C_diff(sp, m, d, z, prop)
 To finish, plot the evaluate transfer functions,, with the result resembling some of the plots in [Sipkens, Olfert, and Rogak (2020a)][ast20]:
 
 ```Python
-# plot the various transfer functions 
+# plot the various transfer functions
 plt.plot(m, Lambda_1S)
 plt.plot(m, Lambda_1C)
 plt.plot(m, Lambda_1C_diff)
 plt.show()
 ```
 
-This sample code is given in the main.py script that is provided with this program. 
+This sample code is given in the main.py script that is provided with this program.
 
 ----------------------------------------------------------------------
 
@@ -127,7 +127,7 @@ This code should be cited by:
 
 1. citing the associated journal article describing the particle tracking methods used in this program [(Sipkens, Olfert, and Rogak, 2020a)][ast20], and
 
-2. optionally citing the code directly (making reference to the GitHub repository at https://github.com/tsipkens/py-tfer-pma).
+2. optionally citing the code directly (making reference to the GitHub repository at https://github.com/tsipkens/tfer-pma).
 
 #### References
 
