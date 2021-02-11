@@ -18,7 +18,9 @@ console.log('m_star = ')
 console.log(m_star)
 console.log(' ')
 
-__left0__ = get_setpoint(prop, 'm_star', m_star, 'Rm', 5)
+sp_var1 = 'm_star';
+sp_var2 = 'Rm';
+__left0__ = get_setpoint(prop, sp_var1, m_star, sp_var2, 5)
 var sp = __left0__[0]
 
 console.log('sp = ')
@@ -57,23 +59,16 @@ if (prop['omega_hat'] == 1) {
 document.getElementById('rhonum').value = rho_eff100
 document.getElementById('Dmnum').value = prop['Dm']
 
-// read resolution and mass setpoint sliders
-var Rmvals = [0.2, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
-
-function displayRmval(val) {
-  document.getElementById('Rmval').value = Rmvals[val - 1];
-}
-displayRmval(document.getElementById('RmSlider').value)
 
 var mvals = [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3,
   0.01, 0.02, 0.05, 0.1, 0.2, 0.5,
   1, 2, 5, 10, 20, 50, 100, 200, 500, 1000
 ]
 
-function displaymval(val) {
-  document.getElementById('mval').value = mvals[val - 1];
+function displaymval() {
+  document.getElementById('mval').value = mvals[document.getElementById('mSlider').value - 1];
 }
-displaymval(document.getElementById('mSlider').value)
+displaymval()
 
 
 // for legend
@@ -380,16 +375,26 @@ if (prop['omega_hat'] == 1) {
 // adjust plot based on controls -----------------------------------------//
 // control for resolution
 d3.select("#RmSlider").on("change", function() {
-  val = this.value
-  Rm = Rmvals[val - 1]
-  m_star = sp['m_star']
+  val1 = parseFloat(this.value)
+  if (val1 <= 0) {
+    console.log(val1)
+    $('#RmSlider').css("border", "2px solid #EE696A");
+    return;
+  }
+  $('#RmSlider').hover(function(){
+    $(this).css("border", "2px solid #9BD6FF");
+    }, function(){
+    $(this).css("border", "2px solid #E3E3E3");
+  });
+  Rm = val1;
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 // control for mass setpoint
 d3.select("#mSlider").on("change", function() {
   val = this.value
   m_star = mvals[val - 1] / 1e18 // include conversion to kg
-  Rm = sp['Rm']
+  Rm = sp[sp_var2]
   updateData(Rm, m_star, prop)
 })
 // control for flow rate
@@ -398,8 +403,8 @@ d3.select("#Qnum").on("change", function() {
   prop['Q'] = val / 1000 / 60
   prop['v_bar'] = prop['Q'] / prop['A']
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 // control for effective density
@@ -407,8 +412,8 @@ d3.select("#rhonum").on("change", function() {
   val = this.value
   rho_eff100 = val // effective density @ 100 nm read from control
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 // control for mass-mobility exponent control
@@ -416,8 +421,8 @@ d3.select("#Dmnum").on("change", function() {
   val = this.value
   prop['Dm'] = val
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 // control for omega ratio
@@ -425,8 +430,8 @@ d3.select("#omegahnum").on("change", function() {
   val = this.value
   prop['omega_hat'] = val
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 
@@ -435,8 +440,8 @@ d3.select("#Lnum").on("change", function() {
   val = this.value
   prop['L'] = val
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 
@@ -455,8 +460,8 @@ d3.select("#r1num").on("change", function() {
   prop = afterRadiusUpdate(prop)
   document.getElementById('r2num').min = prop['r1'] * 100 + 0.005 // prevent overlapping radii
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 // control for r2
@@ -466,8 +471,8 @@ d3.select("#r2num").on("change", function() {
   prop = afterRadiusUpdate(prop)
   document.getElementById('r1num').max = prop['r2'] * 100 - 0.005 // prevent overlapping radii
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 
@@ -482,8 +487,8 @@ function updateZ(data) {
     }
   })
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 }
 d3.selectAll(".cbZ").on("change", updateZ); // when button changes, run function
@@ -504,8 +509,8 @@ d3.select("#setapm").on("click", function() {
   document.getElementById('r1num').max = 10.3 - 0.005
   document.getElementById('r2num').min = 10 + 0.005
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 
@@ -524,21 +529,67 @@ d3.select("#setcpma").on("click", function() {
   document.getElementById('r1num').max = 0.061 * 100 - 0.005
   document.getElementById('r2num').min = 0.06 * 100 + 0.005
 
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop);
 })
 
 d3.select("#fCharge").on("click", function() {
   fCharge = 1 - fCharge;
-  Rm = sp['Rm']
-  m_star = sp['m_star']
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
 
+
+
 //------------------------------------------------------------------------//
-// generic data updater
+// Different setpoint modes.
+d3.select("#sp-mode").on("change", function() {
+  mode = this.value;
+
+  switch (mode) {
+    case "Mass + Resolution":
+      sp_var1 = "m_star"
+      sp_var2 = "Rm"
+      document.getElementById('var1-name').innerHTML = 'Mass setpoint';
+      document.getElementById('var2-name').innerHTML = 'Resolution';
+      document.getElementById('var2-units').innerHTML = '';
+      document.getElementById('RmSlider').value = sp['Rm'].toPrecision(3);
+      break;
+
+    case "Mass + Voltage":
+      sp_var1 = "m_star"
+      sp_var2 = "V"
+      document.getElementById('var1-name').innerHTML = 'Mass setpoint';
+      document.getElementById('var2-name').innerHTML = 'Voltage';
+      document.getElementById('var2-units').innerHTML = 'V';
+      document.getElementById('RmSlider').value = sp['V'].toPrecision(3);
+      break;
+
+    case "Mass + Angular speed":
+      sp_var1 = "m_star"
+      sp_var2 = "omega"
+      document.getElementById('var1-name').innerHTML = 'Mass setpoint';
+      document.getElementById('var2-name').innerHTML = 'Angular speed';
+      document.getElementById('var2-units').innerHTML = 'rad/s';
+      document.getElementById('RmSlider').value = sp['omega'].toFixed(0);
+      break;
+
+  }
+
+  updateData(sp[sp_var2], sp[sp_var1], prop)
+})
+
+
+
+//------------------------------------------------------------------------//
+// Generic data updater.
 function updateData(Rm, m_star, prop) {
+  console.log("var1 = " + sp_var1 + ", " + m_star)
+  console.log("var2 = " + sp_var2 + ", " + Rm)
+  console.log(" ")
+
   m100 = rho_eff100 * (pi * Math.pow(100e-9, 3) / 6) // effective density @ 1 nm
   prop['m0'] = m100 * Math.pow((1 / 100), prop['Dm']) // adjust mass-mobility relation parameters
 
@@ -550,8 +601,12 @@ function updateData(Rm, m_star, prop) {
   }) // gets new mobility diameters using mass-mobility relation
 
   // generate a new setpoint
-  __left0__ = get_setpoint(prop, 'm_star', m_star, 'Rm', Rm)
+  __left0__ = get_setpoint(prop, sp_var1, m_star, sp_var2, Rm)
   sp = __left0__[0]
+
+  console.log("sp = ")
+  console.log(sp)
+  console.log(" ")
 
   // evaulate transfer functions at new conditions
   var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
@@ -590,30 +645,27 @@ function updateData(Rm, m_star, prop) {
   updatePlot(data)
 
   // run on update to display control values in outputs on HTML page
+  updateVals()
+}
+
+// run initallly to get control values and display in outputs on HTML page
+var updateVals = function () {
   document.getElementById('Vval').value = sp['V'].toPrecision(3);
   document.getElementById('Wval').value = sp['omega'].toPrecision(4);
+  document.getElementById('Rmval2').value = sp['Rm'].toPrecision(3);
   document.getElementById('dmval1').value =
     (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval2').value =
     (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval3').value =
     (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
+  document.getElementById('omegahnum').value = prop['omega_hat'];
+  document.getElementById('r1num').value = prop['r1'] * 100;
+  document.getElementById('r1num').max = prop['r2'] * 100 - 0.005;
+  document.getElementById('r2num').value = prop['r2'] * 100;
+  document.getElementById('r2num').min = prop['r1'] * 100 + 0.005;
 }
-
-// run initallly to get control values and display in outputs on HTML page
-document.getElementById('Vval').value = sp['V'].toPrecision(3);
-document.getElementById('Wval').value = sp['omega'].toPrecision(4);
-document.getElementById('dmval1').value =
-  (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
-document.getElementById('dmval2').value =
-  (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
-document.getElementById('dmval3').value =
-  (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
-document.getElementById('omegahnum').value = prop['omega_hat'];
-document.getElementById('r1num').value = prop['r1'] * 100;
-document.getElementById('r1num').max = prop['r2'] * 100 - 0.005;
-document.getElementById('r2num').value = prop['r2'] * 100;
-document.getElementById('r2num').min = prop['r1'] * 100 + 0.005;
+updateVals()
 //------------------------------------------------------------------------//
 
 // a generic function that updates the chart -----------------------------//

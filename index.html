@@ -19,6 +19,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="https://unpkg.com/mathjs/lib/browser/math.js" type="text/javascript"></script>
+
+  <!-- Used for mathematical optimization -->
+  <script src="https://unpkg.com/optimization-js@latest/dist/optimization.js"></script>
+
   <script src="js/tfer_pma.js"></script>
 
   <!-- Load fonts -->
@@ -176,27 +180,45 @@
 
     <h3>Setpoint</h3>
 
-    <!-- Add a slider -->
+    <!-- Add sliders etc. -->
+    <div class="control" id="select-div">
+      <span class="control-label">Setpoint mode </span> <br>
+      <select id="sp-mode">
+        <option>Mass + Resolution</option>
+        <option>Mass + Voltage</option>
+        <option>Mass + Angular speed</option>
+      </select> <br>
+    </div>
+
     <div class="control">
-      <span class="control-label">Mass setpoint </span> <br>
+      <span class="control-label" id="var1-name">Mass setpoint </span>
+      <span class="control-unit">fg</span> <br>
       <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> <br>
-      m* = <output id="mval">-</output> fg
+      m* = <output id="mval">-</output>
     </div>
 
     <div class="control">
-      <span class="control-label">Resolution </span> <br>
-      <input type="range" name="RmSlider" id="RmSlider" min="1" max="14" value="8" onchange="displayRmval(this.value);" class="slider"> <br>
-      R<sub>m</sub> = <output id="Rmval">-</output>
+      <span class="control-label" id="var2-name">Resolution</span>
+      <span class="control-unit" id="var2-units"></span> <br>
+      <input class="textinput" name="RmSlider" id="RmSlider" type="number" value="5" step="0.5" min="0">
+      <!-- <input type="range" name="RmSlider" id="RmSlider" min="1" max="14" value="8" onchange="displayRmval(this.value);" class="slider"> <br> -->
     </div>
 
+    <br>
+
     <div class="control">
-      <span class="control-label">Angular speed </span> <br>
+      <span class="control-label" id="var3-name">Angular speed </span> <br>
       ω = <output id="Wval">-</output> rad/s
     </div>
 
     <div class="control">
-      <span class="control-label">Voltage </span> <br>
+      <span class="control-label" id="var4-name">Voltage </span> <br>
       V = <output id="Vval">-</output> V
+    </div>
+
+    <div class="control">
+      <span class="control-label" id="var5-name">Resolution </span> <br>
+      R<sub>m</sub> = <output id="Rmval2">-</output>
     </div>
 
     <div class="control" style="width:95%;">
