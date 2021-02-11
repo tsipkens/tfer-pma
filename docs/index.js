@@ -58,7 +58,7 @@ document.getElementById('rhonum').value = rho_eff100
 document.getElementById('Dmnum').value = prop['Dm']
 
 // read resolution and mass setpoint sliders
-var Rmvals = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
+var Rmvals = [0.2, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15]
 
 function displayRmval(val) {
   document.getElementById('Rmval').value = Rmvals[val - 1];
@@ -95,10 +95,10 @@ svg_legend.append("text")
   .text("Case 1S (Ehara et al., Olfert and Collings)")
   .attr("alignment-baseline", "middle")
 d1s = [{
-  x: 5,
+  x: 0,
   y: 9
 }, {
-  x: 20,
+  x: 18,
   y: 9
 }]
 svg_legend.append("path")
@@ -119,10 +119,10 @@ svg_legend.append("text")
   .text("Case 1C (Recommended over Case 1S)")
   .attr("alignment-baseline", "middle")
 d1c = [{
-  x: 5,
+  x: 0,
   y: 29
 }, {
-  x: 20,
+  x: 18,
   y: 29
 }]
 svg_legend.append("path")
@@ -142,10 +142,10 @@ svg_legend.append("text")
   .attr("x", 25).attr("y", 50)
   .text("Case 1C + Diffusion").attr("alignment-baseline", "middle")
 d1c_diff = [{
-  x: 5,
+  x: 0,
   y: 49
 }, {
-  x: 20,
+  x: 18,
   y: 49
 }]
 svg_legend.append("path")
@@ -166,10 +166,10 @@ svg_legend.append("text")
   .attr("x", 25).attr("y", 70)
   .text("Case W1 (Only when ω2/ω1 = 1, where it is exact)").attr("alignment-baseline", "middle")
 d1c_diff = [{
-  x: 5,
+  x: 0,
   y: 69
 }, {
-  x: 20,
+  x: 18,
   y: 69
 }]
 svg_legend.append("path")
@@ -189,10 +189,10 @@ svg_legend.append("text")
   .attr("x", 25).attr("y", 90)
   .text("Case W1 + Diffusion (Only when ω2/ω1 = 1)").attr("alignment-baseline", "middle")
 d1c_diff = [{
-  x: 5,
+  x: 0,
   y: 89
 }, {
-  x: 20,
+  x: 18,
   y: 89
 }]
 svg_legend.append("path")
@@ -424,6 +424,16 @@ d3.select("#Dmnum").on("change", function() {
 d3.select("#omegahnum").on("change", function() {
   val = this.value
   prop['omega_hat'] = val
+
+  Rm = sp['Rm']
+  m_star = sp['m_star']
+  updateData(Rm, m_star, prop)
+})
+
+// control for length of classifier
+d3.select("#Lnum").on("change", function() {
+  val = this.value
+  prop['L'] = val
 
   Rm = sp['Rm']
   m_star = sp['m_star']

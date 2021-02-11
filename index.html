@@ -69,13 +69,10 @@
     <p align="justify">
       <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
       when ω<sub>2</sub>/ω<sub>1</sub> = 1, e.g.,
-      <a href="#my_dataviz" id="setapm">this point</a>.
-    </p>
-
-    <p align="justify">
+      <a href="#hgraphic" id="setapm">this point</a>.
       Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
       are achieved when ω<sub>2</sub>/ω<sub>1</sub> = 0.9696, e.g.,
-      <a href="#my_dataviz" id="setcpma">this point</a>.
+      <a href="#hgraphic" id="setcpma">this point</a>.
     </p>
 
     <p align="justify">
@@ -93,64 +90,74 @@
         <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
     </p>
 
+
     <h3>Legend</h3>
     <div id="my_legend"></div>
+
 
     <h3>Properties</h3>
 
     <div class="control">
-      <b>Flow rate </b> |
-      Q =
+      <span class="control-label">Inner radius</span>
+      <span class="control-unit">cm</span> <br>
+      <input class="textinput" id="r1num" type="number" min="1" max="20" step="0.01" value="0">
+    </div>
+    <div class="control">
+      <span class="control-label">Outer radius</span>
+      <span class="control-unit">cm</span> <br>
+      <input class="textinput" id="r2num" type="number" min="1" max="20" step="0.01" value="0">
+    </div>
+
+    <div class="control">
+      <span class="control-label">Length</span>
+      <span class="control-unit">cm</span> <br>
+      <input class="textinput" id="Lnum" type="number" value="20" min="1">
+    </div>
+
+    <br>
+
+    <div class="control">
+      <span class="control-label">Flow rate</span>
+      <span class="control-unit">LPM</span> <br>
       <input class="textinput" id="Qnum" type="number" min="0.5" max="100" step="0.1" value="3">
-      LPM
     </div>
 
     <div class="control">
-      <b>Radii </b> |
-      r<sub>1</sub> =
-      <input class="textinput" id="r1num" type="number" min="1" max="20" step="0.01" value="0"> cm |
-      r<sub>2</sub> =
-      <input class="textinput" id="r2num" type="number" min="1" max="20" step="0.01" value="0"> cm
+      <span class="control-label">ω<sub>2</sub>/ω<sub>1</sub></span> <br>
+      <input class="textinput" id="omegahnum" type="number" min="0.5" max="1.1" step="0.001" value="0"> <br>
+      <span class="control-unit" style="line-height:10pt"></span>
     </div>
 
     <div class="control">
-      <b>Length </b> |
-      L = 20 cm
+      <span class="control-label">D<sub>m</sub></span> <br>
+      <input class="textinput" id="Dmnum" type="number" min="0.1" max="4" step="0.05" value="0.1">
     </div>
 
     <div class="control">
-      <b>Ratio of angular speeds </b>
-      | ω<sub>2</sub>/ω<sub>1</sub> =
-      <input class="textinput" id="omegahnum" type="number" min="0.5" max="1.1" step="0.001" value="0">
-      <span style="color:#CCCCCC">| (APM when ω<sub>2</sub>/ω<sub>1</sub> = 1) </span>
-    </div>
-
-    <div class="control">
-      <b>Mass-mobility relation </b> |
-      Exponent, D<sub>m</sub> =
-      <input class="textinput" id="Dmnum" type="number" min="0.1" max="4" step="0.05" value="0.1"> |
-      Effective density @ d<sub>m</sub> = 100 nm, ρ<sub>eff,100</sub> =
+      <span class="control-label">ρ<sub>eff,100</sub></span>
+      <span class="control-unit">kg/m³</span> <br>
       <input class="textinput" id="rhonum" type="number" min="20" max="1e4" step="20" value="20">
-      kg/m³
     </div>
 
-    <div style="margin-bottom:10px;">
-      <b>Integer charge states </b> |
+    <br>
+
+    <div class="control">
+      <span class="control-label">Integer charge states </span> <br>
 
       <input type="checkbox" class="cbZ" id="cbZ0" value="0" unchecked>
       <label class="cb" for="cbZ0">
         Uncharged
-      </label> |
+      </label> <br>
 
       <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
       <label class="cb" for="cbZ1">
         z = 1
-      </label> |
+      </label> <br>
 
       <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
       <label class="cb" for="cbZ2">
         z = 2
-      </label> |
+      </label> <br>
 
       <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
       <label class="cb" for="cbZ3">
@@ -158,46 +165,48 @@
       </label>
     </div>
 
-    <div style="margin-bottom:10px;">
-      <b>Include charging? </b> |
+    <div class="control">
+      <span class="control-label">Include charging? </span> <br>
+      <span class="control-unit">Wiedensohler, z = 3 <br> Gopalakrishnan, z < 3</span> <br>
       <input type="checkbox" class="fCharge" id="fCharge" value="0" unchecked>
-      <label class="cb" for="fCharge"></label>
-      <span style="color:#CCCCCC">
-        | (Wiedensohler for z > 2 | Gopalakrishnan for z < 3)
-      </span>
+      <label class="cb" for="fCharge"></label> <br>
     </div>
 
     <h3>Setpoint</h3>
 
     <!-- Add a slider -->
     <div class="control">
-      <b>Mass setpoint </b> |
-      <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> |
+      <span class="control-label">Mass setpoint </span> <br>
+      <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> <br>
       m* = <output id="mval">-</output> fg
     </div>
 
     <div class="control">
-      <b>Resolution </b> |
-      <input type="range" name="RmSlider" id="RmSlider" min="1" max="13" value="7" onchange="displayRmval(this.value);" class="slider"> |
+      <span class="control-label">Resolution </span> <br>
+      <input type="range" name="RmSlider" id="RmSlider" min="1" max="14" value="8" onchange="displayRmval(this.value);" class="slider"> <br>
       R<sub>m</sub> = <output id="Rmval">-</output>
     </div>
 
     <div class="control">
-      <b>Voltage </b> |
-      V = <output id="Vval">-</output> V
-    </div>
-
-    <div class="control">
-      <b>Angular speed </b> |
+      <span class="control-label">Angular speed </span> <br>
       ω = <output id="Wval">-</output> rad/s
     </div>
 
     <div class="control">
-      <b>Mobility diameter </b> |
-      d<sub>m</sub> @ m* = <output id="dmval1">-</output> nm |
-      d<sub>m</sub> @ 2m* = <output id="dmval2">-</output> nm |
-      d<sub>m</sub> @ 3m* = <output id="dmval3">-</output> nm
+      <span class="control-label">Voltage </span> <br>
+      V = <output id="Vval">-</output> V
     </div>
+
+    <div class="control" style="width:95%;">
+      <span class="control-label">Mobility diameter </span> <br>
+      <span>d<sub>m</sub> @ m* = <output id="dmval1">-</output> nm</span> |
+      <span>d<sub>m</sub> @ 2m* = <output id="dmval2">-</output> nm</span> |
+      <span>d<sub>m</sub> @ 3m* = <output id="dmval3">-</output> nm</span>
+    </div>
+
+
+    <a class="anchor" id="hgraphic"></a>
+
 
     <div id="myz" style="margin-top:10px;"></div>
 
