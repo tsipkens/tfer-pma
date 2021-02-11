@@ -141,27 +141,51 @@ var get_setpoint = function(prop) {
 };
 
 var get_resolution = function(m_star, omega, prop) {
-  print('Finding resolution...');
+  console.log('Finding resolution...');
   var n_B = get_nb(m_star, prop);
   var __left0__ = mp2zp(m_star, 1, prop['T'], prop['p'], prop);
   var B_star = __left0__[0];
   var t0 = prop['Q'] / ((((((m_star * B_star) * 2) * pi) * prop['L']) * Math.pow(omega, 2)) * Math.pow(prop['rc'], 2));
-  var m_rat = (function __lambda__(Rm) {
+  var m_rat = function (Rm) {
     return 1 / Rm + 1;
-  });
-  var fun = (function __lambda__(Rm) {
-    return Math.pow(m_rat(Rm), n_B + 1) - Math.pow(m_rat(Rm), n_B);
-  });
-  var Rm = scipy.optimize.fmin((function __lambda__(Rm) {
-    return Math.pow(t0 - fun(Rm), 2);
-  }), __kwargtrans__({
-    x0: 5
-  }));
-  var Rm = Rm[0];
+  };
+  var fun = function (Rm) {
+    var fun1 = Math.pow(m_rat(Rm), n_B + 1) - Math.pow(m_rat(Rm), n_B);
+    return Math.pow(1e2 * (t0 - fun1), 2);
+  };
+
+  var Rm = optimjs.minimize_Powell(fun, [3.5]);
+  Rm = Rm.argument;
+
+  // Retry if previous method failed with Rm scaled by factors of 10.
+  for (var i = 1; i < 6; i++) {
+    f_retry = false;  // initiate retry
+    if (isNaN(Rm[0])) {
+      f_retry = true;
+    } else if (Rm[0] < 0) {
+      f_retry = true;
+    }
+    mod = Math.pow(10, i)
+    console.log("Retry " + i.toString() + " (for " + mod.toString() + "): " + f_retry)
+    if (f_retry) {
+      var fun = function (Rm) {
+        var fun1 = Math.pow(m_rat(Rm / mod), n_B + 1) - Math.pow(m_rat(Rm / mod), n_B);
+        return Math.pow(1e2 * (t0 - fun1), 2);
+      };
+      var Rm = optimjs.minimize_Powell(fun, [1.5]);
+      Rm = [Rm.argument[0] / mod];
+    } else {
+      break;
+    }
+  }
+
+
+  console.log('Finished. Rm = ')
+  console.log(Rm[0])
+  console.log(' ')
+
   var m_max = m_star * (1 / Rm + 1);
-  print('Complete.');
-  print(' ');
-  return [Rm, m_max];
+  return [Rm[0], m_max];
 };
 
 var get_nb = function(m_star, prop) {
