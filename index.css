@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Pacifico&family=Open+Sans:wght@300;400;500;600&family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Pacifico&family=Open+Sans:wght@300;400;500;600&family=Roboto:wght@700&display=swap');
 
 * {
   padding: 0;
@@ -58,7 +58,7 @@ a {
 }
 
 a:hover {
-  color: #E81F7B;
+  color: #2AADFF;
 }
 
 div.main {
@@ -87,6 +87,14 @@ header {
   width: 100%;
 }
 
+#header-logo {
+  font-family:'Roboto',sans-serif;
+  font-size: 15pt;
+  font-weight: 800;
+  text-decoration: none;
+  padding: 15px 10px 15px 5%;
+}
+
 .nav-list {
   list-style: none;
 }
@@ -111,7 +119,7 @@ header {
 a.anchor {
   display: block;
   position: relative;
-  top: -90px;
+  top: -60px;
   visibility: hidden;
 }
 
