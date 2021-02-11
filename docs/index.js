@@ -499,10 +499,10 @@ d3.select("#setapm").on("click", function() {
   prop['r1'] = 0.1;
   prop['r2'] = 0.103;
   prop = afterRadiusUpdate(prop)
-  document.getElementById('r1num').value = 0.1 * 100
-  document.getElementById('r2num').value = 0.103 * 100
-  document.getElementById('r1num').max = 0.103 * 100 - 0.005
-  document.getElementById('r2num').min = 0.1 * 100 + 0.005
+  document.getElementById('r1num').value = 10
+  document.getElementById('r2num').value = 10.3
+  document.getElementById('r1num').max = 10.3 - 0.005
+  document.getElementById('r2num').min = 10 + 0.005
 
   Rm = sp['Rm']
   m_star = sp['m_star']
