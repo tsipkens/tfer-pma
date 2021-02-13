@@ -154,7 +154,7 @@ div.footer {
 
 
 
-/* For main components */
+/* For control components */
 div.control {
   padding: 0px 30px 5px 0px;
   display: inline-block;
@@ -246,7 +246,7 @@ option {
 
 
 
-/* for red slider */
+/* for blue slider */
 .slider {
   -webkit-appearance: none;
   width: 100%;
