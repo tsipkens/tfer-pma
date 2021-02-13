@@ -88,9 +88,8 @@ header {
 }
 
 #header-logo {
-  font-family:'Open Sans',sans-serif;
-  font-size: 15pt;
-  font-weight: 600;
+  font-family:'Montserrat',sans-serif;
+  font-size: 14pt;
   text-decoration: none;
   padding: 15px 10px 15px 5%;
 }
