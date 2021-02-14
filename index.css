@@ -94,6 +94,13 @@ header {
   padding: 15px 10px 15px 5%;
 }
 
+nav {
+  padding: 10px 5% 10px 0px;
+  text-align: right;
+  width: 60%;
+  vertical-align: center;
+}
+
 .nav-list {
   list-style: none;
 }
@@ -112,7 +119,7 @@ header {
 }
 
 .nav-link:hover {
-  color: #E81F7B;
+  color: #2AADFF;
 }
 
 a.anchor {
