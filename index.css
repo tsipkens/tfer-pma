@@ -204,21 +204,37 @@ div.control {
   font-size: 10pt;
 }
 
-.cb {
-  font-family: 'Open Sans', sans-serif;
-  color: #444;
+div.control label {
+  font-size: 11pt;
 }
 
-.cbZ {
-  height: 10pt;
-  width: 10pt;
-  margin-top: 1pt;
+input[type="checkbox"]{
+  -webkit-appearance: initial;
+  appearance: initial;
+  width: 8.5pt;
+  height: 8.5pt;
+  font-size: 9pt;
+  border: 2px #BBB solid;
+  border-radius: 50%;
+  background: white;
+  position: relative;
+  transition: all 0.3s;
 }
+input[type="checkbox"]:checked {
 
-.fCharge {
-  height: 10pt;
-  width: 10pt;
-  margin-top: 1pt;
+}
+input[type="checkbox"]:checked:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f058"; /* Heres your symbol replacement - this is a tick in Unicode. */
+  color: #2AADFF;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
 }
 
 #select-div {

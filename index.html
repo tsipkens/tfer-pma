@@ -23,6 +23,9 @@
   <!-- Used for mathematical optimization -->
   <script src="https://unpkg.com/optimization-js@latest/dist/optimization.js"></script>
 
+  <!-- Import font awesome icons -->
+  <script src="https://kit.fontawesome.com/58cf1bb60d.js" crossorigin="anonymous"></script>
+
   <script src="js/tfer_pma.js"></script>
 
   <!-- Load fonts -->
@@ -158,23 +161,23 @@
     <div class="control">
       <span class="control-label">Integer charge states </span> <br>
 
-      <input type="checkbox" class="cbZ" id="cbZ0" value="0" unchecked>
       <label class="cb" for="cbZ0">
+        <input type="checkbox" class="cbZ" id="cbZ0" value="0" unchecked>
         Uncharged
       </label> <br>
 
-      <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
       <label class="cb" for="cbZ1">
+        <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
         z = 1
       </label> <br>
 
-      <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
       <label class="cb" for="cbZ2">
+        <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
         z = 2
       </label> <br>
 
-      <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
       <label class="cb" for="cbZ3">
+        <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
         z = 3
       </label>
     </div>
@@ -182,8 +185,9 @@
     <div class="control">
       <span class="control-label">Include charging? </span> <br>
       <span class="control-unit">Wiedensohler, z = 3 <br> Gopalakrishnan, z < 3</span> <br>
-      <input type="checkbox" class="fCharge" id="fCharge" value="0" unchecked>
-      <label class="cb" for="fCharge"></label> <br>
+      <label class="cb" for="fCharge">
+        <input type="checkbox" class="fCharge" id="fCharge" value="0" unchecked>
+      </label> <br>
     </div>
 
     <a class="anchor" id="hgraphic"></a>
