@@ -71,6 +71,12 @@ function displaymval() {
 displaymval()
 
 
+
+var $container = $('#my_dataviz'),
+    width_a = 0.95 * Math.min($container.width(), 870),
+    height_a = $container.height()
+
+
 // for legend
 var margin_legend = {
   top: 0,
@@ -80,21 +86,22 @@ var margin_legend = {
 }
 var svg_legend = d3.select("#my_legend")
   .append("svg")
-  .attr("width", 250 + margin_legend.left + margin_legend.right)
-  .attr("height", 98)
+  .attr("width", width_a + margin_legend.left + margin_legend.right)
+  .attr("height", 110)
   .append("g");
 
 // legend for lines
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 10)
+  .attr("x", 25).attr("y", 12)
   .text("Case 1S (Ehara et al., Olfert and Collings)")
-  .attr("alignment-baseline", "middle")
+  .attr("alignment-baseline", "middle");
+
 d1s = [{
   x: 0,
-  y: 9
+  y: 11
 }, {
   x: 18,
-  y: 9
+  y: 11
 }]
 svg_legend.append("path")
   .datum(d1s)
@@ -110,15 +117,15 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 30)
+  .attr("x", 25).attr("y", 34)
   .text("Case 1C (Recommended over Case 1S)")
   .attr("alignment-baseline", "middle")
 d1c = [{
   x: 0,
-  y: 29
+  y: 33
 }, {
   x: 18,
-  y: 29
+  y: 33
 }]
 svg_legend.append("path")
   .datum(d1c)
@@ -134,14 +141,14 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 50)
+  .attr("x", 25).attr("y", 56)
   .text("Case 1C + Diffusion").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 0,
-  y: 49
+  y: 54
 }, {
   x: 18,
-  y: 49
+  y: 54
 }]
 svg_legend.append("path")
   .datum(d1c_diff)
@@ -158,14 +165,14 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 70)
+  .attr("x", 25).attr("y", 78)
   .text("Case W1 (Only when ω2/ω1 = 1, where it is exact)").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 0,
-  y: 69
+  y: 77
 }, {
   x: 18,
-  y: 69
+  y: 77
 }]
 svg_legend.append("path")
   .datum(d1c_diff)
@@ -181,14 +188,14 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 90)
+  .attr("x", 25).attr("y", 100)
   .text("Case W1 + Diffusion (Only when ω2/ω1 = 1)").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 0,
-  y: 89
+  y: 99
 }, {
   x: 18,
-  y: 89
+  y: 99
 }]
 svg_legend.append("path")
   .datum(d1c_diff)
@@ -211,10 +218,6 @@ svg_legend.append("path")
 
 
 // set the dimensions and margins of the graph
-var $container = $('#my_dataviz'),
-    width_a = 0.95 * Math.min($container.width(), 870),
-    height_a = $container.height()
-
 var margin = {
     top: 0,
     right: 1.5,
@@ -238,8 +241,10 @@ var x = d3.scaleLinear()
   .range([0, width]);
 var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
+  .attr("class", "axis")
   .call(d3.axisBottom(x).ticks(5));
 var xAxis2 = svg.append("g")
+  .attr("class", "axis")
   .call(d3.axisTop(x).ticks(0));
 
 // Add Y axis
@@ -250,9 +255,11 @@ var y = d3.scaleLinear()
   .domain([yMin, yMax])
   .range([height, 0]);
 var yAxis = svg.append("g")
+  .attr("class", "axis")
   .call(d3.axisLeft(y).ticks(5));
 var yAxis2 = svg.append("g")
   .attr("transform", "translate(" + width + ",0)")
+  .attr("class", "axis")
   .call(d3.axisRight(y).ticks(0))
 
 //-- Add axis labels --//

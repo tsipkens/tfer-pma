@@ -36,7 +36,7 @@
 
 <body>
 
-  <header id="navbar">
+  <header id="header">
     <a href="#h1" id="header-logo"><b>tfer-pma</b></a>
     <nav>
       <ul class="nav-list">
@@ -109,7 +109,18 @@
 
 
     <h3>Legend</h3>
-    <div id="my_legend"></div>
+    <div>
+      <!--
+      <div style="display:inline-block;vertical-align:top;padding-right:2px;">
+        <input type="checkbox" class="cbC" id="cbC1" checked> <br>
+        <input type="checkbox" class="cbC" id="cbC2" checked> <br>
+        <input type="checkbox" class="cbC" id="cbC3" checked> <br>
+        <input type="checkbox" class="cbC" id="cbC4" checked> <br>
+        <input type="checkbox" class="cbC" id="cbC5" checked>
+      </div>
+      -->
+      <div style="display:inline-block;width:90%;" id="my_legend"></div>
+    </div>
 
 
     <h3>Properties</h3>
@@ -163,22 +174,22 @@
 
       <label class="cb" for="cbZ0">
         <input type="checkbox" class="cbZ" id="cbZ0" value="0" unchecked>
-        Uncharged
+        <span class="cbspan">Uncharged</span>
       </label> <br>
 
       <label class="cb" for="cbZ1">
         <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
-        z = 1
+        <span class="cbspan">z = 1</span>
       </label> <br>
 
       <label class="cb" for="cbZ2">
         <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
-        z = 2
+        <span class="cbspan">z = 2</span>
       </label> <br>
 
       <label class="cb" for="cbZ3">
         <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
-        z = 3
+        <span class="cbspan">z = 3</span>
       </label>
     </div>
 
@@ -235,11 +246,12 @@
       R<sub>m</sub> = <output id="Rmval2">-</output>
     </div>
 
-    <div class="control" style="width:95%;">
-      <span class="control-label">Mobility diameter </span> <br>
-      <span>d<sub>m</sub> @ m* = <output id="dmval1">-</output> nm</span> |
-      <span>d<sub>m</sub> @ 2m* = <output id="dmval2">-</output> nm</span> |
-      <span>d<sub>m</sub> @ 3m* = <output id="dmval3">-</output> nm</span>
+    <div class="control" style="width:95%;display:inline-block">
+      <span class="control-label" style="padding-bottom:0px;">Mobility diameter @ (m*, 2m*, 3m*) </span>
+      <span class="control-unit"> nm</span> <br>
+      (<output id="dmval1">-</output>,
+      <output id="dmval2">-</output>,
+      <output id="dmval3">-</output>)
     </div>
 
     <div id="myz" style="margin-top:10px;"></div>
@@ -261,7 +273,7 @@
         The analytical transfer functions are given in a journal article:
       </p>
 
-      <p>
+      <p class="ref">
         <a href="https://doi.org/10.1080/02786826.2019.1680794">
           T. A. Sipkens, J. S. Olfert, S. N. Rogak.
           <i>Aerosol Science and Technology</i>. (2020).
@@ -276,5 +288,23 @@
   </div>
 
 </body>
+
+<script>
+
+// When the user scrolls down 50px from the top of the document, reformat header
+window.onscroll = function() {
+  scrollFunction()
+};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 60) {
+    document.getElementById("header").style.boxShadow = "0px 0px 4px #AAA";
+  } else {
+    document.getElementById("header").style.boxShadow = "none";
+  }
+}
+
+</script>
+
 
 </html>

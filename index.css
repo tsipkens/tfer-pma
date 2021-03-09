@@ -76,15 +76,18 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FAFAFA;
+  background-color: white;
   margin: 0px;
   padding: 0px;
-  border-bottom: 1px solid #DDDDDD;
   font-size: 10pt;
   z-index: 20;
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
+  position: fixed;
+  /* Set the navbar to fixed position */
+  top: 0;
+  /* Position the navbar at the top of the page */
   width: 100%;
+  box-shadow: white;
+  transition: 0.3s;
 }
 
 #header-logo {
@@ -129,7 +132,7 @@ a.anchor {
   visibility: hidden;
 }
 
-div.footer {
+.footer {
   background-color: #FAFAFA;
   margin-top: 30px;
   padding-top: 30px;
@@ -138,6 +141,23 @@ div.footer {
   border-top: 1px solid #DDDDDD;
   font-size: 11pt;
 }
+
+.ref {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px;
+  padding-left: 10px;
+  color: #EEE;
+  border-left: solid #CCC 2px;
+  color: #777;
+}
+
+.ref:hover {
+  color: var(--a0);
+  transition: ease 0.3s;
+  border-left: solid #9BD6FF 2px;
+}
+
 
 #data-link-a img:nth-child(2) {
   display: none;
@@ -206,19 +226,21 @@ div.control {
 
 div.control label {
   font-size: 11pt;
+  cursor: pointer;
 }
 
 input[type="checkbox"]{
   -webkit-appearance: initial;
   appearance: initial;
-  width: 8.5pt;
-  height: 8.5pt;
-  font-size: 9pt;
-  border: 2px #BBB solid;
+  width: 9pt;
+  height: 9pt;
+  font-size: 10pt;
+  border: 1.5px #BBB solid;
   border-radius: 50%;
   background: white;
   position: relative;
   transition: all 0.3s;
+  cursor: pointer;
 }
 input[type="checkbox"]:checked {
 
@@ -235,6 +257,11 @@ input[type="checkbox"]:checked:after {
   -moz-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
+}
+
+.cbC {
+  padding: 0px;
+  margin: 0px;
 }
 
 #select-div {
@@ -279,6 +306,7 @@ option {
   outline: none;
   -webkit-transition: .2s;
   transition: all .2s;
+  cursor: pointer;
 }
 
 .slider::-webkit-slider-thumb {
@@ -298,4 +326,12 @@ option {
   border-radius: 50%;
   background: #2AADFF;
   cursor: pointer
+}
+
+
+/* For plot elements */
+.axis {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 10pt;
+  font-weight: 200;
 }
