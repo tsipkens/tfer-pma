@@ -9,7 +9,7 @@ The attached code evaluates the transfer function of particle mass analyzers (PM
 
 This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) as a submodule, which incorporates a Matlab version from a separate repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. What follows mostly pertains to the Python version available in this code.
 
-**NOTE**: A web demonstration of these functions is available [here](https://tsipkens.github.io/tfer-pma/), with the source code provided in the `docs/` folder.
+A web app demonstrating these functions is available at [https://tsipkens.github.io/tfer-pma](https://tsipkens.github.io/tfer-pma/), with the source code provided in the `docs/` folder.
 
 ## MATLAB VERSION
 
@@ -110,6 +110,10 @@ plt.show()
 ```
 
 This sample code is given in the main.py script that is provided with this program.
+
+## JAVASCRIPT VERSION
+
+A javascript version is also available, supporting the web app at https://tsipkens.github.io/tfer-pma. That code is structured similarily to the other versions described above. 
 
 ----------------------------------------------------------------------
 
