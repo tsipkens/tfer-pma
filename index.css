@@ -59,7 +59,7 @@ a {
 }
 
 a:hover {
-  color: #2AADFF;
+  color: #48DEB1;
 }
 
 div.main {
@@ -112,6 +112,7 @@ nav {
 .nav-list li {
   display: inline-block;
   padding: 0.5% 10px;
+  vertical-align: middle;
 }
 
 .nav-link {
@@ -123,7 +124,7 @@ nav {
 }
 
 .nav-link:hover {
-  color: #2AADFF;
+  color: #48DEB1;
 }
 
 a.anchor {
@@ -156,7 +157,7 @@ a.anchor {
 .ref:hover {
   color: var(--a0);
   transition: ease 0.3s;
-  border-left: solid #9BD6FF 2px;
+  border-left: solid #48DEB1 2px;
 }
 
 
@@ -204,11 +205,11 @@ div.control {
 }
 
 .textinput:hover {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #48DEB1;
 }
 
 .textinput:focus {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #48DEB1;
 }
 
 .control-label {
@@ -249,8 +250,8 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked:after {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
-  content: "\f058"; /* Heres your symbol replacement - this is a tick in Unicode. */
-  color: #2AADFF;
+  content: "\f058"; /* tick unicode. */
+  color: #48DEB1;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -282,11 +283,11 @@ select {
 }
 
 select:hover {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #48DEB1;
 }
 
 select:focus {
-  border: 2px solid #9BD6FF;
+  border: 2px solid #48DEB1;
 }
 
 option {
@@ -317,7 +318,7 @@ option {
   height: 11pt;
   border-radius: 50%;
   border: 1pt solid white;
-  background: #2AADFF;
+  background: #48DEB1;
   cursor: pointer;
 }
 
@@ -325,7 +326,7 @@ option {
   width: 11pt;
   height: 11pt;
   border-radius: 50%;
-  background: #2AADFF;
+  background: #48DEB1;
   cursor: pointer
 }
 

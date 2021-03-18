@@ -65,6 +65,11 @@ var mvals = [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3,
   1, 2, 5, 10, 20, 50, 100, 200, 500, 1000
 ]
 
+// Define color scheme.
+var colors = ["#2525C6", "#FFBE0B", "#222222", "#D64161"];  // original
+var colors = ["#03C9A5", "#1E3778", "#222222", "#DD393A"];  // new
+var colors = ["#1E2978", "#48DEB1", "#222222", "#DD393A"];  // new
+
 function displaymval() {
   document.getElementById('mval').value = mvals[document.getElementById('mSlider').value - 1];
 }
@@ -106,8 +111,8 @@ d1s = [{
 svg_legend.append("path")
   .datum(d1s)
   .attr("fill", "none")
-  .attr("stroke", "#2525C6")
-  .attr("stroke-width", 2)
+  .attr("stroke", colors[0])
+  .attr("stroke-width", 2.75)
   .attr("d", d3.line()
     .x(function(d) {
       return d.x;
@@ -130,8 +135,8 @@ d1c = [{
 svg_legend.append("path")
   .datum(d1c)
   .attr("fill", "none")
-  .attr("stroke", "#FFBE0B")
-  .attr("stroke-width", 2)
+  .attr("stroke", colors[1])
+  .attr("stroke-width", 2.75)
   .attr("d", d3.line()
     .x(function(d) {
       return d.x;
@@ -153,9 +158,9 @@ d1c_diff = [{
 svg_legend.append("path")
   .datum(d1c_diff)
   .attr("fill", "none")
-  .attr("stroke", "#222222")
+  .attr("stroke", colors[2])
   .attr('stroke-dasharray', "4 2")
-  .attr("stroke-width", 2)
+  .attr("stroke-width", 2.75)
   .attr("d", d3.line()
     .x(function(d) {
       return d.x;
@@ -177,8 +182,8 @@ d1c_diff = [{
 svg_legend.append("path")
   .datum(d1c_diff)
   .attr("fill", "none")
-  .attr("stroke", "#d64161")
-  .attr("stroke-width", 1)
+  .attr("stroke", colors[3])
+  .attr("stroke-width", 1.0)
   .attr("d", d3.line()
     .x(function(d) {
       return d.x;
@@ -200,9 +205,9 @@ d1c_diff = [{
 svg_legend.append("path")
   .datum(d1c_diff)
   .attr("fill", "none")
-  .attr("stroke", "#d64161")
+  .attr("stroke", colors[3])
   .attr('stroke-dasharray', "4 2")
-  .attr("stroke-width", 1)
+  .attr("stroke-width", 1.0)
   .attr("d", d3.line()
     .x(function(d) {
       return d.x;
@@ -234,6 +239,12 @@ var svg = d3.select("#my_dataviz")
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  //-- Add background rectangle --//
+  svg.append("rect")
+    .attr("width", "100%")
+    .attr("height", height)
+    .attr("fill", "#FFF");
 
 // Add X axis
 var x = d3.scaleLinear()
@@ -303,8 +314,8 @@ svg.append("path")
   .datum(data)
   .attr("id", "l1c")
   .attr("fill", "none")
-  .attr("stroke", "#FFBE0B")
-  .attr("stroke-width", 2)
+  .attr("stroke", colors[1])
+  .attr("stroke-width", 2.75)
   .attr("d", d3.line()
     .x(function(d) {
       return x(d.x)
@@ -318,8 +329,8 @@ svg.append("path")
   .datum(data)
   .attr("id", "l1s")
   .attr("fill", "none")
-  .attr("stroke", "#2525C6")
-  .attr("stroke-width", 2)
+  .attr("stroke", colors[0])
+  .attr("stroke-width", 2.75)
   .attr("d", d3.line()
     .x(function(d) {
       return x(d.x)
@@ -333,9 +344,9 @@ svg.append("path")
   .datum(data)
   .attr("id", "l1cd")
   .attr("fill", "none")
-  .attr("stroke", "#222222")
+  .attr("stroke", colors[2])
   .attr('stroke-dasharray', "4 2")
-  .attr("stroke-width", 2)
+  .attr("stroke-width", 2.75)
   .attr("d", d3.line()
     .x(function(d) {
       return x(d.x)
@@ -350,8 +361,8 @@ if (prop['omega_hat'] == 1) {
     .datum(data)
     .attr("id", "lw1")
     .attr("fill", "none")
-    .attr("stroke", "#d64161")
-    .attr("stroke-width", 1)
+    .attr("stroke", colors[3])
+    .attr("stroke-width", 1.0)
     .attr("d", d3.line()
       .x(function(d) {
         return x(d.x)
@@ -365,9 +376,9 @@ if (prop['omega_hat'] == 1) {
     .datum(data)
     .attr("id", "lw1d")
     .attr("fill", "none")
-    .attr("stroke", "#d64161")
+    .attr("stroke", colors[3])
     .attr('stroke-dasharray', "4 2")
-    .attr("stroke-width", 1)
+    .attr("stroke-width", 1.0)
     .attr("d", d3.line()
       .x(function(d) {
         return x(d.x)
@@ -733,8 +744,8 @@ function updatePlot(data) {
         .datum(data)
         .attr("id", "lw1")
         .attr("fill", "none")
-        .attr("stroke", "#d64161")
-        .attr("stroke-width", 1)
+        .attr("stroke", colors[3])
+        .attr("stroke-width", 1.0)
         .attr("d", d3.line()
           .x(function(d) {
             return x(d.x)
@@ -747,9 +758,9 @@ function updatePlot(data) {
         .datum(data)
         .attr("id", "lw1d")
         .attr("fill", "none")
-        .attr("stroke", "#d64161")
+        .attr("stroke", colors[3])
         .attr('stroke-dasharray', "4 2")
-        .attr("stroke-width", 1)
+        .attr("stroke-width", 1.0)
         .attr("d", d3.line()
           .x(function(d) {
             return x(d.x)
@@ -789,6 +800,8 @@ function updatePlot(data) {
     }
   }
 }
+updatePlot(data);  // run the plot update initially
+
 
 
 // add labels for charge states
@@ -820,7 +833,7 @@ svg3.append("circle")
   .attr("r", 11)
   .style("fill", "#ededed")
   .attr("stroke", "black")
-  .attr("stroke-width", 1.2)
+  .attr("stroke-width", 1.0)
 svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(1) + ',-14)')
@@ -834,7 +847,7 @@ svg3.append("circle")
   .attr("r", 11)
   .style("fill", "#ededed")
   .attr("stroke", "black")
-  .attr("stroke-width", 1.2)
+  .attr("stroke-width", 1.0)
 svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(2) + ',-14)')
@@ -848,7 +861,7 @@ svg3.append("circle")
   .attr("r", 11)
   .style("fill", "#ededed")
   .attr("stroke", "black")
-  .attr("stroke-width", 1.2)
+  .attr("stroke-width", 1.0)
 svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(3) + ',-14)')
