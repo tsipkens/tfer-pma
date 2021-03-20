@@ -91,7 +91,7 @@ var margin_legend = {
 }
 var svg_legend = d3.select("#my_legend")
   .append("svg")
-  .attr("width", width_a + margin_legend.left + margin_legend.right)
+  .attr("width", width_a - margin_legend.left - margin_legend.right)
   .attr("height", 110)
   .append("g");
 
@@ -240,11 +240,11 @@ var svg = d3.select("#my_dataviz")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  //-- Add background rectangle --//
-  svg.append("rect")
-    .attr("width", "100%")
-    .attr("height", height)
-    .attr("fill", "#FFF");
+//-- Add background rectangle --//
+svg.append("rect")
+  .attr("width", "100%")
+  .attr("height", height)
+  .attr("fill", "#FFF");
 
 // Add X axis
 var x = d3.scaleLinear()
