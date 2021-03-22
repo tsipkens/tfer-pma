@@ -184,13 +184,15 @@ a.anchor {
 
 #img1 {
   /* formatting for image below title */
-  max-height: 200px;
+  width: 100%;
+  max-width: 464px;
   display: inline;
 }
 
 #img2 {
   /* formatting for image below title */
-  max-height: 200px;
+  width: 65.4%;
+  max-width: 303px;
   display: inline;
 }
 

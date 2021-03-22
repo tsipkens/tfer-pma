@@ -559,6 +559,17 @@ d3.select("#fCharge").on("click", function() {
   updateData(Rm, m_star, prop)
 })
 
+// Define variable for broader scope.
+// Flag for wheter to plot Case 1S.
+var f1S = true
+d3.select("#f1S").on("click", function() {
+  f1S = document.getElementById('f1S').checked
+  Rm = sp[sp_var2]
+  m_star = sp[sp_var1]
+  updateData(Rm, m_star, prop)
+})
+
+
 
 
 //------------------------------------------------------------------------//
@@ -710,17 +721,42 @@ function updatePlot(data) {
     )
 
   // consider 1S case
-  d3.select("#l1s")
-    .datum(data)
-    .transition()
-    .attr("d", d3.line()
-      .x(function(d) {
-        return x(d.x)
-      })
-      .y(function(d) {
-        return y(d.ys)
-      })
-    )
+  console.log('f1S')
+  console.log(f1S)
+  if (f1S) {
+    if (d3.select("#l1s").empty()) {
+      svg.append("path")
+        .datum(data)
+        .attr("id", "l1s")
+        .attr("fill", "none")
+        .attr("stroke", colors[0])
+        .attr("stroke-width", 2.75)
+        .attr("d", d3.line()
+          .x(function(d) {
+            return x(d.x)
+          })
+          .y(function(d) {
+            return y(0 * d.ys)
+          })
+        )
+      }
+      d3.select("#l1s")
+        .datum(data)
+        .transition()
+        .attr("d", d3.line()
+          .x(function(d) {
+            return x(d.x)
+          })
+          .y(function(d) {
+            return y(d.ys)
+          })
+        )
+    } else { // remove line if w2/w1 is no longer unity
+      if (!(d3.select("#l1s").empty())) {
+        d3.select("#l1s").remove();
+        console.log(3)
+      }
+    }
 
   // consider 1C diffusing case
   d3.select("#l1cd")
