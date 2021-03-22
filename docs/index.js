@@ -1,5 +1,3 @@
-
-
 prop = prop_pma()
 prop['omega_hat'] = 0.9696
 // prop['omega_hat'] = 1
@@ -59,27 +57,26 @@ if (prop['omega_hat'] == 1) {
 document.getElementById('rhonum').value = rho_eff100
 document.getElementById('Dmnum').value = prop['Dm']
 
-
 var mvals = [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3,
   0.01, 0.02, 0.05, 0.1, 0.2, 0.5,
   1, 2, 5, 10, 20, 50, 100, 200, 500, 1000
 ]
 
 // Define color scheme.
-var colors = ["#2525C6", "#FFBE0B", "#222222", "#D64161"];  // original
-var colors = ["#03C9A5", "#1E3778", "#222222", "#DD393A"];  // new
-var colors = ["#1E2978", "#48DEB1", "#222222", "#DD393A"];  // new
+var colors = ["#2525C6", "#FFBE0B", "#222222", "#D64161"]; // original
+var colors = ["#03C9A5", "#1E3778", "#222222", "#DD393A"]; // new
+var colors = ["#1E2978", "#48DEB1", "#222222", "#DD393A"]; // new
 
 function displaymval() {
-  document.getElementById('mval').value = mvals[document.getElementById('mSlider').value - 1];
+  document.getElementById('mval').innerHTML = mvals[document.getElementById('mSlider').value - 1];
 }
 displaymval()
 
 
 
 var $container = $('#my_dataviz'),
-    width_a = 0.95 * Math.min($container.width(), 870),
-    height_a = $container.height()
+  width_a = 0.95 * Math.min($container.width(), 870),
+  height_a = $container.height()
 
 
 // for legend
@@ -227,7 +224,7 @@ var margin = {
     top: 0,
     right: 1.5,
     bottom: 50,
-    left: 55
+    left: 65
   },
   width = width_a - margin.left - margin.right,
   height = 350 - margin.top - margin.bottom;
@@ -260,7 +257,7 @@ var xAxis2 = svg.append("g")
 
 // Add Y axis
 var yMax = 1.6,
-    yMin = -0.05;
+  yMin = -0.05;
 
 var y = d3.scaleLinear()
   .domain([yMin, yMax])
@@ -284,7 +281,7 @@ svg.append("text")
 // Y axis label:
 svg.append("text")
   .attr("text-anchor", "middle")
-  .attr('transform', 'translate(-35,' + height / 2 + ')rotate(-90)')
+  .attr('transform', 'translate(-40,' + height / 2 + ')rotate(-90)')
   .text("Transfer function, Ω")
 
 
@@ -399,9 +396,9 @@ d3.select("#RmSlider").on("change", function() {
     $('#RmSlider').css("border", "2px solid #EE696A");
     return;
   }
-  $('#RmSlider').hover(function(){
+  $('#RmSlider').hover(function() {
     $(this).css("border", "2px solid #9BD6FF");
-    }, function(){
+  }, function() {
     $(this).css("border", "2px solid #E3E3E3");
   });
   Rm = val1;
@@ -470,7 +467,7 @@ function afterRadiusUpdate(prop) {
   prop['r_hat'] = prop['r1'] / prop['r2']
   prop['A'] = pi * (Math.pow(prop['r2'], 2) - Math.pow(prop['r1'], 2));
   prop['v_bar'] = prop['Q'] / prop['A'];
-  return prop
+  return prop;
 }
 d3.select("#r1num").on("change", function() {
   val = this.value
@@ -645,8 +642,8 @@ function updateData(Rm, m_star, prop) {
     var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
     var Lambda_W1_diff = parse_fun(sp, m_vec, d, prop, tfer_W1_diff)
   }
-  yMax = 1.6 * Math.max(...Lambda_1C);
-  yMin = -0.05 * Math.max(...Lambda_1C);
+  yMax = 1.6 * Math.max.apply(this, Lambda_1C);
+  yMin = -0.05 * Math.max.apply(this, Lambda_1C);
 
   // generate data vector to be used in updating the plot
   var data = []
@@ -670,23 +667,24 @@ function updateData(Rm, m_star, prop) {
     }
   }
 
-  // send to generiv plot updater defined below
-  updatePlot(data)
-
   // run on update to display control values in outputs on HTML page
   updateVals()
+
+  // send to generiv plot updater defined below
+  updatePlot(data)
 }
 
 // run initallly to get control values and display in outputs on HTML page
-var updateVals = function () {
-  document.getElementById('Vval').value = sp['V'].toPrecision(3);
-  document.getElementById('Wval').value = sp['omega'].toPrecision(4);
-  document.getElementById('Rmval2').value = sp['Rm'].toPrecision(3);
-  document.getElementById('dmval1').value =
+console.log(document.getElementById('Vval').innerHTML)
+var updateVals = function() {
+  document.getElementById('Vval').innerHTML = sp['V'].toPrecision(3);
+  document.getElementById('Wval').innerHTML = sp['omega'].toPrecision(4);
+  document.getElementById('Rmval2').innerHTML = sp['Rm'].toPrecision(3);
+  document.getElementById('dmval1').innerHTML =
     (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
-  document.getElementById('dmval2').value =
+  document.getElementById('dmval2').innerHTML =
     (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
-  document.getElementById('dmval3').value =
+  document.getElementById('dmval3').innerHTML =
     (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('omegahnum').value = prop['omega_hat'];
   document.getElementById('r1num').value = prop['r1'] * 100;
@@ -737,23 +735,23 @@ function updatePlot(data) {
             return y(0 * d.ys)
           })
         )
-      }
-      d3.select("#l1s")
-        .datum(data)
-        .transition()
-        .attr("d", d3.line()
-          .x(function(d) {
-            return x(d.x)
-          })
-          .y(function(d) {
-            return y(d.ys)
-          })
-        )
-    } else { // remove line if w2/w1 is no longer unity
-      if (!(d3.select("#l1s").empty())) {
-        d3.select("#l1s").remove();
-      }
     }
+    d3.select("#l1s")
+      .datum(data)
+      .transition()
+      .attr("d", d3.line()
+        .x(function(d) {
+          return x(d.x)
+        })
+        .y(function(d) {
+          return y(d.ys)
+        })
+      )
+  } else { // remove line if w2/w1 is no longer unity
+    if (!(d3.select("#l1s").empty())) {
+      d3.select("#l1s").remove();
+    }
+  }
 
   // consider 1C diffusing case
   d3.select("#l1cd")
@@ -833,7 +831,7 @@ function updatePlot(data) {
     }
   }
 }
-updatePlot(data);  // run the plot update initially
+updatePlot(data); // run the plot update initially
 
 
 

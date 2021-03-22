@@ -2,6 +2,11 @@
 // TFER_PMA CODE -----------------------------------------------------------//
 var pi = 3.14159265359
 
+// Define Math.log10 for IE support.
+Math.log10 = Math.log10 || function(x) {
+  return Math.log(x) * Math.LOG10E;
+};
+
 var prop_pma = function(opts) {
   if (typeof opts == 'undefined' || (opts != null && opts.hasOwnProperty("__kwargtrans__"))) {
     ;
@@ -68,7 +73,7 @@ var get_setpoint = function(prop) {
     if (!(sp['omega1'])) {
       sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) /
         (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) /
-        (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
+          (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
     }
     sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
       (Math.pow(prop['r_hat'], 2) - 1);
@@ -90,7 +95,7 @@ var get_setpoint = function(prop) {
   } else if (sp['omega'] != null) {
     sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) /
       (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) /
-      (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
+        (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
     sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
       (Math.pow(prop['r_hat'], 2) - 1);
     sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
@@ -120,7 +125,7 @@ var get_setpoint = function(prop) {
       Math.pow(sp['m_max'] / sp['m_star'], n_B))));
     sp['omega1'] = sp['omega'] / ((Math.pow(prop['r_hat'], 2) - prop['omega_hat']) /
       (Math.pow(prop['r_hat'], 2) - 1) + ((Math.pow(prop['r1'], 2) * (prop['omega_hat'] - 1)) /
-      (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
+        (Math.pow(prop['r_hat'], 2) - 1)) / Math.pow(prop['rc'], 2));
     sp['alpha'] = (sp['omega1'] * (Math.pow(prop['r_hat'], 2) - prop['omega_hat'])) /
       (Math.pow(prop['r_hat'], 2) - 1);
     sp['beta'] = ((sp['omega1'] * Math.pow(prop['r1'], 2)) * (prop['omega_hat'] - 1)) /
@@ -146,10 +151,10 @@ var get_resolution = function(m_star, omega, prop) {
   var __left0__ = mp2zp(m_star, 1, prop['T'], prop['p'], prop);
   var B_star = __left0__[0];
   var t0 = prop['Q'] / ((((((m_star * B_star) * 2) * pi) * prop['L']) * Math.pow(omega, 2)) * Math.pow(prop['rc'], 2));
-  var m_rat = function (Rm) {
+  var m_rat = function(Rm) {
     return 1 / Rm + 1;
   };
-  var fun = function (Rm) {
+  var fun = function(Rm) {
     var fun1 = Math.pow(m_rat(Rm), n_B + 1) - Math.pow(m_rat(Rm), n_B);
     return Math.pow(1e2 * (t0 - fun1), 2);
   };
@@ -159,7 +164,7 @@ var get_resolution = function(m_star, omega, prop) {
 
   // Retry if previous method failed with Rm scaled by factors of 10.
   for (var i = 1; i < 6; i++) {
-    f_retry = false;  // initiate retry
+    f_retry = false; // initiate retry
     if (isNaN(Rm[0])) {
       f_retry = true;
     } else if (Rm[0] < 0) {
@@ -168,7 +173,7 @@ var get_resolution = function(m_star, omega, prop) {
     mod = Math.pow(10, i)
     console.log("Retry " + i.toString() + " (for " + mod.toString() + "): " + f_retry)
     if (f_retry) {
-      var fun = function (Rm) {
+      var fun = function(Rm) {
         var fun1 = Math.pow(m_rat(Rm / mod), n_B + 1) - Math.pow(m_rat(Rm / mod), n_B);
         return Math.pow(1e2 * (t0 - fun1), 2);
       };
@@ -471,7 +476,16 @@ var tfer_charge = function(d, z) {
     Z_Z = 0.875, // ion mobility ratio (Wiedensohler, 1988)
     T = 298; // temperature
 
-  var fn = Array(z.length).fill(0).map(x => Array(d.length).fill(0)); // initialize fn
+  // Helper function to create a 2D array of zeros.
+  // Used for fn in the next line.
+  function zeros(dimensions) {
+    var array = [];
+    for (var i = 0; i < dimensions[0]; ++i) {
+      array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)));
+    }
+    return array;
+  }
+  var fn = zeros([z.length, d.length]) // initialize fn
 
   for (dd in d) {
     for (zz in z) {
@@ -485,13 +499,13 @@ var tfer_charge = function(d, z) {
         ];
         exponent = 0;
         for (jj = 0; jj < 4; jj++) { // loop through coefficients in a
-          exponent = exponent + (a[jj][z[zz]] * Math.log(d[dd] * 1e9) ** jj);
+          exponent = exponent + (a[jj][z[zz]] * Math.pow(Math.log(d[dd] * 1e9), jj));
         }
         fn[zz][dd] = Math.exp(exponent);
       } else { // Wiedensohler for z = 3 and above
         fn[zz][dd] = e / Math.sqrt(4 * pi * pi * epi * kB * T * d[dd]) *
-          Math.exp(0 - (z[zz] - 2 * pi * epi * kB * T * Math.log(Z_Z) * d[dd] / e ** 2) ** 2 /
-            (4 * pi * epi * kB * T * d[dd] / e ** 2));
+          Math.exp(0 - Math.pow(z[zz] - 2 * pi * epi * kB * T * Math.log(Z_Z) * d[dd] / Math.pow(e, 2), 2) /
+            (4 * pi * epi * kB * T * d[dd] / Math.pow(e, 2)));
 
         if (fn[zz][dd] < 6e-5) {
           fn[zz][dd] = 0
@@ -507,13 +521,13 @@ var tfer_charge = function(d, z) {
 var fCharge = 0;
 var parse_fun = function(sp, m, d, prop, fun) {
   var Lambda = Array(m.length),
-      tCharge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
+    tCharge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
   for (ii in m) { // loop over particle mass
     Lambda[ii] = 0 // initialize at zero
     for (zz in z_vec) { // loop over integer charge states
       __left0__ = fun(sp, m[ii], d[ii], z_vec[zz], prop)
-      if (fCharge==1) {
-         Lambda[ii] = Lambda[ii] + __left0__[0] * tCharge[zz][ii]
+      if (fCharge == 1) {
+        Lambda[ii] = Lambda[ii] + __left0__[0] * tCharge[zz][ii]
       } else {
         Lambda[ii] = Lambda[ii] + __left0__[0]
       }

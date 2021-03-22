@@ -251,6 +251,10 @@ div.control label {
   cursor: pointer;
 }
 
+.output-div {
+  display: inline-block;
+}
+
 input[type="checkbox"]{
   -webkit-appearance: initial;
   appearance: initial;

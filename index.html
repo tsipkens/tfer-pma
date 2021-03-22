@@ -63,8 +63,8 @@
     <h1>PMA TRANSFER<br>FUNCTION<br>EVALUATOR</h1>
 
     <div class="imgwrap">
-      <img src="docs/imgs/top_a.svg" id="img1"></img>
-      <img src="docs/imgs/top_b.svg" id="img2"></img>
+      <img src="docs/imgs/top_a.svg" id="img1">
+      <img src="docs/imgs/top_b.svg" id="img2">
     </div>
 
     <p align="justify">
@@ -231,7 +231,7 @@
       <span class="control-label" id="var1-name">Mass setpoint </span>
       <span class="control-unit">fg</span> <br>
       <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> <br>
-      m* = <output id="mval">-</output>
+      m* = <div class="output-div" id="mval">-</div >
     </div>
 
     <div class="control">
@@ -245,25 +245,25 @@
 
     <div class="control">
       <span class="control-label" id="var3-name">Angular speed </span> <br>
-      ω = <output id="Wval">-</output> rad/s
+      ω = <div class="output-div" id="Wval">-</div> rad/s
     </div>
 
     <div class="control">
       <span class="control-label" id="var4-name">Voltage </span> <br>
-      V = <output id="Vval">-</output> V
+      V = <div class="output-div" id="Vval">-</div> V
     </div>
 
     <div class="control">
       <span class="control-label" id="var5-name">Resolution </span> <br>
-      R<sub>m</sub> = <output id="Rmval2">-</output>
+      R<sub>m</sub> = <div class="output-div" id="Rmval2">-</div>
     </div>
 
     <div class="control" style="width:95%;display:inline-block">
       <span class="control-label" style="padding-bottom:0px;">Mobility diameter @ (m*, 2m*, 3m*) </span>
       <span class="control-unit"> nm</span> <br>
-      (<output id="dmval1">-</output>,
-      <output id="dmval2">-</output>,
-      <output id="dmval3">-</output>)
+      (<div class="output-div" id="dmval1">-</div>,
+      <div class="output-div" id="dmval2">-</div>,
+      <div class="output-div" id="dmval3">-</div>)
     </div>
 
     <div id="myz" style="margin-top:10px;"></div>
