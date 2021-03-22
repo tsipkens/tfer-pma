@@ -721,8 +721,6 @@ function updatePlot(data) {
     )
 
   // consider 1S case
-  console.log('f1S')
-  console.log(f1S)
   if (f1S) {
     if (d3.select("#l1s").empty()) {
       svg.append("path")
@@ -754,7 +752,6 @@ function updatePlot(data) {
     } else { // remove line if w2/w1 is no longer unity
       if (!(d3.select("#l1s").empty())) {
         d3.select("#l1s").remove();
-        console.log(3)
       }
     }
 
