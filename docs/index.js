@@ -511,18 +511,19 @@ d3.selectAll(".cbZ").on("change", updateZ); // when button changes, run function
 // for links in text to set specific conditions (e.g., jump to APM)
 d3.select("#setapm").on("click", function() {
   prop['omega_hat'] = 1
-  document.getElementById('omegahnum').value = 1
+  document.getElementById('omegahnum').value = 1;
 
   prop['Q'] = 0.5 / 1000 / 60;
-  document.getElementById('Qnum').value = 0.5
+  document.getElementById('Qnum').value = 0.5;
 
   prop['r1'] = 0.1;
   prop['r2'] = 0.103;
   prop = afterRadiusUpdate(prop)
-  document.getElementById('r1num').value = 10
-  document.getElementById('r2num').value = 10.3
-  document.getElementById('r1num').max = 10.3 - 0.005
-  document.getElementById('r2num').min = 10 + 0.005
+
+  document.getElementById('r1num').value = 10;
+  document.getElementById('r2num').value = 10.3;
+  document.getElementById('r1num').max = 10.3 - 0.005;
+  document.getElementById('r2num').min = 10 + 0.005;
 
   Rm = sp[sp_var2]
   m_star = sp[sp_var1]
@@ -687,6 +688,7 @@ var updateVals = function() {
   document.getElementById('dmval3').innerHTML =
     (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('omegahnum').value = prop['omega_hat'];
+  
   document.getElementById('r1num').value = prop['r1'] * 100;
   document.getElementById('r1num').max = prop['r2'] * 100 - 0.005;
   document.getElementById('r2num').value = prop['r2'] * 100;
