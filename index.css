@@ -174,14 +174,24 @@ a.anchor {
   display: none;
 }
 
-#img1 {
-  /* formatting for image below title */
-  width: 100%;
-  max-width: 1040px;
+.imgwrap {
   display: block;
   padding-bottom: 45px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+}
+
+#img1 {
+  /* formatting for image below title */
+  max-height: 200px;
+  display: inline;
+}
+
+#img2 {
+  /* formatting for image below title */
+  max-height: 200px;
+  display: inline;
 }
 
 
