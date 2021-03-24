@@ -830,9 +830,9 @@ updatePlot(data); // run the plot update initially
 // set the dimensions and margins of the graph
 var marginl = {
     top: 30,
-    right: 1.5,
+    right: margin.right,
     bottom: 0,
-    left: 65
+    left: margin.left
   },
   widthl = width_a - marginl.left - marginl.right,
   heightl = 32 - marginl.top - marginl.bottom;
