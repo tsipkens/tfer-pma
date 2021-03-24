@@ -324,21 +324,6 @@ svg.append("path")
 
 svg.append("path")
   .datum(data)
-  .attr("id", "l1s")
-  .attr("fill", "none")
-  .attr("stroke", colors[0])
-  .attr("stroke-width", 2.75)
-  .attr("d", d3.line()
-    .x(function(d) {
-      return x(d.x)
-    })
-    .y(function(d) {
-      return y(d.ys)
-    })
-  )
-
-svg.append("path")
-  .datum(data)
   .attr("id", "l1cd")
   .attr("fill", "none")
   .attr("stroke", colors[2])
@@ -559,7 +544,7 @@ d3.select("#fCharge").on("click", function() {
 
 // Define variable for broader scope.
 // Flag for wheter to plot Case 1S.
-var f1S = true
+var f1S = false
 d3.select("#f1S").on("click", function() {
   f1S = document.getElementById('f1S').checked
   Rm = sp[sp_var2]
@@ -688,7 +673,7 @@ var updateVals = function() {
   document.getElementById('dmval3').innerHTML =
     (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('omegahnum').value = prop['omega_hat'];
-  
+
   document.getElementById('r1num').value = prop['r1'] * 100;
   document.getElementById('r1num').max = prop['r2'] * 100 - 0.005;
   document.getElementById('r2num').value = prop['r2'] * 100;
@@ -751,7 +736,11 @@ function updatePlot(data) {
       )
   } else { // remove line if w2/w1 is no longer unity
     if (!(d3.select("#l1s").empty())) {
-      d3.select("#l1s").remove();
+      d3.select("#l1s")
+        .transition()
+        .attr("stroke-width", 0);
+
+      setTimeout( function () {  d3.select("#l1s").remove(); }, 200);
     }
   }
 
