@@ -832,7 +832,7 @@ var marginl = {
     top: 30,
     right: 1.5,
     bottom: 0,
-    left: 55
+    left: 65
   },
   widthl = width_a - marginl.left - marginl.right,
   heightl = 32 - marginl.top - marginl.bottom;
