@@ -38,10 +38,10 @@ p {
 }
 
 h1 {
-  font-size: 30pt;
-  line-height: 32pt;
+  font-size: 28pt;
+  line-height: 30pt;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
+  font-weight: 200;
   margin-top: 90px;
   margin-bottom: 50px;
   text-align: center;
@@ -49,7 +49,8 @@ h1 {
 
 h1 span {
   color: #48DEB1;
-  font-size:60pt;
+  font-size: 48pt;
+  font-weight: 700;
 }
 
 h3 {
@@ -108,7 +109,7 @@ header {
 }
 
 #header-logo:hover {
-  color: #999;
+  color: #555;
 }
 
 nav {
