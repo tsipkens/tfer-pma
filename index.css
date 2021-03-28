@@ -38,10 +38,10 @@ p {
 }
 
 h1 {
-  font-size: 30pt;
-  line-height: 35pt;
+  font-size: 35pt;
+  line-height: 38pt;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
+  font-weight: bold;
   margin-top: 90px;
   margin-bottom: 50px;
   text-align: center;
