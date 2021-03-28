@@ -38,10 +38,10 @@ p {
 }
 
 h1 {
-  font-size: 35pt;
-  line-height: 38pt;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 800;
+  font-size: 30pt;
+  line-height: 32pt;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   margin-top: 90px;
   margin-bottom: 50px;
   text-align: center;
@@ -49,6 +49,7 @@ h1 {
 
 h1 span {
   color: #48DEB1;
+  font-size:60pt;
 }
 
 h3 {
