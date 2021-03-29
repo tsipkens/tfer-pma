@@ -37,7 +37,7 @@
 <body>
 
   <header id="header">
-    <a href="#h1" id="header-logo"><b>tfer-pma</b></a>
+    <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
     <nav>
       <ul class="nav-list">
         <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" class="nav-link" id="data-link-a">
@@ -60,7 +60,9 @@
 
     <a class="anchor" id="h1"></a>
 
-    <h1><span>PMA</span><br>TRANSFER<br>FUNCTION<br>EVALUATOR</h1>
+    <h1 class="title">tfer-pma.</h1>
+
+    <h2 class="subtitle">A particle mass analyzer<br>transfer function<br>evaluator.</h2>
 
     <div class="imgwrap">
       <img src="docs/imgs/top_a.svg" id="img1">
@@ -68,7 +70,7 @@
     </div>
 
     <p align="justify">
-      This viz examines the transfer function of particle mass analyzers
+      This web app examines the transfer function of particle mass analyzers
       like the centrifugal particle mass analyer (CPMA) or aerosol particle
       mass analyzer (APM).
       We refer the reader to
@@ -100,9 +102,10 @@
     <p align="justify">
       We note that Case 1S, following from the approach proposed
       <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
-      results in various anomalies. For example, in the default view, there is
+      results in various anomalies. For example, in the default app settings, there is
       an anomaly for the z = 1 transfer function, which appears as a linear increase
-      in the transfer function for m/m* > 2. This artifact is a consequence
+      in the transfer function for m/m* > 2 (enable Case 1S below to see this).
+      This artifact is a consequence
       of solving for the equilibrium raidus and demonstrates a limitation
       of that approach. Other anomalies include problems with calculating the
       uncharged (z = 0) contributions. The method is generally stable

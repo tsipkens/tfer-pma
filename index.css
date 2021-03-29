@@ -37,20 +37,22 @@ p {
    }
 }
 
-h1 {
-  font-size: 28pt;
-  line-height: 30pt;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 200;
+h1.title {
   margin-top: 90px;
-  margin-bottom: 50px;
   text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 48pt;
+  font-weight: 800;
+    color: #48DEB1;
 }
 
-h1 span {
-  color: #48DEB1;
-  font-size: 48pt;
-  font-weight: 700;
+h2.subtitle {
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 23pt;
+  line-height: 25pt;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
 }
 
 h3 {
