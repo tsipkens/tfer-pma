@@ -162,15 +162,15 @@ var get_resolution = function(m_star, omega, prop) {
   var Rm = optimjs.minimize_Powell(fun, [3.5]);
   Rm = Rm.argument;
 
-  // Retry if previous method failed with Rm scaled by factors of 10.
-  for (var i = 1; i < 6; i++) {
+  // Retry if previous method failed with Rm scaled by factors of 10
+  for (var i = 1; i < 12; i++) {
     f_retry = false; // initiate retry
     if (isNaN(Rm[0])) {
       f_retry = true;
     } else if (Rm[0] < 0) {
       f_retry = true;
     }
-    mod = Math.pow(10, i)
+    mod = Math.pow(10, (i + 1) / 2)
     console.log("Retry " + i.toString() + " (for " + mod.toString() + "): " + f_retry)
     if (f_retry) {
       var fun = function(Rm) {
@@ -179,6 +179,7 @@ var get_resolution = function(m_star, omega, prop) {
       };
       var Rm = optimjs.minimize_Powell(fun, [1.5]);
       Rm = [Rm.argument[0] / mod];
+      console.log(Rm)
     } else {
       break;
     }

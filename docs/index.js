@@ -94,7 +94,7 @@ var svg_legend = d3.select("#my_legend")
 
 // legend for lines
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 12)
+  .attr("x", 25).attr("y", 12).attr("class", "legend-label")
   .text("Case 1S (Ehara et al., Olfert and Collings)")
   .attr("alignment-baseline", "middle");
 
@@ -119,7 +119,7 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 34)
+  .attr("x", 25).attr("y", 34).attr("class", "legend-label")
   .text("Case 1C (Recommended over Case 1S)")
   .attr("alignment-baseline", "middle")
 d1c = [{
@@ -143,7 +143,7 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 56)
+  .attr("x", 25).attr("y", 56).attr("class", "legend-label")
   .text("Case 1C + Diffusion").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 0,
@@ -155,6 +155,7 @@ d1c_diff = [{
 svg_legend.append("path")
   .datum(d1c_diff)
   .attr("fill", "none")
+  .attr("class", "diff-line")
   .attr("stroke", colors[2])
   .attr('stroke-dasharray', "4 2")
   .attr("stroke-width", 2.75)
@@ -167,7 +168,7 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 78)
+  .attr("x", 25).attr("y", 78).attr("class", "legend-label")
   .text("Case W1 (Only when ω2/ω1 = 1, where it is exact)").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 0,
@@ -190,7 +191,7 @@ svg_legend.append("path")
     })
   )
 svg_legend.append("text")
-  .attr("x", 25).attr("y", 100)
+  .attr("x", 25).attr("y", 100).attr("class", "legend-label")
   .text("Case W1 + Diffusion (Only when ω2/ω1 = 1)").attr("alignment-baseline", "middle")
 d1c_diff = [{
   x: 0,
@@ -239,9 +240,8 @@ var svg = d3.select("#my_dataviz")
 
 //-- Add background rectangle --//
 svg.append("rect")
-  .attr("width", "100%")
-  .attr("height", height)
-  .attr("fill", "#FFF");
+  .attr("width", "100%").attr("class", "plot-fill")
+  .attr("height", height);
 
 // Add X axis
 var x = d3.scaleLinear()
@@ -276,11 +276,13 @@ svg.append("text")
   .attr("text-anchor", "middle")
   .attr('x', width / 2)
   .attr('y', height + 35)
+  .attr("class", "legend-label")
   .text("Particle mass over setpoint mass, m/m*");
 
 // Y axis label:
 svg.append("text")
   .attr("text-anchor", "middle")
+  .attr("class", "legend-label")
   .attr('transform', 'translate(-40,' + height / 2 + ')rotate(-90)')
   .text("Transfer function, Ω")
 
@@ -326,6 +328,7 @@ svg.append("path")
   .datum(data)
   .attr("id", "l1cd")
   .attr("fill", "none")
+  .attr("class", "diff-line")
   .attr("stroke", colors[2])
   .attr('stroke-dasharray', "4 2")
   .attr("stroke-width", 2.75)
@@ -493,6 +496,7 @@ function updateZ(data) {
 }
 d3.selectAll(".cbZ").on("change", updateZ); // when button changes, run function
 
+
 // for links in text to set specific conditions (e.g., jump to APM)
 d3.select("#setapm").on("click", function() {
   prop['omega_hat'] = 1
@@ -537,10 +541,10 @@ d3.select("#setcpma").on("click", function() {
 
 d3.select("#setolfertcollings_a").on("click", function() {
   prop['omega_hat'] = 0.9696
-  document.getElementById('omegahnum').value = 1
+  document.getElementById('omegahnum').value = 0.9696
 
-  prop['Q'] = 3 / 1000 / 60;
-  document.getElementById('Qnum').value = 3
+  prop['Q'] = 0.5 / 1000 / 60;
+  document.getElementById('Qnum').value = 0.5
 
   prop['r1'] = 0.06;
   prop['r2'] = 0.061;
@@ -550,28 +554,81 @@ d3.select("#setolfertcollings_a").on("click", function() {
   document.getElementById('r1num').max = 0.061 * 100 - 0.005
   document.getElementById('r2num').min = 0.06 * 100 + 0.005
 
-  // Switch to m + Rm mode
-  document.getElementById('sp-mode').value = "Mass + Resolution"
+  // Set mass-mobility relations
+  rho_eff100 = 900  // set global variable
+  prop['Dm'] = 3;
+  document.getElementById('Dmnum').value = 3
+  document.getElementById('rhonum').value = rho_eff100
+
+  // Switch to m + V mode
+  document.getElementById('sp-mode').value = "Mass + Voltage"
 
   // Set m and Rm values
-  sp_var1 = "m_star"
-  sp_var2 = "Rm"
-  document.getElementById('var1-name').innerHTML = 'Mass setpoint';
-  document.getElementById('var2-name').innerHTML = 'Resolution';
-  document.getElementById('var2-units').innerHTML = '';
-  document.getElementById('RmSlider').value = (72.6245).toPrecision(3);
+  V = 100
+  m_star = 7.6793e-19
 
-  Rm = 72.6245
-  m_star = 8.4181e-22
-  updateData(Rm, m_star, prop);
+  sp_var1 = "m_star"
+  sp_var2 = "V"
+  document.getElementById('var1-name').innerHTML = 'Mass setpoint';
+  document.getElementById('var2-name').innerHTML = 'Voltage';
+  document.getElementById('var2-units').innerHTML = 'V';
+  document.getElementById('RmSlider').value = V.toPrecision(3);
+  document.getElementById('mval').innerHTML = (m_star * 1e18).toPrecision(3);
+
+  updateData(V, m_star, prop);
 })
 
+d3.select("#setehara_c").on("click", function() {
+  prop['omega_hat'] = 1
+  document.getElementById('omegahnum').value = 1
+
+  // Set classifier properties
+  prop['Q'] = 8.3333e-6;
+  document.getElementById('Qnum').value = Math.round(prop['Q'] * 1000 * 60 * 100) / 100
+  prop['r1'] = 0.1;
+  prop['r2'] = 0.103;
+  prop = afterRadiusUpdate(prop)
+  document.getElementById('r1num').value = 10
+  document.getElementById('r2num').value = 10.3
+  document.getElementById('r1num').max = 0.103 * 100 - 0.005
+  document.getElementById('r2num').min = 0.1 * 100 + 0.005
+
+  // Set mass-mobility relations
+  rho_eff100 = 900  // set global variable
+  prop['Dm'] = 3;
+  document.getElementById('Dmnum').value = 3
+  document.getElementById('rhonum').value = rho_eff100
+
+  console.log("prop = ")
+  console.log(prop)
+
+  // Switch to m + V mode
+  document.getElementById('sp-mode').value = "Mass + Voltage"
+
+  // Set m and Rm values
+  V = 1000
+  m_star = 4.7995e-17
+
+  sp_var1 = "m_star"
+  sp_var2 = "V"
+  document.getElementById('var1-name').innerHTML = 'Mass setpoint';
+  document.getElementById('var2-name').innerHTML = 'Voltage';
+  document.getElementById('var2-units').innerHTML = 'V';
+  document.getElementById('RmSlider').value = V.toPrecision(3);
+  document.getElementById('mval').innerHTML = (m_star * 1e18).toPrecision(3);
+
+  updateData(V, m_star, prop);
+})
+
+
+// Updating plotted charges.
 d3.select("#fCharge").on("click", function() {
   fCharge = 1 - fCharge;
   Rm = sp[sp_var2]
   m_star = sp[sp_var1]
   updateData(Rm, m_star, prop)
 })
+
 
 // Define variable for broader scope.
 // Flag for wheter to plot Case 1S.
@@ -696,13 +753,25 @@ console.log(document.getElementById('Vval').innerHTML)
 var updateVals = function() {
   document.getElementById('Vval').innerHTML = sp['V'].toPrecision(3);
   document.getElementById('Wval').innerHTML = sp['omega'].toPrecision(4);
+  document.getElementById('Wrpmval').innerHTML =
+    Math.round(sp['omega'] * 9.5493).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   document.getElementById('Rmval2').innerHTML = sp['Rm'].toPrecision(3);
+
   document.getElementById('dmval1').innerHTML =
     (Math.pow(sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval2').innerHTML =
     (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval3').innerHTML =
     (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
+
+  var e = 1.60218e-19;
+  document.getElementById('sval1').innerHTML =
+    (sp['m_star'] / e).toPrecision(4);
+  document.getElementById('sval2').innerHTML =
+    (2 * sp['m_star'] / e).toPrecision(4);
+  document.getElementById('sval3').innerHTML =
+    (3 * sp['m_star'] / e).toPrecision(4);
+
   document.getElementById('omegahnum').value = prop['omega_hat'];
 
   document.getElementById('r1num').value = prop['r1'] * 100;
@@ -876,6 +945,7 @@ var svg3 = d3.select("#myz")
   .append("g")
   .attr("transform", "translate(" + marginl.left + "," + marginl.top + ")");
 var xAxis3 = svg3.append("g")
+  .attr("class", "axis")
   .call(d3.axisTop(x).tickValues([1, 2, 3]))
 
 svg3.append("circle")
@@ -884,12 +954,12 @@ svg3.append("circle")
   })
   .attr("cy", -18)
   .attr("r", 11)
-  .style("fill", "#ededed")
-  .attr("stroke", "black")
+  .attr("class", "legend-circle")
   .attr("stroke-width", 1.0)
 svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(1) + ',-14)')
+  .attr("class", "legend-label")
   .style("font-size", "11px")
   .text("+1")
 svg3.append("circle")
@@ -898,12 +968,12 @@ svg3.append("circle")
   })
   .attr("cy", -18)
   .attr("r", 11)
-  .style("fill", "#ededed")
-  .attr("stroke", "black")
+  .attr("class", "legend-circle")
   .attr("stroke-width", 1.0)
 svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(2) + ',-14)')
+  .attr("class", "legend-label")
   .style("font-size", "11px")
   .text("+2")
 svg3.append("circle")
@@ -912,17 +982,18 @@ svg3.append("circle")
   })
   .attr("cy", -18)
   .attr("r", 11)
-  .style("fill", "#ededed")
-  .attr("stroke", "black")
+  .attr("class", "legend-circle")
   .attr("stroke-width", 1.0)
 svg3.append("text")
   .attr("text-anchor", "middle")
   .attr('transform', 'translate(' + x(3) + ',-14)')
+  .attr("class", "legend-label")
   .style("font-size", "11px")
   .text("+3")
 svg3.append("text")
   .attr("text-anchor", "left")
   .attr('transform', 'translate(' + 30 + ',-13)')
+  .attr("class", "legend-label")
   .style("font-size", "13px")
   .text("z = ")
 
