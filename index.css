@@ -6,22 +6,18 @@
   margin: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: auto 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
   font-weight: 200;
   font-size: 12pt;
-  background-color: #FCFCFC;
   transition: 0.3s;
+  background-color: #FCFCFC;
 }
 body.dark-theme {
   color: #DDD;
-  background: #161719;
+  background-color: #161719;
 }
 
 b {
@@ -119,6 +115,7 @@ header {
 }
 body.dark-theme header {
   background-color: #161719;
+  border-bottom: #161719 1px solid;
 }
 
 #header-logo {
@@ -222,11 +219,16 @@ body.dark-theme .footer{
   text-align: center;
 }
 
+
+/* Images and symbols with toggles */
 #img1 {
   /* formatting for image below title */
   width: 100%;
   max-width: 464px;
   display: inline;
+}
+body.dark-theme #img1 {
+  display: none;
 }
 
 #img2 {
@@ -235,7 +237,57 @@ body.dark-theme .footer{
   max-width: 303px;
   display: inline;
 }
+body.dark-theme #img2 {
+  display: none;
+}
 
+#img1d {
+  /* formatting for image below title */
+  width: 100%;
+  max-width: 464px;
+  display: none;
+}
+body.dark-theme #img1d {
+  display: inline;
+}
+
+#img2d {
+  /* formatting for image below title */
+  width: 65.4%;
+  max-width: 303px;
+  display: none;
+}
+body.dark-theme #img2d {
+  display: inline;
+}
+
+#sun {
+  display: none;
+}
+body.dark-theme #sun {
+  display: inline;
+}
+
+#moon {
+  display: inline;
+}
+body.dark-theme #moon {
+  display: none;
+}
+
+#gh-black {
+  display: inline;
+}
+body.dark-theme #gh-black {
+  display: none;
+}
+
+#gh-white {
+  display: none;
+}
+body.dark-theme #gh-white {
+  display: inline;
+}
 
 
 /* For control components */

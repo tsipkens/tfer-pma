@@ -30,11 +30,28 @@
 
   <!-- Load fonts -->
   <link href="index.css" rel="stylesheet">
+
+
+
+  <script>
+
+  // Initialize light/dark mode.
+  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  var dark = prefersDarkScheme.matches;
+  dark = true;
+
+  // Apply appropriate theme.
+  function toggleNight () {
+    // Swap CSS.
+    document.body.classList.toggle("dark-theme");
+  };
+
+  </script>
+
 </head>
 
 
-
-<body>
+<body onload="if (dark) { toggleNight(); }">
 
   <header id="header">
     <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
@@ -49,14 +66,14 @@
         <li><a href="https://github.com/tsipkens" class="nav-link">
           <div style="display:flex;vertical-align:middle;">
             <img src="docs/imgs/GitHub-Mark-64px.png" id="gh-black" style="height:15pt;padding-right:5px;">
-              <img src="docs/imgs/GitHub-Mark-Light-64px.png" id="gh-white" style="height:15pt;padding-right:5px;display:none;">
+              <img src="docs/imgs/GitHub-Mark-Light-64px.png" id="gh-white" style="height:15pt;padding-right:5px;">
             <span>@tsipkens</span>
           </div>
         </a></li>
         <li>
           <a class="nav-link" id="btn-toggle"><div style="display:flex;vertical-align:middle;">
             <span><i class="fas fa-moon" id="moon" style="font-size:14pt;padding-right:2px;"></i></span>
-            <span><i class="fas fa-sun" id="sun" style="font-size:14pt;padding-right:2px;display:none;"></i></span>
+            <span><i class="fas fa-sun" id="sun" style="font-size:14pt;padding-right:2px;"></i></span>
             <span> NIGHT/LIGHT</span>
           </div></a>
         </li>
@@ -75,6 +92,8 @@
     <div class="imgwrap">
       <img src="docs/imgs/top_a.svg" id="img1">
       <img src="docs/imgs/top_b.svg" id="img2">
+      <img src="docs/imgs/top_ad.svg" id="img1d">
+      <img src="docs/imgs/top_bd.svg" id="img2d">
     </div>
 
     <p align="justify">
@@ -339,60 +358,15 @@
 
 <script>
 
-const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-var dark = prefersDarkScheme.matches;
-console.log(dark)
-
 // For dark mode.
 const btn = document.querySelector("#btn-toggle");
 btn.addEventListener("click", function () {
   // Toggle dark theme.
-  dark = ~dark;
+  dark = !dark;
 
   toggleNight();  // apply theme
+  scrollFunction();
 })
-
-function toggleNight () {
-
-  // Swap CSS.
-  document.body.classList.toggle("dark-theme");
-
-  // Swap sun/moon symbol.
-  if (dark) {
-    document.getElementById("sun").style.display = "inline";
-    document.getElementById("moon").style.display = "none";
-    document.getElementById("gh-black").style.display = "none";
-    document.getElementById("gh-white").style.display = "inline";
-  } else {
-    document.getElementById("moon").style.display = "inline";
-    document.getElementById("sun").style.display = "none";
-    document.getElementById("gh-black").style.display = "inline";
-    document.getElementById("gh-white").style.display = "none";
-  }
-
-  // Swap header images.
-  i1src = document.getElementById("img1").src;
-  i2src = document.getElementById("img2").src;
-  if (dark) {
-    document.getElementById("img1").src =
-      i1src.substr(0,i1src.length - 5) +
-      "ad.svg";
-    document.getElementById("img2").src =
-      i2src.substr(0,i2src.length - 5) +
-      "bd.svg";
-  } else {
-    document.getElementById("img1").src =
-      i1src.substr(0,i1src.length - 5) +
-      ".svg";
-    document.getElementById("img2").src =
-      i2src.substr(0,i2src.length - 5) +
-      ".svg";
-  }
-  scrollFunction();  // update header style
-};
-if (dark) {
-  toggleNight();
-}
 
 
 // When the user scrolls down 50px from the top of the document, reformat header.
@@ -414,6 +388,7 @@ function scrollFunction() {
     }
   }
 }
+scrollFunction();  // initialize
 
 </script>
 
