@@ -70,29 +70,28 @@
     </div>
 
     <p align="justify">
-      This web app examines the transfer function of particle mass analyzers
+      This web app examines the transfer function of particle mass analyzers,
       like the centrifugal particle mass analyer (CPMA) or aerosol particle
       mass analyzer (APM).
       We refer the reader to
       <a href="https://doi.org/10.1080/02786826.2019.1680794">
         Sipkens et al. (2020)</a>
-      for more information on the underlying analytical functions. A supporting
-      repository, including Python code for evaluating the PMA transfer
-      function is available
-      <a href="https://github.com/tsipkens/tfer-pma">here</a>.
-      A Matlab version is also available
-      <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>.
-      The default view shows contributions from
-      integer charge states z = 1 through 3.
+      for more information on the underlying analytical transfer functions. A
+      supporting repository with code to evaluate the PMA transfer functions is available
+      <a href="https://github.com/tsipkens/tfer-pma">here</a>
+      — including Matlab, Python, and Javacsript versions.
+      A separate Matlab version, which can be imported into larger projects
+      is also available
+      <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>
+      (e.g., this package is imported into
+      <a href="https://github.com/tsipkens/mat-2d-aerosol-inversion">mat-2d-aerosol-inversion</a>).
     </p>
 
     <p align="justify">
       <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
-      when ω<sub>2</sub>/ω<sub>1</sub> = 1, e.g.,
-      <a href="#hgraphic" id="setapm">this point</a>.
+      when ω<sub>2</sub>/ω<sub>1</sub> = 1.
       Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
-      are achieved when ω<sub>2</sub>/ω<sub>1</sub> = 0.9696, e.g.,
-      <a href="#hgraphic" id="setcpma">this point</a>.
+      are achieved when ω<sub>2</sub>/ω<sub>1</sub> = 0.9696.
       Another interesting condition occurs when doubling the length to 40 cm,
       a scenario that can (very, very roughly) approximate two devices in series.
       In this case, diffusion is much larger, resulting in smooth, Gaussian-like
@@ -111,6 +110,18 @@
       uncharged (z = 0) contributions. The method is generally stable
       for the ω<sub>2</sub>/ω<sub>1</sub> = 1, the case originally intended by
       <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
+    </p>
+
+    <p>
+      The default view shows contributions from
+      integer charge states z = 1 through 3.
+      Possible preset conditions include:
+
+      <ol>
+        <li><a href="#hgraphic" id="setapm">APM conditions</a></li>
+        <li><a href="#hgraphic" id="setcpma">CPMA conditions</a></li>
+        <!--<li><a href="#hgraphic" id="setolfertcollings_a">Olfert and Collings, Fig. 5a</a></li>-->
+      </ol>
     </p>
 
 

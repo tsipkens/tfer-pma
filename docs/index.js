@@ -535,6 +535,37 @@ d3.select("#setcpma").on("click", function() {
   updateData(Rm, m_star, prop);
 })
 
+d3.select("#setolfertcollings_a").on("click", function() {
+  prop['omega_hat'] = 0.9696
+  document.getElementById('omegahnum').value = 1
+
+  prop['Q'] = 3 / 1000 / 60;
+  document.getElementById('Qnum').value = 3
+
+  prop['r1'] = 0.06;
+  prop['r2'] = 0.061;
+  prop = afterRadiusUpdate(prop)
+  document.getElementById('r1num').value = 0.06 * 100
+  document.getElementById('r2num').value = 0.061 * 100
+  document.getElementById('r1num').max = 0.061 * 100 - 0.005
+  document.getElementById('r2num').min = 0.06 * 100 + 0.005
+
+  // Switch to m + Rm mode
+  document.getElementById('sp-mode').value = "Mass + Resolution"
+
+  // Set m and Rm values
+  sp_var1 = "m_star"
+  sp_var2 = "Rm"
+  document.getElementById('var1-name').innerHTML = 'Mass setpoint';
+  document.getElementById('var2-name').innerHTML = 'Resolution';
+  document.getElementById('var2-units').innerHTML = '';
+  document.getElementById('RmSlider').value = (72.6245).toPrecision(3);
+
+  Rm = 72.6245
+  m_star = 8.4181e-22
+  updateData(Rm, m_star, prop);
+})
+
 d3.select("#fCharge").on("click", function() {
   fCharge = 1 - fCharge;
   Rm = sp[sp_var2]

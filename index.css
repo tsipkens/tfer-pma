@@ -78,6 +78,14 @@ div.main {
   padding-bottom: 50px
 }
 
+ol {
+  padding-left: 2rem;
+}
+
+ol li {
+  padding-bottom: 2px;
+}
+
 
 
 /*  For navigation/header and footer */
