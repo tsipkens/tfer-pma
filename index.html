@@ -343,26 +343,6 @@ const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 var dark = prefersDarkScheme.matches;
 console.log(dark)
 
-// When the user scrolls down 50px from the top of the document, reformat header.
-window.onscroll = function() {
-  scrollFunction()
-};
-function scrollFunction() {
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 60) {
-    if (dark) {
-      document.getElementById("header").style.borderBottom = "1px #333 solid";
-    } else {
-      document.getElementById("header").style.borderBottom = "1px #DDD solid";
-    }
-  } else {
-    if (dark) {
-      document.getElementById("header").style.borderBottom = "1px #161719 solid";
-    } else {
-      document.getElementById("header").style.borderBottom = "1px #FCFCFC solid";
-    }
-  }
-}
-
 // For dark mode.
 const btn = document.querySelector("#btn-toggle");
 btn.addEventListener("click", function () {
@@ -412,6 +392,27 @@ function toggleNight () {
 };
 if (dark) {
   toggleNight();
+}
+
+
+// When the user scrolls down 50px from the top of the document, reformat header.
+window.onscroll = function() {
+  scrollFunction()
+};
+function scrollFunction() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 60) {
+    if (dark) {
+      document.getElementById("header").style.borderBottom = "1px #333 solid";
+    } else {
+      document.getElementById("header").style.borderBottom = "1px #DDD solid";
+    }
+  } else {
+    if (dark) {
+      document.getElementById("header").style.borderBottom = "1px #161719 solid";
+    } else {
+      document.getElementById("header").style.borderBottom = "1px #FCFCFC solid";
+    }
+  }
 }
 
 </script>

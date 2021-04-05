@@ -181,10 +181,10 @@ a.anchor {
   margin-bottom: 0px;
   padding-bottom: 20px;
   font-size: 11pt;
-  background-color: #F3F3F3;
+  border-top: #DDD 1px solid;
 }
 body.dark-theme .footer{
-  background-color: black;
+  border-top: #333 1px solid;
 }
 
 .ref {
