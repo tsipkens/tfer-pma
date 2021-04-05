@@ -3,6 +3,12 @@
 
 :root {
   color-scheme: light dark; /* both supported */
+  --background-color: #FCFCFC;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #161719;
+  }
 }
 
 * {
@@ -18,11 +24,11 @@ body {
   font-size: 12pt;
   transition: 0.3s;
   color: #222222;
-  background-color: #FCFCFC;
+  background-color: var(--background-color);
 }
 body.dark-theme {
   color: #DDD;
-  background-color: #161719;
+  background-color: var(--background-color);
 }
 
 b {
@@ -105,7 +111,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FCFCFC;
+  background-color: var(--background-color);
   margin: 0px;
   padding: 0px;
   font-size: 10pt;
@@ -115,12 +121,12 @@ header {
   top: 0;
   /* Position the navbar at the top of the page */
   width: 100%;
-  border-bottom: #FCFCFC 1px solid;
+  border-bottom: var(--background-color); 1px solid;
   transition: 0.3s;
 }
 body.dark-theme header {
-  background-color: #161719;
-  border-bottom: #161719 1px solid;
+  background-color: var(--background-color);
+  border-bottom: var(--background-color); 1px solid;
 }
 
 #header-logo {
