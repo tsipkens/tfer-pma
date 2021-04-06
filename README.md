@@ -11,15 +11,19 @@ This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma
 
 A web app demonstrating these functions is available at [https://tsipkens.github.io/tfer-pma](https://tsipkens.github.io/tfer-pma/), with the source code provided in the `docs/` folder.
 
-## MATLAB VERSION
+## JAVASCRIPT & WEB APP
 
-As noted above, see  [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma), included as a submodule in the `matlab\` folder.
+A Javascript version is available in the **js** folder, with dependencies on the [*math.js*](https://mathjs.org/) and [*optimization.js*](https://github.com/optimization-js/optimization-js) packages. That code is structured similarly to the other versions described below. 
 
-## PYTHON VERSION
+This version supports a web app available at https://tsipkens.github.io/tfer-pma, which allows the user to interact with basic versions of the transfer function. 
 
-### Dependencies
+## MATLAB
 
-This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed.
+The Matlab version is included as a submodule in the **matlab** folder, with the code located in the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. We refer the reader to the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with that repository for more details.
+
+## PYTHON
+
+The Python version is in the **python** folder. This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed.
 
 ### A simple demonstration
 **NOTE**: This demonstration is also included as a Jupyter Notebook at [main.ipynb](https://github.com/tsipkens/tfer-pma/blob/master/py/main.ipynb). Only very minor differences exist between that implementation and the one presented below (e.g. outputting the setpoint dictionary using the json package).
@@ -110,10 +114,6 @@ plt.show()
 ```
 
 This sample code is given in the main.py script that is provided with this program.
-
-## JAVASCRIPT VERSION
-
-A javascript version is also available, supporting the web app at https://tsipkens.github.io/tfer-pma. That code is structured similarily to the other versions described above. 
 
 ----------------------------------------------------------------------
 
