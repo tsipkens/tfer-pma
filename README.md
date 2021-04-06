@@ -13,11 +13,11 @@ This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma
 
 A Javascript version is available in the **js** folder, with dependencies on the [*math.js*](https://mathjs.org/) and [*optimization.js*](https://github.com/optimization-js/optimization-js) packages. That code is structured similarly to the other versions described below. 
 
-This version supports a web app available at https://tsipkens.github.io/tfer-pma, which allows the user to interact with basic versions of the transfer function. The corresponding Javascript file (*index.js*) responsible for the plotting is available in the **docs** folder. 
+This version supports a web app available at https://tsipkens.github.io/tfer-pma, which allows the user to interact with basic versions of the transfer function. The corresponding Javascript file responsible for the plotting is available in the **docs** folder. 
 
 ## MATLAB
 
-The Matlab version is included as a submodule in the **matlab** folder, with the code located in the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. We refer the reader to the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with that repository for more details.
+The Matlab version is included as a submodule in the **matlab** folder, with the original code located in the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. We refer the reader to the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with that repository for more details.
 
 ## PYTHON
 
