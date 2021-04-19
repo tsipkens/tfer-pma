@@ -1,4 +1,3 @@
-
 # import functions
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,13 +5,11 @@ import numpy as np
 from prop_pma import prop_pma
 import tfer_pma  # import relevant functions to evaluate the PMA transfer function
 
-
 # define input variables
 m_star = 0.01e-18
 m = np.arange(0.8, 1.2, 0.001) * m_star  # numpy array spanning 80 to 120% m_star
 d = None  # mobility diameter (none uses mass-mobility relation)
 z = 1.0  # integer charge state
-
 
 # B,Zp,_ = tfer_pma.tfer_1S(m_star,m,d,z,prop)
 prop = prop_pma()  # get default PMA properties
@@ -20,7 +17,7 @@ prop = prop_pma()  # get default PMA properties
 # Modify some of the properties,
 # in this case for the mass-mobility relation.
 rho_eff = 900  # effective density
-prop['m0'] = rho_eff * np.pi / 6 * 1e-27 # copy mass-mobility relation info (only used to find Rm)
+prop['m0'] = rho_eff * np.pi / 6 * 1e-27  # copy mass-mobility relation info (only used to find Rm)
 prop['Dm'] = 3
 
 # prop['omega_hat'] = 1; # ratio of angular speeds (CPMA < 1 vs APM = 1)
@@ -45,7 +42,6 @@ if prop['omega_hat'] == 1:
     plt.plot(m, Lambda_W1)
     plt.plot(m, Lambda_W1_diff)
 plt.show()
-
 
 # generate second plot demonstrating multiple charging
 m123 = np.arange(0.6, 3.4, 0.001) * m_star
