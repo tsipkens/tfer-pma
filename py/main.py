@@ -11,7 +11,6 @@ m = np.arange(0.8, 1.2, 0.001) * m_star  # numpy array spanning 80 to 120% m_sta
 d = None  # mobility diameter (none uses mass-mobility relation)
 z = 1.0  # integer charge state
 
-# B,Zp,_ = tfer_pma.tfer_1S(m_star,m,d,z,prop)
 prop = prop_pma()  # get default PMA properties
 
 # Modify some of the properties,
@@ -23,7 +22,7 @@ prop['Dm'] = 3
 # prop['omega_hat'] = 1; # ratio of angular speeds (CPMA < 1 vs APM = 1)
 
 sp, _ = tfer_pma.get_setpoint(prop, 'm_star', m_star, 'Rm', 10)
-# sp, _ = tfer_pma.get_setpoint(prop, 'V', 24.44, 'omega', 2543.9) # alt. phrasing
+# sp, _ = tfer_pma.get_setpoint(prop, 'V', 24.44, 'omega', 2543.9)  # alt. phrasing
 
 
 # evaluate the transfer functions
