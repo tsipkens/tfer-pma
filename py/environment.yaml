@@ -7,3 +7,6 @@ dependencies:
 - matplotlib
 - jupyter
 - scipy
+- pip
+- pip:
+    - pyyaml
