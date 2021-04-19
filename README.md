@@ -9,15 +9,9 @@ The attached code evaluates the transfer function of particle mass analyzers (PM
 
 This repository includes [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) as a submodule, which incorporates a Matlab version from a separate repository. More information is available in the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) in that repository. What follows mostly pertains to the Python version available in this code.
 
-## JAVASCRIPT & WEB APP
-
-A Javascript version is available in the **js** folder, with dependencies on the [*math.js*](https://mathjs.org/) and [*optimization.js*](https://github.com/optimization-js/optimization-js) packages. That code is structured similarly to the other versions described below. 
-
-This version supports a web app available at https://tsipkens.github.io/tfer-pma, which allows the user to interact with basic versions of the transfer function. The corresponding Javascript file responsible for the plotting is available in the **docs** folder. 
-
 ## MATLAB
 
-The Matlab version is included as a submodule in the **matlab** folder, with the original code located in the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. We refer the reader to the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with that repository for more details.
+The Matlab version is included as a submodule in the **matlab** folder, with the original code located in the [mat-tfer-pma](https://github.com/tsipkens/mat-tfer-pma) repository. We refer the reader to the [README](https://github.com/tsipkens/mat-tfer-pma/blob/master/README.md) associated with that repository for more details, both on the Matlab specific implementation and general details about the transfer functions.
 
 ## PYTHON
 
@@ -33,10 +27,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 ```
 
-Also, import the tfer_pma module, which contains the relevant functions to evaluate the transfer function using the analytical methods from [Sipkens, Olfert, and Rogak (2020a)][ast20]:
+Also, import the **tfer_pma** module, which contains the relevant functions to evaluate the transfer function using the analytical methods from [Sipkens, Olfert, and Rogak (2020a)][ast20], and **prop_pma**, which is used to load the relevant PMA properties (e.g., classifier length, flow rate):
 
 ```Python
-import tfer_pma # import PMA transfer function methods
+from prop_pma import prop_pma  # import method to load PMA properties
+import tfer_pma  # import PMA transfer function methods
 ```
 
 Now define some fundamental properties, including the mass setpoint, `m_star`; the masses at which to evaluate the transfer function, `m`; the mobility diameter of the particles, `d` (note, using `d = None` will result in using the mass-mobility relation, using the values in the `prop` dictionary defined below); and the integer charge state at which to evaluate the transfer function, `z`:
@@ -54,12 +49,12 @@ z = 1. # integer charge state
 Next, generate a dictionary that contains the properties of the particle mass analyzer, such as its geometry dimensions. Here, we also modify the default mass-mobility parameters to be used in the remainder of the program:  
 
 ```Python
-prop = tfer_pma.prop_pma() # get default PMA properties
+prop = prop_pma() # get default PMA properties
 
 # Modify some of the properties,
 # in this case for the mass-mobility relation.
 rho_eff = 900; # effective density
-prop['rho0'] = rho_eff * np.pi / 6; # only used to find Rm
+prop['m0'] = rho_eff * np.pi / 6 * 1e-27  # only used to find Rm
 prop['Dm'] = 3
 ```
 
@@ -112,6 +107,12 @@ plt.show()
 ```
 
 This sample code is given in the main.py script that is provided with this program.
+
+## JAVASCRIPT & WEB APP
+
+A Javascript version is available in the **js** folder, with dependencies on the [*math.js*](https://mathjs.org/) and [*optimization.js*](https://github.com/optimization-js/optimization-js) packages. That code is structured similarly to the other versions described below. 
+
+This version supports a web app available at https://tsipkens.github.io/tfer-pma, which allows the user to interact with basic versions of the transfer function. The corresponding Javascript file responsible for the plotting is available in the **docs** folder. 
 
 ----------------------------------------------------------------------
 
