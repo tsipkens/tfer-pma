@@ -1,0 +1,12 @@
+# APM parameters from Buckley et al.
+
+name: buckley
+r2: 0.025           # outer electrode radius [m]
+r1: 0.024           # inner electrode radius [m]
+L: 0.1              # length of APM [m]
+RPM: 13350          # rotational speed [rpm]
+omega: 1.3980e3     # rotational speed [rad/s]
+omega_hat: 1        # APM, so rotational speed is the same
+Q: 1.7e-5           # aerosol flowrate [m^3/s]
+T: 298              # system temperature [K]
+p: 1                # system pressure [atm]

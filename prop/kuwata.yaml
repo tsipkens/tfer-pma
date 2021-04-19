@@ -1,0 +1,9 @@
+# Properties from Kuwata
+
+r2: 0.052     # outer electrode radius [m]
+r1: 0.05      # inner electrode radius [m]
+L: 0.25       # classifier length [m]
+omega_hat: 1  # APM conditions
+Q: 1.67e-5    # aerosol flowrate [m^3/s]
+T: 295        # system temperature [K]
+p: 1          # system pressure [atm]

@@ -1,0 +1,13 @@
+# Parameters from Olfert and Collings
+# Nearly identical to the Ehara et al. case
+
+name: olfert-collings
+r2: 0.103             # outer electrode radius [m]
+r1: 0.1               # inner electrode radius [m]
+L: 0.2
+omega_hat: 0.945
+Q: 8.33e-6            # aerosol flowrate [m^3/s], 0.5/1000/60
+T: 295                # system temperature [K]
+p: 1                  # system pressure [atm]
+m0: 4.7124e-25        # copy mass-mobility relation info (only used to find Rm)
+Dm: 3

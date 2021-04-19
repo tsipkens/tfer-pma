@@ -1,0 +1,10 @@
+# APM parameters from Ehara et al.
+
+name: ehara
+r2: 0.103       # outer electrode radius [m]
+r1: 0.1         # inner electrode radius [m]
+L: 0.2          # length of APM [m]
+omega_hat: 1    # APM, so rotational speed is the same
+Q: 8.33e-6      # aerosol flowrate [m^3/s], assumed, 0.5/1000/60
+T: 298          # system temperature [K]
+p: 1            # system pressure [atm]

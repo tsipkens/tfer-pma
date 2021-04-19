@@ -1,8 +1,9 @@
-
-import sys
 import scipy.optimize
 import scipy.special
 import numpy as np
+
+import re
+import yaml
 
 import util
 
@@ -27,15 +28,14 @@ import util
 #   G0          Function mapping final to initial radial position
 # -------------------------------------------------------------------------#
 def tfer_1S(sp, m, d, z, prop={}):
-
-    tau ,_ ,_ ,rs = parse_inputs(sp, m, d, z, prop)
-        # parse inputs for common parameters
+    tau, _, _, rs = parse_inputs(sp, m, d, z, prop)
+    # parse inputs for common parameters
 
     # -- Estimate device parameter --------------------------------------------#
     lam = 2 * tau * (sp['alpha'] ** 2 - sp['beta'] ** 2 / (rs ** 4)) * prop['L'] / prop['v_bar']
 
     # -- Evaluate G0 and transfer function ------------------------------------#
-    G0 = lambda r: rs + (r - rs) * np.exp(-lam) # define as a lambda function
+    G0 = lambda r: rs + (r - rs) * np.exp(-lam)  # define as a lambda function
 
     ra = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r1'])))
     rb = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r2'])))
@@ -63,19 +63,18 @@ def tfer_1S(sp, m, d, z, prop={}):
 #   G0          Function mapping final to initial radial position
 # -------------------------------------------------------------------------#
 def tfer_1C(sp, m, d, z, prop={}):
-
-    tau ,C0 ,_ ,_ = parse_inputs(sp, m, d, z, prop)
-        # parse inputs for common parameters
+    tau, C0, _, _ = parse_inputs(sp, m, d, z, prop)
+    # parse inputs for common parameters
 
     # -- Taylor series expansion constants ------------------------------------#
     C3 = tau * (sp['alpha'] ** 2 * prop['rc'] + 2 * sp['alpha'] * sp['beta'] / prop['rc'] + \
-        sp['beta'] ** 2 / (prop['rc'] ** 3) - C0 / (m * prop['rc']))
+                sp['beta'] ** 2 / (prop['rc'] ** 3) - C0 / (m * prop['rc']))
     C4 = tau * (sp['alpha'] ** 2 - 2 * sp['alpha'] * sp['beta'] / (prop['rc'] ** 2) - \
-        3 * sp['beta'] ** 2 / (prop['rc'] ** 4) + C0 / (m * (prop['rc'] ** 2)))
+                3 * sp['beta'] ** 2 / (prop['rc'] ** 4) + C0 / (m * (prop['rc'] ** 2)))
 
     # -- Evaluate G0 and transfer function ------------------------------------#
     G0 = lambda r: prop['rc'] + (r - prop['rc'] + C3 / C4) * \
-        np.exp(-C4 * prop['L'] / prop['v_bar']) - C3 / C4
+                   np.exp(-C4 * prop['L'] / prop['v_bar']) - C3 / C4
 
     ra = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r1'])))
     rb = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r2'])))
@@ -103,18 +102,17 @@ def tfer_1C(sp, m, d, z, prop={}):
 #   G0          Function mapping final to initial radial position
 # -------------------------------------------------------------------------#
 def tfer_1C_diff(sp, m, d, z, prop={}):
-
-    _ ,_ ,D ,_ = parse_inputs(sp, m, d, z, prop) # get diffusion coeff.
-    sig = np.sqrt(2 * prop['L'] * D / prop['v_bar']) # diffusive spreading parameter
+    _, _, D, _ = parse_inputs(sp, m, d, z, prop)  # get diffusion coeff.
+    sig = np.sqrt(2 * prop['L'] * D / prop['v_bar'])  # diffusive spreading parameter
 
     # -- Evaluate relevant functions ------------------------------------------#
-    _ ,G0 = tfer_1C(sp, m, d, z, prop)
-        # get G0 function for this case
+    _, G0 = tfer_1C(sp, m, d, z, prop)
+    # get G0 function for this case
 
-    rho_fun = lambda G , r: (G - r) / (np.sqrt(2) * sig) # recurring quantity
-    kap_fun = lambda G , r: \
+    rho_fun = lambda G, r: (G - r) / (np.sqrt(2) * sig)  # recurring quantity
+    kap_fun = lambda G, r: \
         (G - r) * scipy.special.erf(rho_fun(G, r)) + \
-        sig * np.sqrt(2 / np.pi) * np.exp(-rho_fun(G ,r) ** 2) # define function for kappa
+        sig * np.sqrt(2 / np.pi) * np.exp(-rho_fun(G, r) ** 2)  # define function for kappa
 
     # -- Evaluate the transfer function and its terms -------------------------#
     K22 = kap_fun(G0(prop['r2']), prop['r2'])
@@ -124,8 +122,8 @@ def tfer_1C_diff(sp, m, d, z, prop={}):
     Lambda = -1 / (4 * prop['del']) * (K22 - K12 - K21 + K11)
 
     # f_small = K22 > 1e2 # flag large values out of error fun. eval.
-    Lambda[K22 > 1e2] = 0 # remove cases with large values out of error fun. eval.
-    Lambda[np.absolute(Lambda) < 1e-10] = 0 # remove cases with roundoff error
+    Lambda[K22 > 1e2] = 0  # remove cases with large values out of error fun. eval.
+    Lambda[np.absolute(Lambda) < 1e-10] = 0  # remove cases with roundoff error
 
     return Lambda, G0
 
@@ -147,17 +145,16 @@ def tfer_1C_diff(sp, m, d, z, prop={}):
 #   Lambda      Transfer function
 #   G0          Function mapping final to initial radial position
 # -------------------------------------------------------------------------#
-def tfer_W1(sp ,m ,d ,z ,prop):
-
-    tau ,C0 ,_ ,rs = parse_inputs(sp, m, d, z, prop)
-            # parse inputs for common parameters
+def tfer_W1(sp, m, d, z, prop):
+    tau, C0, _, rs = parse_inputs(sp, m, d, z, prop)
+    # parse inputs for common parameters
 
     # -- Estimate device parameter --------------------------------------------#
     lam = 2 * tau * (sp['alpha'] ** 2 - sp['beta'] ** 2 / (rs ** 4)) * prop['L'] / prop['v_bar']
 
     # -- Evaluate G0 and transfer function ------------------------------------#
     G0 = lambda r: 1 / (sp['omega1'] * np.sqrt(m)) * \
-        np.sqrt((m * sp['omega1'] ** 2 * r ** 2 - C0) * np.exp(-lam) + C0)
+                   np.sqrt((m * sp['omega1'] ** 2 * r ** 2 - C0) * np.exp(-lam) + C0)
 
     ra = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r1'])))
     rb = np.minimum(prop['r2'], np.maximum(prop['r1'], G0(prop['r2'])))
@@ -165,7 +162,6 @@ def tfer_W1(sp ,m ,d ,z ,prop):
     Lambda = (1 / (2 * prop['del'])) * (rb - ra)
 
     return Lambda, G0
-
 
 
 # TFER_W1_DIFF  Evaluates the transfer function for a PMA in Case E (w/ diffusion).
@@ -185,19 +181,18 @@ def tfer_W1(sp ,m ,d ,z ,prop):
 #   G0          Function mapping final to initial radial position
 # =========================================================================#
 
-def tfer_W1_diff(sp ,m ,d ,z ,prop):
-
-    _ ,_ ,D ,_ = parse_inputs(sp, m, d, z, prop) # get diffusion coeff.
-    sig = np.sqrt(2 * prop['L'] * D / prop['v_bar']) # diffusive spreading parameter
+def tfer_W1_diff(sp, m, d, z, prop):
+    _, _, D, _ = parse_inputs(sp, m, d, z, prop)  # get diffusion coeff.
+    sig = np.sqrt(2 * prop['L'] * D / prop['v_bar'])  # diffusive spreading parameter
 
     # -- Evaluate relevant functions ------------------------------------------#
-    _ ,G0 = tfer_W1(sp, m, d, z, prop)
-        # get G0 function for this case
+    _, G0 = tfer_W1(sp, m, d, z, prop)
+    # get G0 function for this case
 
-    rho_fun = lambda G, r: (G - r) / (np.sqrt(2) * sig) # recurring quantity
+    rho_fun = lambda G, r: (G - r) / (np.sqrt(2) * sig)  # recurring quantity
     kap_fun = lambda G, r: \
         (G - r) * scipy.special.erf(rho_fun(G, r)) + \
-        sig * np.sqrt(2 / np.pi) * np.exp(-rho_fun(G, r) ** 2) # define function for kappa
+        sig * np.sqrt(2 / np.pi) * np.exp(-rho_fun(G, r) ** 2)  # define function for kappa
 
     # -- Evaluate the transfer function and its terms -------------------------#
     K22 = kap_fun(G0(prop['r2']), prop['r2'])
@@ -207,8 +202,8 @@ def tfer_W1_diff(sp ,m ,d ,z ,prop):
     Lambda = -1 / (4 * prop['del']) * (K22 - K12 - K21 + K11)
 
     # f_small = K22 > 1e2 # flag large values out of error fun. eval.
-    Lambda[K22 > 1e2] = 0 # remove cases with large values out of error fun. eval.
-    Lambda[np.absolute(Lambda) < 1e-10] = 0 # remove cases with roundoff error
+    Lambda[K22 > 1e2] = 0  # remove cases with large values out of error fun. eval.
+    Lambda[np.absolute(Lambda) < 1e-10] = 0  # remove cases with roundoff error
 
     return Lambda, G0
 
@@ -236,14 +231,13 @@ def tfer_W1_diff(sp ,m ,d ,z ,prop):
 #           the integer charge state and particle mobility.
 # -------------------------------------------------------------------------#
 def parse_inputs(sp, m, d=0, z=1, prop={}):
-
     # -- Set up mobility calculations -----------------------------------------#
-    e = 1.60218e-19 # electron charge [C]
-    q = z * e # particle charge
+    e = 1.60218e-19  # electron charge [C]
+    q = z * e  # particle charge
 
     # -- Evaluate mechanical mobility -----------------------------------------#
 
-    if d== 0 or d == None:  # if mobility diameter is NOT specified
+    if d == 0 or d == None:  # if mobility diameter is NOT specified
         print('Invoking mass-mobility relation to determine Zp.')
         B, _, _ = util.mp2zp(m, z, prop['T'], prop['p'], prop)
     else:  # if mobility diameter is specified
@@ -376,7 +370,7 @@ def get_setpoint(prop={}, *args):
         sp['beta'] = sp['omega1'] * prop['r1'] ** 2 * (prop['omega_hat'] - 1) / (prop['r_hat'] ** 2 - 1)
 
         sp['V'] = sp['m_star'] * np.log(1 / prop['r_hat']) / e * (
-                    sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc']) ** 2
+                sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc']) ** 2
         # q = e, z = 1 for setpoint
 
         sp['omega2'] = sp['alpha'] + sp['beta'] / (prop['r2'] ** 2)
@@ -396,7 +390,7 @@ def get_setpoint(prop={}, *args):
         sp['beta'] = sp['omega1'] * prop['r1'] ** 2 * (prop['omega_hat'] - 1) / (prop['r_hat'] ** 2 - 1)
 
         sp['V'] = sp['m_star'] * np.log(1 / prop['r_hat']) / e * (
-                    sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc']) ** 2
+                sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc']) ** 2
         # q = e, z = 1 for setpoint
 
         sp['omega2'] = sp['alpha'] + sp['beta'] / (prop['r2'] ** 2)
@@ -428,7 +422,7 @@ def get_setpoint(prop={}, *args):
         sp['m_max'] = sp['m_star'] * (1 / sp['Rm'] + 1)
         sp['omega'] = np.sqrt(prop['Q'] / (sp['m_star'] * B_star * 2 * np.pi * prop['rc'] ** 2 * prop['L'] * \
                                            ((sp['m_max'] / sp['m_star']) ** (n_B + 1) - (
-                                                       sp['m_max'] / sp['m_star']) ** n_B)))
+                                                   sp['m_max'] / sp['m_star']) ** n_B)))
 
         # -- Evaluate angular speed of inner electrode ------------------------#
         sp['omega1'] = sp['omega'] / \
@@ -440,7 +434,7 @@ def get_setpoint(prop={}, *args):
         sp['beta'] = sp['omega1'] * prop['r1'] ** 2 * (prop['omega_hat'] - 1) / (prop['r_hat'] ** 2 - 1)
         sp['omega2'] = sp['alpha'] + sp['beta'] / (prop['r2'] ** 2)
         sp['V'] = sp['m_star'] * np.log(1 / prop['r_hat']) / e * (
-                    sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc']) ** 2
+                sp['alpha'] * prop['rc'] + sp['beta'] / prop['rc']) ** 2
 
 
     else:
@@ -513,9 +507,28 @@ def get_nb(m_star, prop):
 # Output:
 #   prop        Properties struct for use in evaluating transfer function
 # -------------------------------------------------------------------------#
-def prop_pma(opts='Olfert'):
-    # -- CPMA parameters from Olfert lab ----------------------------------#
-    if opts == 'Olfert':
+def prop_pma(opts='olfert'):
+    prop = {}
+
+    with open(r'../prop/' + opts + '.yaml') as file:
+        # Explicitly specify loader.
+        # Allows for more variability in scientific notation.
+        loader = yaml.SafeLoader
+        loader.add_implicit_resolver(
+            u'tag:yaml.org,2002:float',
+            re.compile(u'''^(?:
+             [-+]?(?:[0-9][0-9_]*)\\.[0-9_]*(?:[eE][-+]?[0-9]+)?
+            |[-+]?(?:[0-9][0-9_]*)(?:[eE][-+]?[0-9]+)
+            |\\.[0-9_]+(?:[eE][-+][0-9]+)?
+            |[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*
+            |[-+]?\\.(?:inf|Inf|INF)
+            |\\.(?:nan|NaN|NAN))$''', re.X),
+            list(u'-+0123456789.'))
+
+        prop = yaml.load(file, Loader=loader)
+
+    if prop == {}:
+        print('Specified PMA property set is not available. Reverting to default.')
         prop = {
             'r1': 0.06,  # inner electrode radius [m]
             'r2': 0.061,  # outer electrode radius [m]
@@ -524,19 +537,6 @@ def prop_pma(opts='Olfert'):
             'T': 293,  # system temperature [K]
             'Q': 3 / 1000 / 60,  # volume flow rate (m ** 3/s) (prev: ~1 lpm)
             'omega_hat': 32 / 33  # ratio of angular speeds
-        }
-
-    # -- CPMA/APM parameters from Buckley et al. --------------------------#
-    elif opts == 'Buckley':
-        prop = {
-            'r1': 0.025,  # inner electrode radius [m]
-            'r2': 0.024,  # outer electrode radius [m]
-            'L': 0.1,  # length of chamber [m]
-            'omega': 13350 * 2 * np.pi / 60,  # rotational speed [rad/s]
-            'p': 1,  # pressure [atm]
-            'T': 298,  # system temperature [K]
-            'Q': 1.02e-3 / 60,  # volume flow rate (m ** 3/s) (prev: ~1 lpm)
-            'omega_hat': 1  # ratio of angular speeds
         }
 
     # -- Parameters related to CPMA geometry ----------------------------------#
