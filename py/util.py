@@ -1,3 +1,6 @@
+
+import sys
+
 import numpy as np
 
 
@@ -100,8 +103,12 @@ def Cc(d, T=0.0, p=0.0):
 #   Uses mass-mobility relationship to first convert to a mobility
 #   diameter and then estimates the mobility using dm2zp.
 # -------------------------------------------------------------------------#
-def mp2zp(m, z, T=0.0, P=0.0, prop={}):
+def mp2zp(m, z, T=0.0, P=0.0, prop=None):
+
     # -- Parse inputs ---------------------------------------------------------#
+    if prop is None:
+        prop = {}
+
     if not bool(prop) or hasattr(prop, 'm0') or hasattr(prop, 'Dm'):
         sys.exit('Please specify the mass-mobility relation parameters in prop.')
         # if isempty or missing elements, produce error
