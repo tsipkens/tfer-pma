@@ -1,0 +1,9 @@
+name: tfer-pma
+channels:
+- conda-forge
+- defaults
+dependencies:
+- python
+- matplotlib
+- jupyter
+- scipy
