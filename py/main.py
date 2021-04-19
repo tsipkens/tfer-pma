@@ -47,7 +47,7 @@ plt.show()
 
 
 # generate second plot demonstrating multiple charging
-m123 = np.arange(0.6,3.4,0.001) * m_star
+m123 = np.arange(0.6, 3.4, 0.001) * m_star
 Lambda_1C_z1, _ = tfer_pma.tfer_1C_diff(sp, m123, d, 1, prop)
 Lambda_1C_z2, _ = tfer_pma.tfer_1C_diff(sp, m123, d, 2, prop)
 Lambda_1C_z3, _ = tfer_pma.tfer_1C_diff(sp, m123, d, 3, prop)
@@ -55,5 +55,5 @@ Lambda_1C_z3, _ = tfer_pma.tfer_1C_diff(sp, m123, d, 3, prop)
 plt.plot(m123, Lambda_1C_z1)
 plt.plot(m123, Lambda_1C_z2)
 plt.plot(m123, Lambda_1C_z3)
-plt.plot(m123, Lambda_1C_z1 + Lambda_1C_z2 + Lambda_1C_z3, 'k--')  # different widths stem from resolution only applying to first pea
+plt.plot(m123, Lambda_1C_z1 + Lambda_1C_z2 + Lambda_1C_z3, 'k--')
 plt.show()
