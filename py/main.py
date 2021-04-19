@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from prop_pma import prop_pma
 import tfer_pma  # import relevant functions to evaluate the PMA transfer function
 
 
@@ -14,7 +15,7 @@ z = 1.0  # integer charge state
 
 
 # B,Zp,_ = tfer_pma.tfer_1S(m_star,m,d,z,prop)
-prop = tfer_pma.prop_pma()  # get default PMA properties
+prop = prop_pma()  # get default PMA properties
 
 # Modify some of the properties,
 # in this case for the mass-mobility relation.
@@ -24,8 +25,8 @@ prop['Dm'] = 3
 
 # prop['omega_hat'] = 1; # ratio of angular speeds (CPMA < 1 vs APM = 1)
 
-sp,_ = tfer_pma.get_setpoint(prop, 'm_star', m_star, 'Rm', 10)
-# sp,_ = tfer_pma.get_setpoint(prop, 'V', 24.44, 'omega', 2543.9) # alt. phrasing
+sp, _ = tfer_pma.get_setpoint(prop, 'm_star', m_star, 'Rm', 10)
+# sp, _ = tfer_pma.get_setpoint(prop, 'V', 24.44, 'omega', 2543.9) # alt. phrasing
 
 
 # evaluate the transfer functions
