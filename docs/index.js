@@ -772,11 +772,11 @@ var updateVals = function() {
   document.getElementById('sval3').innerHTML =
     (3 * sp['m_star'] / e).toPrecision(4);
 
-  document.getElementById('omegahnum').value = prop['omega_hat'];
+  document.getElementById('omegahnum').value = Math.round(prop['omega_hat'] * 1e5) / 1e5;
 
-  document.getElementById('r1num').value = prop['r1'] * 100;
+  document.getElementById('r1num').value = Math.round((prop['r1'] * 100) * 10000) / 10000;
   document.getElementById('r1num').max = prop['r2'] * 100 - 0.005;
-  document.getElementById('r2num').value = prop['r2'] * 100;
+  document.getElementById('r2num').value = Math.round((prop['r2'] * 100) * 10000) / 10000;
   document.getElementById('r2num').min = prop['r1'] * 100 + 0.005;
 }
 updateVals()
