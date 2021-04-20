@@ -9,10 +9,10 @@ Math.log10 = Math.log10 || function(x) {
 
 var prop_pma = function(opts) {
   if (typeof opts == 'undefined' || (opts != null && opts.hasOwnProperty("__kwargtrans__"))) {
-    ;
-    var opts = 'Olfert';
+    var opts = 'olfert';
   };
-  if (opts == 'Olfert') {
+  console.log(opts)
+  if (opts == 'olfert') {
     var prop = {
       'r1': 0.06,
       'r2': 0.061,
@@ -22,7 +22,7 @@ var prop_pma = function(opts) {
       'Q': (3 / 1000) / 60,
       'omega_hat': 32 / 33
     };
-  } else if (opts == 'Buckley') {
+  } else if (opts == 'buckley') {
     var prop = {
       'r1': 0.025,
       'r2': 0.024,
@@ -520,7 +520,8 @@ var tfer_charge = function(d, z) {
 
 
 var fCharge = 0;
-var parse_fun = function(sp, m, d, prop, fun) {
+var parse_fun = function(sp, m, d, z_vec, prop, fun) {
+  console.log(z_vec)
   var Lambda = Array(m.length),
     tCharge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
   for (ii in m) { // loop over particle mass

@@ -36,12 +36,12 @@ var d = m_vec.map(function(x) {
 
 var z_vec = [1, 2, 3]
 
-var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
-var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
-var Lambda_1S = parse_fun(sp, m_vec, d, prop, tfer_1S)
+var Lambda_1C = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C)
+var Lambda_1C_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C_diff)
+var Lambda_1S = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1S)
 if (prop['omega_hat'] == 1) {
-  var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
-  var Lambda_W1_diff = parse_fun(sp, m_vec, d, prop, tfer_W1_diff)
+  var Lambda_W1 = parse_fun(sp, m_vec, d, z_vec, prop, tfer_W1)
+  var Lambda_W1_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_W1_diff)
 }
 
 
@@ -709,12 +709,12 @@ function updateData(Rm, m_star, prop) {
   console.log(" ")
 
   // evaulate transfer functions at new conditions
-  var Lambda_1C = parse_fun(sp, m_vec, d, prop, tfer_1C)
-  var Lambda_1C_diff = parse_fun(sp, m_vec, d, prop, tfer_1C_diff)
-  var Lambda_1S = parse_fun(sp, m_vec, d, prop, tfer_1S)
+  var Lambda_1C = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C)
+  var Lambda_1C_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C_diff)
+  var Lambda_1S = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1S)
   if (prop['omega_hat'] == 1) {
-    var Lambda_W1 = parse_fun(sp, m_vec, d, prop, tfer_W1)
-    var Lambda_W1_diff = parse_fun(sp, m_vec, d, prop, tfer_W1_diff)
+    var Lambda_W1 = parse_fun(sp, m_vec, d, z_vec, prop, tfer_W1)
+    var Lambda_W1_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_W1_diff)
   }
   yMax = 1.6 * Math.max.apply(this, Lambda_1C);
   yMin = -0.05 * Math.max.apply(this, Lambda_1C);
