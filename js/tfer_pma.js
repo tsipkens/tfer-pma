@@ -22,17 +22,6 @@ var prop_pma = function(opts) {
       'Q': (3 / 1000) / 60,
       'omega_hat': 32 / 33
     };
-  } else if (opts == 'buckley') {
-    var prop = {
-      'r1': 0.025,
-      'r2': 0.024,
-      'L': 0.1,
-      'omega': ((13350 * 2) * pi) / 60,
-      'p': 1,
-      'T': 298,
-      'Q': 0.00102 / 60,
-      'omega_hat': 1
-    };
   }
   prop['rc'] = (prop['r1'] + prop['r2']) / 2;
   prop['r_hat'] = prop['r1'] / prop['r2'];
