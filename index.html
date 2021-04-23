@@ -48,7 +48,7 @@
 
     // Update background color
     if (dark) {
-      document.querySelector(':root').style.setProperty('--background-color', '#161719');
+      document.querySelector(':root').style.setProperty('--background-color', '#242526');
     } else {
       document.querySelector(':root').style.setProperty('--background-color', '#FCFCFC');
     }
@@ -345,9 +345,12 @@
       <h4>Citing this work</h4>
 
       <p>
-        Code supporting this viz is open source and available in an
+        <sup>1</sup> Code supporting this viz is open source and available in an
         <a href="https://github.com/tsipkens/tfer-pma">associated repository</a> on GitHub.
-        The analytical transfer functions are given in a journal article:
+      </p>
+
+      <p>
+        <sup>2</sup> The analytical transfer functions are given in a journal article:
       </p>
 
       <p class="ref">
@@ -386,13 +389,13 @@ window.onscroll = function() {
 function scrollFunction() {
   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 60) {
     if (dark) {
-      document.getElementById("header").style.borderBottom = "1px #333 solid";
+      document.getElementById("header").style.borderBottom = "1px #000 solid";
     } else {
       document.getElementById("header").style.borderBottom = "1px #DDD solid";
     }
   } else {
     if (dark) {
-      document.getElementById("header").style.borderBottom = "1px #161719 solid";
+      document.getElementById("header").style.borderBottom = "1px #242526 solid";
     } else {
       document.getElementById("header").style.borderBottom = "1px #FCFCFC solid";
     }

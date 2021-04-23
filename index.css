@@ -7,7 +7,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #161719;
+    --background-color: #242526;
   }
 }
 
@@ -70,6 +70,11 @@ h2.subtitle {
 h3 {
   padding-bottom: 4px;
   padding-top: 30px;
+}
+
+h4 {
+  font-size: 10pt;
+  padding-bottom: 4px;
 }
 
 a {
@@ -185,14 +190,17 @@ a.anchor {
 
 .footer {
   margin-top: 30px;
-  padding-top: 50px;
+  padding-top: 60px;
   margin-bottom: 0px;
-  padding-bottom: 20px;
-  font-size: 11pt;
-  background-color: #EEE;
+  padding-bottom: 35px;
+  font-size: 9.5pt;
 }
-body.dark-theme .footer{
-  background-color: black;
+.footer sup {
+  font-size: 5.5pt;
+}
+.footer p {
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .ref {
@@ -209,6 +217,14 @@ body.dark-theme .footer{
   color: var(--a0);
   transition: ease 0.3s;
   border-left: solid #48DEB1 2px;
+}
+
+.footer .ref {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: 2px;
 }
 
 
@@ -322,7 +338,7 @@ div.control {
   width: 110px;
 }
 body.dark-theme .textinput {
-  border: 2px solid #222;
+  border: 2px solid #444444;
   background-color: black;
   color: white;
 }
@@ -360,7 +376,7 @@ body.dark-theme .control-label {
   font-size: 10pt;
 }
 body.dark-theme .control-unit {
-  color: #666;
+  color: #888;
 }
 
 div.control label {
@@ -423,8 +439,8 @@ select {
   width: 197px;
 }
 body.dark-theme select {
-  border: 2px solid #222;
-  background-color: black;
+  border: 2px solid #444444;
+  background-color: #111111;
   color: white;
 }
 
@@ -474,7 +490,7 @@ body.dark-theme .slider {
   cursor: pointer;
 }
 body.dark-theme .slider::-webkit-slider-thumb {
-  border: 1pt solid #161719;
+  border: 1pt solid var(--background-color);
 }
 
 .slider::-moz-range-thumb {
@@ -533,7 +549,7 @@ body.dark-theme .legend-circle {
   fill: white;
 }
 body.dark-theme .plot-fill {
-  fill: black;
+  fill: #111111;
 }
 
 body.dark-theme .diff-line {
