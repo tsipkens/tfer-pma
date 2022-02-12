@@ -15,7 +15,7 @@ The Matlab version is included as a submodule in the **matlab** folder, with the
 
 ## PYTHON
 
-The Python version is in the **python** folder. This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed.
+The Python version is in the **py** folder. This program require *numpy*; *scipy*; and generally relies on *matplotlib* for plotting. Full function requires that these packages be installed.
 
 ### A simple demonstration
 **NOTE**: This demonstration is also included as a Jupyter Notebook at [main.ipynb](https://github.com/tsipkens/tfer-pma/blob/master/py/main.ipynb). Only very minor differences exist between that implementation and the one presented below (e.g. outputting the setpoint dictionary using the json package).
