@@ -427,6 +427,10 @@ input[type="checkbox"]:checked:after {
   margin: 0px;
 }
 
+.cbspan {
+  font-weight: 300;
+}
+
 #select-div {
   width: 200px;
 }
