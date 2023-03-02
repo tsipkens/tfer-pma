@@ -286,8 +286,9 @@
     <div class="control">
       <span class="control-label" id="var1-name">Mass setpoint </span>
       <span class="control-unit">fg</span> <br>
-      <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" onchange="displaymval(this.value);" class="slider"> <br>
-      m* = <div class="output-div" id="mval">-</div >
+      <input class="textinput" name="mSlider" id="mSlider" type="number" value="0.01" onchange="displaymval(this.value);">
+      <!-- <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" class="slider">  -->
+      <br>m* = <div class="output-div" id="mval">-</div >
     </div>
 
     <div class="control">

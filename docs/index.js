@@ -68,7 +68,7 @@ var colors = ["#03C9A5", "#1E3778", "#222222", "#DD393A"]; // new
 var colors = ["#1E2978", "#48DEB1", "#222222", "#DD393A"]; // new
 
 function displaymval() {
-  document.getElementById('mval').innerHTML = mvals[document.getElementById('mSlider').value - 1];
+  document.getElementById('mval').innerHTML = document.getElementById('mSlider').value;
 }
 displaymval()
 
@@ -396,7 +396,7 @@ d3.select("#RmSlider").on("change", function() {
 // control for mass setpoint
 d3.select("#mSlider").on("change", function() {
   val = this.value
-  m_star = mvals[val - 1] / 1e18 // include conversion to kg
+  m_star = val / 1e18 // include conversion to kg
   Rm = sp[sp_var2]
   updateData(Rm, m_star, prop)
 })
