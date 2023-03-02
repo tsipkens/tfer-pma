@@ -67,11 +67,6 @@ var colors = ["#2525C6", "#FFBE0B", "#222222", "#D64161"]; // original
 var colors = ["#03C9A5", "#1E3778", "#222222", "#DD393A"]; // new
 var colors = ["#1E2978", "#48DEB1", "#222222", "#DD393A"]; // new
 
-function displaymval() {
-  document.getElementById('mval').innerHTML = document.getElementById('mSlider').value;
-}
-displaymval()
-
 
 
 var $container = $('#my_dataviz'),
