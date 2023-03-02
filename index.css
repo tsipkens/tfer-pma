@@ -441,11 +441,11 @@ select {
   background-color: white;
   transition: all 0.3s ease 0s;
   width: 197px;
+  color: inherit;
 }
 body.dark-theme select {
   border: 2px solid #444444;
   background-color: #111111;
-  color: white;
 }
 
 select:hover {
