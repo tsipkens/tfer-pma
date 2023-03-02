@@ -344,11 +344,11 @@ div.control {
   background-color: white;
   transition: all 0.3s ease 0s;
   width: 110px;
+  color: inherit;
 }
 body.dark-theme .textinput {
   border: 2px solid #444444;
   background-color: black;
-  color: white;
 }
 
 .textinput:hover {
