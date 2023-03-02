@@ -125,7 +125,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--background-color);
+  backdrop-filter: blur(8px);
+  background-color: rgba(252, 252, 252, 0.85);
   margin: 0px;
   padding: 0px;
   font-size: 10pt;
@@ -139,7 +140,8 @@ header {
   transition: 0.3s;
 }
 body.dark-theme header {
-  background-color: var(--background-color);
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.85);
   border-bottom: var(--background-color) 1px solid;
 }
 
