@@ -65,7 +65,7 @@ var mvals = [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3,
 // Define color scheme.
 var colors = ["#2525C6", "#FFBE0B", "#222222", "#D64161"]; // original
 var colors = ["#03C9A5", "#1E3778", "#222222", "#DD393A"]; // new
-var colors = ["#1E2978", "#48DEB1", "#222222", "#DD393A"]; // new
+var colors = ["#0969DA", "#48DEB1", "#222222", "#DD393A"]; // new
 
 
 
