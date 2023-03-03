@@ -82,7 +82,7 @@ h2.subtitle {
 
 h3 {
   margin-top: 35px;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 18pt;
 }
 
@@ -340,7 +340,7 @@ div.control {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 11pt;
   border-radius: 3pt;
-  font-weight: 300;
+  font-weight: 400;
   padding: 5px 10px 5px 10px;
   border: 2px solid #E3E3E3;
   background-color: white;
@@ -377,8 +377,8 @@ body.dark-theme .textinput:focus {
 
 .control-unit {
   font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
-  color: #BBB;
+  font-weight: 400;
+  color: #999;
   font-size: 9pt;
 }
 body.dark-theme .control-unit {
@@ -430,7 +430,7 @@ input[type="checkbox"]:checked:after {
 }
 
 .cbspan {
-  font-weight: 300;
+  font-weight: 400;
 }
 
 #select-div {
@@ -441,7 +441,7 @@ select {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 11pt;
   border-radius: 3pt;
-  font-weight: 300;
+  font-weight: 400;
   padding: 5px 10px 5px 10px;
   border: 2px solid #E3E3E3;
   background-color: white;
@@ -464,7 +464,7 @@ body.dark-theme select:hover {
 option {
   font-family: 'Open Sans',  Arial, sans-serif;
   font-size: 11pt;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 
