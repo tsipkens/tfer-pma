@@ -34,7 +34,7 @@ var d = m_vec.map(function(x) {
   return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
 })
 
-var z_vec = [1, 2, 3]
+var z_vec = [0, 1, 2, 3]
 
 var Lambda_1C = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C)
 var Lambda_1C_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C_diff)
@@ -746,7 +746,7 @@ function updateData(Rm, m_star, prop) {
 // run initallly to get control values and display in outputs on HTML page
 console.log(document.getElementById('Vval').innerHTML)
 var updateVals = function() {
-  document.getElementById('Vval').innerHTML = sp['V'].toPrecision(3);
+  document.getElementById('Vval').innerHTML = sp['V'].toPrecision(4);
   document.getElementById('Wval').innerHTML = sp['omega'].toPrecision(4);
   document.getElementById('Wrpmval').innerHTML =
     Math.round(sp['omega'] * 9.5493).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
