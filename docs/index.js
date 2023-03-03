@@ -213,17 +213,15 @@ svg_legend.append("path")
 
 
 
-
-
 // set the dimensions and margins of the graph
 var margin = {
     top: 0,
     right: 1.5,
-    bottom: 50,
+    bottom: 100,
     left: 65
   },
   width = width_a - margin.left - margin.right,
-  height = 350 - margin.top - margin.bottom;
+  height = 380 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -239,8 +237,9 @@ svg.append("rect")
   .attr("height", height);
 
 // Add X axis
+var xMax = 3.7
 var x = d3.scaleLinear()
-  .domain([0, 3.7])
+  .domain([0, xMax])
   .range([0, width]);
 var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
@@ -250,8 +249,17 @@ var xAxis2 = svg.append("g")
   .attr("class", "axis")
   .call(d3.axisTop(x).ticks(0));
 
+var x4 = d3.scaleLinear()
+  .domain([0, m_star * xMax * 1e18])
+  .range([0, width]);
+var xAxis4 = svg.append("g")
+  .attr("class", "axis")
+  .call(d3.axisBottom(x4).ticks(5))
+  .attr("transform", "translate(0, " + (height + 60) + ")");
+
 // Add Y axis
-var yMax = 1.6,
+var yMax0 = 1.3,
+  yMax = yMax0,
   yMin = -0.05;
 
 var y = d3.scaleLinear()
@@ -270,9 +278,15 @@ var yAxis2 = svg.append("g")
 svg.append("text")
   .attr("text-anchor", "middle")
   .attr('x', width / 2)
-  .attr('y', height + 35)
+  .attr('y', height + 34)
   .attr("class", "legend-label")
   .text("Particle mass over setpoint mass, m/m*");
+svg.append("text")
+  .attr("text-anchor", "middle")
+  .attr('x', width / 2)
+  .attr('y', height + 94)
+  .attr("class", "legend-label")
+  .text("Particle mass, m [fg]");
 
 // Y axis label:
 svg.append("text")
@@ -711,7 +725,7 @@ function updateData(Rm, m_star, prop) {
     var Lambda_W1 = parse_fun(sp, m_vec, d, z_vec, prop, tfer_W1)
     var Lambda_W1_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_W1_diff)
   }
-  yMax = 1.6 * Math.max.apply(this, Lambda_1C);
+  yMax = yMax0 * Math.max.apply(this, Lambda_1C);
   yMin = -0.05 * Math.max.apply(this, Lambda_1C);
 
   // generate data vector to be used in updating the plot
@@ -787,6 +801,11 @@ function updatePlot(data) {
   yAxis2.attr("transform", "translate(" + width + ",0)")
     .call(d3.axisRight(y).ticks(0))
 
+  x4 = d3.scaleLinear()
+    .domain([0, m_star * xMax * 1e18])
+    .range([0, width]);
+  xAxis4.call(d3.axisBottom(x4).ticks(5));
+  
   // consider 1C case
   d3.select("#l1c")
     .datum(data)
