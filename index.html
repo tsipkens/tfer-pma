@@ -67,34 +67,63 @@
 
 <body onload="if (dark) { dark = !dark; toggleNight(); }">
 
-  <header id="header">
-    <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
-    <nav>
-      <ul class="nav-list">
-        <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" class="nav-link"
-            id="data-link-a">
-            <div style="display:flex;vertical-align:middle;">
-              <span><i class="fa-solid fa-file-lines" style="font-size:14pt;"></i></span>
+  <div id="header">
+    <div id="colorbar"></div>
+    <div class="pre-main">
+       <div class="post-header">
+          <div>
+             <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
+          </div>
+          <div>
+            <a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" id="data-link-a">
+              <span><i class="fa-solid fa-file-lines"></i></span>
               <span style="padding-left:4px;">Link to paper</span>
-            </div>
-          </a></li>
-        <li><a href="https://github.com/tsipkens" class="nav-link">
-            <div style="display:flex;vertical-align:middle;">
-              <span><i class="fa-brands fa-github" style="font-size:16pt;"></i></span>
+            </a>
+            <a href="https://github.com/tsipkens">
+              <span><i class="fa-brands fa-github"></i></span>
               <span style="padding-left:4px;">@tsipkens</span>
-            </div>
-          </a></li>
-        <li>
-          <a class="nav-link">
+            </a>
             <button onclick="toggleNight()" class="light-dark-toggle" id="light-dark-toggle-bar">
-              <span><i class="fas fa-moon" id="moon"></i></span>
-              <span><i class="fas fa-sun" id="sun"></i></span>
+               <span><i class="fas fa-moon" id="moon"></i></span>
+               <span><i class="fas fa-sun" id="sun"></i></span>
             </button>
-          </a>
-        </li>
-      </ul>
-    </nav>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <!--
+  <header id="header">
+    <div class="main">
+      <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" class="nav-link"
+              id="data-link-a">
+              <div style="display:flex;vertical-align:middle;">
+                <span><i class="fa-solid fa-file-lines" style="font-size:14pt;"></i></span>
+                <span style="padding-left:4px;">Link to paper</span>
+              </div>
+            </a></li>
+          <li><a href="https://github.com/tsipkens" class="nav-link">
+              <div style="display:flex;vertical-align:middle;">
+                <span><i class="fa-brands fa-github" style="font-size:16pt;"></i></span>
+                <span style="padding-left:4px;">@tsipkens</span>
+              </div>
+            </a></li>
+          <li>
+            <a class="nav-link">
+              <button onclick="toggleNight()" class="light-dark-toggle" id="light-dark-toggle-bar">
+                <span><i class="fas fa-moon" id="moon"></i></span>
+                <span><i class="fas fa-sun" id="sun"></i></span>
+              </button>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
+-->
 
   <div class="main">
 
