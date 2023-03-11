@@ -70,360 +70,320 @@
   <div id="header">
     <div id="colorbar"></div>
     <div class="pre-main">
-       <div class="post-header">
-          <div>
-             <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
-          </div>
-          <div>
-            <a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" id="data-link-a">
-              <span><i class="fa-solid fa-file-lines"></i></span>
-              <span style="padding-left:4px;">Link to paper</span>
-            </a>
-            <a href="https://github.com/tsipkens">
-              <span><i class="fa-brands fa-github"></i></span>
-              <span style="padding-left:4px;">@tsipkens</span>
-            </a>
-          </div>
-          <div>
-            <button onclick="toggleNight()" class="light-dark-toggle" id="light-dark-toggle-bar">
-              <span><i class="fas fa-moon" id="moon"></i></span>
-              <span><i class="fas fa-sun" id="sun"></i></span>
-            </button>
-          </div>
-       </div>
-    </div>
- </div>
-
- <!--
-  <header id="header">
-    <div class="main">
-      <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
-      <nav>
-        <ul class="nav-list">
-          <li><a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" class="nav-link"
-              id="data-link-a">
-              <div style="display:flex;vertical-align:middle;">
-                <span><i class="fa-solid fa-file-lines" style="font-size:14pt;"></i></span>
-                <span style="padding-left:4px;">Link to paper</span>
-              </div>
-            </a></li>
-          <li><a href="https://github.com/tsipkens" class="nav-link">
-              <div style="display:flex;vertical-align:middle;">
-                <span><i class="fa-brands fa-github" style="font-size:16pt;"></i></span>
-                <span style="padding-left:4px;">@tsipkens</span>
-              </div>
-            </a></li>
-          <li>
-            <a class="nav-link">
-              <button onclick="toggleNight()" class="light-dark-toggle" id="light-dark-toggle-bar">
-                <span><i class="fas fa-moon" id="moon"></i></span>
-                <span><i class="fas fa-sun" id="sun"></i></span>
-              </button>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
--->
-
-  <div class="main">
-
-    <a class="anchor" id="h1"></a>
-
-    <h1 class="title">tfer-pma.</h1>
-
-    <h2 class="subtitle">A particle mass analyzer<br>transfer function<br>evaluator.</h2>
-
-    <div class="imgwrap">
-      <img src="docs/imgs/top_a.svg" id="img1">
-      <img src="docs/imgs/top_b.svg" id="img2">
-      <img src="docs/imgs/top_a_dark.svg" id="img1d">
-      <img src="docs/imgs/top_b_dark.svg" id="img2d">
-    </div>
-
-    <p align="justify">
-      This web app examines the transfer function of particle mass analyzers,
-      like the centrifugal particle mass analyer (CPMA) or aerosol particle
-      mass analyzer (APM).
-      We refer the reader to
-      <a href="https://doi.org/10.1080/02786826.2019.1680794">
-        Sipkens et al. (2020)</a>
-      for more information on the underlying analytical transfer functions. A
-      supporting repository with code to evaluate the PMA transfer functions is available
-      <a href="https://github.com/tsipkens/tfer-pma">here</a>
-      — including
-      <a href="https://github.com/tsipkens/mat-tfer-pma">Matlab</a>,
-      <a href="https://github.com/tsipkens/tfer-pma/tree/master/py">Python</a>, and
-      <a href="https://github.com/tsipkens/tfer-pma/tree/master/js">Javacsript</a> versions.
-      A separate Matlab version, which can be imported into larger projects
-      is also available
-      <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>
-      (e.g., this package is imported into
-      <a href="https://github.com/tsipkens/mat-2d-aerosol-inversion">mat-2d-aerosol-inversion</a>).
-    </p>
-
-    <p align="justify">
-      <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
-      when ω<sub>2</sub>/ω<sub>1</sub> = 1.
-      Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
-      are achieved when ω<sub>2</sub>/ω<sub>1</sub> = 0.9696.
-      Another interesting condition occurs when doubling the length to 40 cm,
-      a scenario that can (very, very roughly) approximate two devices in series.
-      In this case, diffusion is much larger, resulting in smooth, Gaussian-like
-      curves even for m* ≈ 5 fg with distinct charging peaks.
-    </p>
-
-    <p align="justify">
-      We note that Case 1S, following from the approach proposed
-      <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
-      results in various anomalies. For example, in the default app settings, there is
-      an anomaly for the z = 1 transfer function, which appears as a linear increase
-      in the transfer function for m/m* > 2 (enable Case 1S below to see this).
-      This artifact is a consequence
-      of solving for the equilibrium raidus and demonstrates a limitation
-      of that approach. Other anomalies include problems with calculating the
-      uncharged (z = 0) contributions. The method is generally stable
-      for the ω<sub>2</sub>/ω<sub>1</sub> = 1, the case originally intended by
-      <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
-    </p>
-
-    <p>
-      The default view shows contributions from
-      integer charge states z = 1 through 3.
-      All cases correspond to uniform flow
-      — for parabolic transfer functions see
-      <a href="https://doi.org/10.1080/02786826.2019.1680794">
-        Sipkens et al. (2020)</a>.
-      A few preset conditions:
-
-      <ol style="padding-bottom:40px;">
-        <li><a href="#hgraphic" id="setapm">APM conditions</a></li>
-        <li><a href="#hgraphic" id="setcpma">CPMA conditions</a></li>
-        <li><a href="#hgraphic" id="setehara_c">Ehara, Fig. 8c</a> (uniform flow only)</li>
-        <!--<li><a href="#hgraphic" id="setolfertcollings_a">Olfert and Collings, Fig. 5a</a></li>-->
-      </ol>
-    </p>
-
-
-    <h2>Visualization</h2>
-
-    <h3>Legend</h3>
-    <div>
-      <!--
-      <div style="display:inline-block;vertical-align:top;padding-right:2px;">
-        <input type="checkbox" class="cbC" id="cbC1" checked> <br>
-        <input type="checkbox" class="cbC" id="cbC2" checked> <br>
-        <input type="checkbox" class="cbC" id="cbC3" checked> <br>
-        <input type="checkbox" class="cbC" id="cbC4" checked> <br>
-        <input type="checkbox" class="cbC" id="cbC5" checked>
-      </div>
-      <div style="display:inline-block;width:100%;" id="my_legend"></div>
-      -->
-      <div id="my_legend"></div>
-    </div>
-
-
-    <h3>Properties</h3>
-
-    <div class="control">
-      <span class="control-label">Inner radius</span>
-      <span class="control-unit">cm</span> <br>
-      <input class="textinput" id="r1num" type="number" min="1" max="20" step="0.01" value="0">
-    </div>
-    <div class="control">
-      <span class="control-label">Outer radius</span>
-      <span class="control-unit">cm</span> <br>
-      <input class="textinput" id="r2num" type="number" min="1" max="20" step="0.01" value="0">
-    </div>
-
-    <div class="control">
-      <span class="control-label">Length</span>
-      <span class="control-unit">cm</span> <br>
-      <input class="textinput" id="Lnum" type="number" value="20" min="1">
-    </div>
-
-    <br>
-
-    <div class="control">
-      <span class="control-label">Flow rate</span>
-      <span class="control-unit">LPM</span> <br>
-      <input class="textinput" id="Qnum" type="number" min="0.5" max="100" step="0.1" value="3">
-    </div>
-
-    <div class="control">
-      <span class="control-label">ω<sub>2</sub>/ω<sub>1</sub></span> <br>
-      <input class="textinput" id="omegahnum" type="number" min="0.5" max="1.1" step="0.001" value="0"> <br>
-      <span class="control-unit" style="line-height:10pt"></span>
-    </div>
-
-    <div class="control">
-      <span class="control-label">D<sub>m</sub></span> <br>
-      <input class="textinput" id="Dmnum" type="number" min="0.1" max="4" step="0.05" value="0.1">
-    </div>
-
-    <div class="control">
-      <span class="control-label">ρ<sub>eff,100</sub></span>
-      <span class="control-unit">kg/m³</span> <br>
-      <input class="textinput" id="rhonum" type="number" min="20" max="1e4" step="20" value="20">
-    </div>
-
-    <br>
-
-    <div class="control">
-      <span class="control-label">Integer charge states </span> <br>
-
-      <label class="cb" for="cbZ0">
-        <input type="checkbox" class="cbZ" id="cbZ0" value="0" checked>
-        <span class="cbspan">Uncharged</span>
-      </label> <br>
-
-      <label class="cb" for="cbZ1">
-        <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
-        <span class="cbspan">z = 1</span>
-      </label> <br>
-
-      <label class="cb" for="cbZ2">
-        <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
-        <span class="cbspan">z = 2</span>
-      </label> <br>
-
-      <label class="cb" for="cbZ3">
-        <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
-        <span class="cbspan">z = 3</span>
-      </label>
-    </div>
-
-    <div class="control">
-      <span class="control-label">Include charging? </span>
-      <div style="line-height:11pt;">
-        <span class="control-unit" style="padding:0px;line-height:7pt;">Wiedensohler, z = 3
-          <br> Gopalakrishnan, z < 3 </span> </div> <label class="cb" for="fCharge">
-            <input type="checkbox" class="fCharge" id="fCharge" value="0" unchecked>
-            </label> <br>
-      </div>
-
-      <div class="control">
-        <span class="control-label" style="padding-top:0px;">Include Case 1S? </span>
-        <div style="line-height:11pt;">
-          <span class="control-unit">(Removed for clarity)</span> <br>
+      <div class="post-header">
+        <div>
+          <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
+          <a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" id="data-link-a">
+            <span><i class="fa-solid fa-file-lines"></i></span>
+            <span style="padding-left:4px;">Link to paper</span>
+          </a>
+          <a href="https://github.com/tsipkens">
+            <span><i class="fa-brands fa-github"></i></span>
+            <span style="padding-left:4px;">@tsipkens</span>
+          </a>
         </div>
-        <label class="cb" for="f1S">
-          <input type="checkbox" class="fCharge" id="f1S" value="0" unchecked>
-        </label> <br>
+        <button onclick="toggleNight()" class="light-dark-toggle" id="light-dark-toggle-bar">
+          <span><i class="fas fa-moon" id="moon"></i></span>
+          <span><i class="fas fa-sun" id="sun"></i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pre-main">
+    <div class="main">
+
+      <a class="anchor" id="h1"></a>
+
+      <h1 class="title">tfer-pma.</h1>
+
+      <h2 class="subtitle">A particle mass analyzer<br>transfer function<br>evaluator.</h2>
+
+      <div class="imgwrap">
+        <img src="docs/imgs/top_a.svg" id="img1">
+        <img src="docs/imgs/top_b.svg" id="img2">
+        <img src="docs/imgs/top_a_dark.svg" id="img1d">
+        <img src="docs/imgs/top_b_dark.svg" id="img2d">
       </div>
 
-      <a class="anchor" id="hgraphic"></a>
+      <p align="justify">
+        This web app examines the transfer function of particle mass analyzers,
+        like the centrifugal particle mass analyer (CPMA) or aerosol particle
+        mass analyzer (APM).
+        We refer the reader to
+        <a href="https://doi.org/10.1080/02786826.2019.1680794">
+          Sipkens et al. (2020)</a>
+        for more information on the underlying analytical transfer functions. A
+        supporting repository with code to evaluate the PMA transfer functions is available
+        <a href="https://github.com/tsipkens/tfer-pma">here</a>
+        — including
+        <a href="https://github.com/tsipkens/mat-tfer-pma">Matlab</a>,
+        <a href="https://github.com/tsipkens/tfer-pma/tree/master/py">Python</a>, and
+        <a href="https://github.com/tsipkens/tfer-pma/tree/master/js">Javacsript</a> versions.
+        A separate Matlab version, which can be imported into larger projects
+        is also available
+        <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>
+        (e.g., this package is imported into
+        <a href="https://github.com/tsipkens/mat-2d-aerosol-inversion">mat-2d-aerosol-inversion</a>).
+      </p>
 
-      <h3>Setpoint</h3>
+      <p align="justify">
+        <b>APM</b> (aerosol particle mass analyzer) conditions are achieved
+        when ω<sub>2</sub>/ω<sub>1</sub> = 1.
+        Typcialy <b>CPMA</b> (centrifugal particle mass analyzer) conditions
+        are achieved when ω<sub>2</sub>/ω<sub>1</sub> = 0.9696.
+        Another interesting condition occurs when doubling the length to 40 cm,
+        a scenario that can (very, very roughly) approximate two devices in series.
+        In this case, diffusion is much larger, resulting in smooth, Gaussian-like
+        curves even for m* ≈ 5 fg with distinct charging peaks.
+      </p>
 
-      <!-- Add sliders etc. -->
-      <div class="control" id="select-div">
-        <span class="control-label">Setpoint mode </span> <br>
-        <select id="sp-mode">
-          <option>Mass + Resolution</option>
-          <option>Mass + Voltage</option>
-          <option>Mass + Angular speed</option>
-        </select> <br>
+      <p align="justify">
+        We note that Case 1S, following from the approach proposed
+        <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>,
+        results in various anomalies. For example, in the default app settings, there is
+        an anomaly for the z = 1 transfer function, which appears as a linear increase
+        in the transfer function for m/m* > 2 (enable Case 1S below to see this).
+        This artifact is a consequence
+        of solving for the equilibrium raidus and demonstrates a limitation
+        of that approach. Other anomalies include problems with calculating the
+        uncharged (z = 0) contributions. The method is generally stable
+        for the ω<sub>2</sub>/ω<sub>1</sub> = 1, the case originally intended by
+        <a href="https://doi.org/10.1016/0021-8502(95)00562-5">Ehara et al. (1996)</a>.
+      </p>
+
+      <p>
+        The default view shows contributions from
+        integer charge states z = 1 through 3.
+        All cases correspond to uniform flow
+        — for parabolic transfer functions see
+        <a href="https://doi.org/10.1080/02786826.2019.1680794">
+          Sipkens et al. (2020)</a>.
+        A few preset conditions:
+
+        <ol style="padding-bottom:40px;">
+          <li><a href="#hgraphic" id="setapm">APM conditions</a></li>
+          <li><a href="#hgraphic" id="setcpma">CPMA conditions</a></li>
+          <li><a href="#hgraphic" id="setehara_c">Ehara, Fig. 8c</a> (uniform flow only)</li>
+          <!--<li><a href="#hgraphic" id="setolfertcollings_a">Olfert and Collings, Fig. 5a</a></li>-->
+        </ol>
+      </p>
+
+
+      <div class="head-div">
+        <h2>Visualization</h2>
+      </div>
+
+      <h3>Classifier and particle properties</h3>
+
+      <div class="control">
+        <span class="control-label">Inner radius</span>
+        <span class="control-unit">cm</span> <br>
+        <input class="textinput" id="r1num" type="number" min="1" max="20" step="0.01" value="0">
+      </div>
+      <div class="control">
+        <span class="control-label">Outer radius</span>
+        <span class="control-unit">cm</span> <br>
+        <input class="textinput" id="r2num" type="number" min="1" max="20" step="0.01" value="0">
       </div>
 
       <div class="control">
-        <span class="control-label" id="var1-name">Mass setpoint </span>
-        <span class="control-unit">fg</span> <br>
-        <input class="textinput" name="mSlider" id="mSlider" type="number" value="0.01">
-        <!-- <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" class="slider">  -->
-      </div>
-
-      <div class="control">
-        <span class="control-label" id="var2-name">Resolution</span>
-        <span class="control-unit" id="var2-units"></span> <br>
-        <input class="textinput" name="RmSlider" id="RmSlider" type="number" value="5" step="0.5" min="0">
-        <!-- <input type="range" name="RmSlider" id="RmSlider" min="1" max="14" value="8" onchange="displayRmval(this.value);" class="slider"> <br> -->
+        <span class="control-label">Length</span>
+        <span class="control-unit">cm</span> <br>
+        <input class="textinput" id="Lnum" type="number" value="20" min="1">
       </div>
 
       <br>
 
       <div class="control">
-        <span class="control-label" id="var3-name">Angular speed </span> <br>
-        ω = <div class="output-div" id="Wval">-</div> rad/s <br>
-        ω = <div class="output-div" id="Wrpmval">-</div> RPM
+        <span class="control-label">Flow rate</span>
+        <span class="control-unit">LPM</span> <br>
+        <input class="textinput" id="Qnum" type="number" min="0.5" max="100" step="0.1" value="3">
       </div>
 
       <div class="control">
-        <span class="control-label" id="var4-name">Voltage </span> <br>
-        V = <div class="output-div" id="Vval">-</div> V
+        <span class="control-label">ω<sub>2</sub>/ω<sub>1</sub></span> <br>
+        <input class="textinput" id="omegahnum" type="number" min="0.5" max="1.1" step="0.001" value="0"> <br>
+        <span class="control-unit" style="line-height:10pt"></span>
       </div>
 
       <div class="control">
-        <span class="control-label" id="var5-name">Resolution </span> <br>
-        R<sub>m</sub> = <div class="output-div" id="Rmval2">-</div>
+        <span class="control-label">D<sub>m</sub></span> <br>
+        <input class="textinput" id="Dmnum" type="number" min="0.1" max="4" step="0.05" value="0.1">
       </div>
 
-      <div class="control" style="width:95%;display:inline-block">
-        <span class="control-label" style="padding-bottom:0px;">Mobility diameter @ (m*, 2m*, 3m*) </span>
-        <span class="control-unit"> nm</span> <br>
-        (<div class="output-div" id="dmval1">-</div>,
-        <div class="output-div" id="dmval2">-</div>,
-        <div class="output-div" id="dmval3">-</div>)
+      <div class="control">
+        <span class="control-label">ρ<sub>eff,100</sub></span>
+        <span class="control-unit">kg/m³</span> <br>
+        <input class="textinput" id="rhonum" type="number" min="20" max="1e4" step="20" value="20">
       </div>
 
-      <div class="control" style="width:95%;display:inline-block">
-        <span class="control-label" style="padding-bottom:0px;">Specific mass @ (m*, 2m*, 3m*) </span>
-        <span class="control-unit"> kg/C</span> <br>
-        (<div class="output-div" id="sval1">-</div>,
-        <div class="output-div" id="sval2">-</div>,
-        <div class="output-div" id="sval3">-</div>)
+      <br>
+
+      <div class="control">
+        <span class="control-label">Integer charge states </span> <br>
+
+        <label class="cb" for="cbZ0">
+          <input type="checkbox" class="cbZ" id="cbZ0" value="0" checked>
+          <span class="cbspan">Uncharged</span>
+        </label> <br>
+
+        <label class="cb" for="cbZ1">
+          <input type="checkbox" class="cbZ" id="cbZ1" value="1" checked>
+          <span class="cbspan">z = 1</span>
+        </label> <br>
+
+        <label class="cb" for="cbZ2">
+          <input type="checkbox" class="cbZ" id="cbZ2" value="2" checked>
+          <span class="cbspan">z = 2</span>
+        </label> <br>
+
+        <label class="cb" for="cbZ3">
+          <input type="checkbox" class="cbZ" id="cbZ3" value="3" checked>
+          <span class="cbspan">z = 3</span>
+        </label>
       </div>
 
-      <div id="myz" style="margin-top:10px;"></div>
+      <div class="control">
+        <span class="control-label">Include charging? </span>
+        <div style="line-height:11pt;">
+          <span class="control-unit" style="padding:0px;line-height:7pt;">Wiedensohler, z = 3
+            <br> Gopalakrishnan, z < 3 </span> </div> <label class="cb" for="fCharge">
+              <input type="checkbox" class="fCharge" id="fCharge" value="0" unchecked>
+              </label> <br>
+        </div>
 
-      <!-- Create a div where the graph will take place -->
-      <div id="my_dataviz"></div>
+        <div class="control">
+          <span class="control-label" style="padding-top:0px;">Include Case 1S? </span>
+          <div style="line-height:11pt;">
+            <span class="control-unit">(Removed for clarity)</span> <br>
+          </div>
+          <label class="cb" for="f1S">
+            <input type="checkbox" class="fCharge" id="f1S" value="0" unchecked>
+          </label> <br>
+        </div>
 
-      <script src="docs/index.js"></script>
+        <a class="anchor" id="hgraphic"></a>
 
-    </div>
+        <h3>Setpoint</h3>
 
-    <div class="footer">
-      <div class="main" style="padding-top:10px;padding-bottom:10px;">
-        <h3>Citing this work</h3>
+        <!-- Add sliders etc. -->
+        <div class="control" id="select-div">
+          <span class="control-label">Setpoint mode </span> <br>
+          <select id="sp-mode">
+            <option>Mass + Resolution</option>
+            <option>Mass + Voltage</option>
+            <option>Mass + Angular speed</option>
+          </select> <br>
+        </div>
 
-        <p>
-          <sup>1</sup> Code supporting this viz is open source and available in an
-          <a href="https://github.com/tsipkens/tfer-pma">associated repository</a> on GitHub.
-        </p>
+        <div class="control">
+          <span class="control-label" id="var1-name">Mass setpoint </span>
+          <span class="control-unit">fg</span> <br>
+          <input class="textinput" name="mSlider" id="mSlider" type="number" value="0.01" step="0.002">
+          <!-- <input type="range" name="mSlider" id="mSlider" min="1" max="23" value="8" class="slider">  -->
+        </div>
 
-        <p>
-          <sup>2</sup> The analytical transfer functions are given in a journal article:
-        </p>
+        <div class="control">
+          <span class="control-label" id="var2-name">Resolution</span>
+          <span class="control-unit" id="var2-units"></span> <br>
+          <input class="textinput" name="RmSlider" id="RmSlider" type="number" value="5" step="0.5" min="0">
+          <!-- <input type="range" name="RmSlider" id="RmSlider" min="1" max="14" value="8" onchange="displayRmval(this.value);" class="slider"> <br> -->
+        </div>
 
-        <p class="ref">
-          <a href="https://doi.org/10.1080/02786826.2019.1680794">
-            T. A. Sipkens, J. S. Olfert, S. N. Rogak.
-            <i>Aerosol Science and Technology</i>. (2020).
-          </a>
-        </p>
+        <br>
 
-        <p style="padding-bottom:35px;">
-          This paper should be cited when referring to the underlying functions.
-        </p>
+        <div class="control">
+          <span class="control-label" id="var3-name">Angular speed </span> <br>
+          ω = <div class="output-div" id="Wval">-</div> rad/s <br>
+          ω = <div class="output-div" id="Wrpmval">-</div> RPM
+        </div>
+
+        <div class="control">
+          <span class="control-label" id="var4-name">Voltage </span> <br>
+          V = <div class="output-div" id="Vval">-</div> V
+        </div>
+
+        <div class="control">
+          <span class="control-label" id="var5-name">Resolution </span> <br>
+          R<sub>m</sub> = <div class="output-div" id="Rmval2">-</div>
+        </div>
+
+        <div class="control" style="width:95%;display:inline-block">
+          <span class="control-label" style="padding-bottom:0px;">Mobility diameter @ (m*, 2m*, 3m*) </span>
+          <span class="control-unit"> nm</span> <br>
+          (<div class="output-div" id="dmval1">-</div>,
+          <div class="output-div" id="dmval2">-</div>,
+          <div class="output-div" id="dmval3">-</div>)
+        </div>
+
+        <div class="control" style="width:95%;display:inline-block">
+          <span class="control-label" style="padding-bottom:0px;">Specific mass @ (m*, 2m*, 3m*) </span>
+          <span class="control-unit"> kg/C</span> <br>
+          (<div class="output-div" id="sval1">-</div>,
+          <div class="output-div" id="sval2">-</div>,
+          <div class="output-div" id="sval3">-</div>)
+        </div>
+
+        <div id="myz" style="margin-top:10px;"></div>
+
+        <!-- Create a div where the graph will take place -->
+        <div id="my_dataviz"></div>
+
+        <h3>Legend</h3>
+        <div>
+          <div id="my_legend"></div>
+        </div>
+
+        <script src="docs/index.js"></script>
+
+        <div class="head-div">
+          <h2>References and resources</h2>
+        </div>
+
+        <ol>
+
+          <h3>Citing this work</h3>
+          
+          <p>
+            The analytical transfer functions are given in a journal article:
+          </p>
+          
+          <p>
+            <li>
+              T. A. Sipkens, J. S. Olfert, S. N. Rogak. 
+              New approaches to calculate the transfer function of particle mass analyzers. 
+              <i>Aerosol Science and Technology</i> <b>54</b>, 111-127 (2020).
+              <a style="display:inline-block;" href="https://doi.org/10.1080/02786826.2019.1680794">10.1080/02786826.2019.1680794</a>
+            </li>
+          </p>
+
+          <p>
+            This paper should be cited when referring to the underlying functions.
+          </p>
+
+          <p>
+            Code supporting this viz is open source and available in an
+            <a href="https://github.com/tsipkens/tfer-pma">associated repository</a> on GitHub.
+          </p>
+
+          <h3>Other resources</h3>
+
+          <p>
+            <li>
+              K. Ehara, C. Hagwood, K. J. Coakley. 
+              Novel method to classify aerosol particles according to their mass-to-charge ratio—aerosol particle mass analyser. 
+              <i>Journal of Aerosol Science</i> <b>27</b>, 217-234 (1996). 
+              <a style="display:inline-block;" href="https://doi.org/10.1016/0021-8502(95)00562-5">10.1016/0021-8502(95)00562-5</a>
+            </li>
+          </p>
+
+        </ol>
 
       </div>
     </div>
 
 </body>
-
-<script>
-  // For dark mode.
-  const btn = document.querySelector("#btn-toggle");
-  btn.addEventListener("click", function () {
-    // Toggle dark theme.
-    dark = !dark;
-
-    toggleNight(); // apply theme
-    scrollFunction();
-  })
-</script>
 
 <script>
   // When the user scrolls down 50px from the top of the document, reformat header
