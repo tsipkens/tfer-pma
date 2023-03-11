@@ -25,7 +25,7 @@ console.log('sp = ')
 console.log(sp)
 console.log(' ')
 
-var mr_vec = linspace(1e-5, 3.7, 601)
+var mr_vec = linspace(1e-5, 4.7, 601)
 var m_vec = mr_vec.map(function(x) {
   return x * m_star;
 });
@@ -34,7 +34,7 @@ var d = m_vec.map(function(x) {
   return (Math.pow(x / prop['m0'], 1 / prop['Dm']) * 1e-9);
 })
 
-var z_vec = [0, 1, 2, 3]
+var z_vec = [0, 1, 2, 3, 4]
 
 var Lambda_1C = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C)
 var Lambda_1C_diff = parse_fun(sp, m_vec, d, z_vec, prop, tfer_1C_diff)
@@ -237,9 +237,10 @@ svg.append("rect")
   .attr("height", height);
 
 // Add X axis
-var xMax = 3.7
+var xMax = 4.7
+var xMin = 1e-5
 var x = d3.scaleLinear()
-  .domain([0, xMax])
+  .domain([xMin, xMax])
   .range([0, width]);
 var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
@@ -250,7 +251,7 @@ var xAxis2 = svg.append("g")
   .call(d3.axisTop(x).ticks(0));
 
 var x4 = d3.scaleLinear()
-  .domain([0, m_star * xMax * 1e18])
+  .domain([xMin * m_star * 1e18, xMax * m_star * 1e18])
   .range([0, width]);
 var xAxis4 = svg.append("g")
   .attr("class", "axis")
@@ -802,7 +803,7 @@ function updatePlot(data) {
     .call(d3.axisRight(y).ticks(0))
 
   x4 = d3.scaleLinear()
-    .domain([0, m_star * xMax * 1e18])
+    .domain([xMin * m_star * 1e18, xMax * m_star * 1e18])
     .range([0, width]);
   xAxis4.call(d3.axisBottom(x4).ticks(5));
   
@@ -960,53 +961,29 @@ var svg3 = d3.select("#myz")
   .attr("transform", "translate(" + marginl.left + "," + marginl.top + ")");
 var xAxis3 = svg3.append("g")
   .attr("class", "axis")
-  .call(d3.axisTop(x).tickValues([1, 2, 3]))
+  .call(d3.axisTop(x).tickValues(z_vec))
 
-svg3.append("circle")
-  .attr("cx", function() {
-    return x(1)
-  })
-  .attr("cy", -18)
-  .attr("r", 11)
-  .attr("class", "legend-circle")
-  .attr("stroke-width", 1.0)
-svg3.append("text")
-  .attr("text-anchor", "middle")
-  .attr('transform', 'translate(' + x(1) + ',-14)')
-  .attr("class", "legend-label")
-  .style("font-size", "11px")
-  .text("+1")
-svg3.append("circle")
-  .attr("cx", function() {
-    return x(2)
-  })
-  .attr("cy", -18)
-  .attr("r", 11)
-  .attr("class", "legend-circle")
-  .attr("stroke-width", 1.0)
-svg3.append("text")
-  .attr("text-anchor", "middle")
-  .attr('transform', 'translate(' + x(2) + ',-14)')
-  .attr("class", "legend-label")
-  .style("font-size", "11px")
-  .text("+2")
-svg3.append("circle")
-  .attr("cx", function() {
-    return x(3)
-  })
-  .attr("cy", -18)
-  .attr("r", 11)
-  .attr("class", "legend-circle")
-  .attr("stroke-width", 1.0)
-svg3.append("text")
-  .attr("text-anchor", "middle")
-  .attr('transform', 'translate(' + x(3) + ',-14)')
-  .attr("class", "legend-label")
-  .style("font-size", "11px")
-  .text("+3")
+// add "charge circles" above top axis
+for (zi in z_vec) {
+  console.log(zi)
+  svg3.append("circle")
+    .attr("cx", function() {
+      return x(zi)
+    })
+    .attr("cy", -18)
+    .attr("r", 11)
+    .attr("class", "legend-circle")
+    .attr("stroke-width", 1.0)
+  svg3.append("text")
+    .attr("text-anchor", "middle")
+    .attr('transform', 'translate(' + x(zi) + ',-14)')
+    .attr("class", "legend-label")
+    .style("font-size", "11px")
+    .text("+" + zi.toString(0))
+}
 svg3.append("text")
   .attr("text-anchor", "left")
-  .attr('transform', 'translate(' + 30 + ',-13)')
+  .attr('transform', 'translate(' + -40 + ',-13)')
   .attr("class", "legend-label")
   .style("font-size", "13px")
   .text("z = ")
