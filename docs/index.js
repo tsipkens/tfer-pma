@@ -1,3 +1,5 @@
+var e = 1.60218e-19;
+
 prop = prop_pma()
 prop['omega_hat'] = 0.9696
 // prop['omega_hat'] = 1
@@ -251,7 +253,7 @@ var xAxis2 = svg.append("g")
   .call(d3.axisTop(x).ticks(0));
 
 var x4 = d3.scaleLinear()
-  .domain([xMin * m_star * 1e18, xMax * m_star * 1e18])
+  .domain([xMin * m_star / e, xMax * m_star / e])
   .range([0, width]);
 var xAxis4 = svg.append("g")
   .attr("class", "axis")
@@ -287,7 +289,7 @@ svg.append("text")
   .attr('x', width / 2)
   .attr('y', height + 94)
   .attr("class", "legend-label")
-  .text("Particle mass, m [fg]");
+  .text("Specific mass, s [kg/C]");
 
 // Y axis label:
 svg.append("text")
@@ -550,32 +552,32 @@ d3.select("#setcpma").on("click", function() {
 })
 
 d3.select("#setolfertcollings_a").on("click", function() {
-  prop['omega_hat'] = 0.9696
-  document.getElementById('omegahnum').value = 0.9696
+  prop['omega_hat'] = 0.945
+  document.getElementById('omegahnum').value = prop['omega_hat']
 
-  prop['Q'] = 0.5 / 1000 / 60;
-  document.getElementById('Qnum').value = 0.5
-
-  prop['r1'] = 0.06;
-  prop['r2'] = 0.061;
+  // Set classifier properties
+  prop['Q'] = 8.3333e-6;
+  document.getElementById('Qnum').value = Math.round(prop['Q'] * 1000 * 60 * 100) / 100
+  prop['r1'] = 0.1;
+  prop['r2'] = 0.103;
   prop = afterRadiusUpdate(prop)
-  document.getElementById('r1num').value = 0.06 * 100
-  document.getElementById('r2num').value = 0.061 * 100
-  document.getElementById('r1num').max = 0.061 * 100 - 0.005
-  document.getElementById('r2num').min = 0.06 * 100 + 0.005
+  document.getElementById('r1num').value = 10
+  document.getElementById('r2num').value = 10.3
+  document.getElementById('r1num').max = 0.103 * 100 - 0.005
+  document.getElementById('r2num').min = 0.1 * 100 + 0.005
 
   // Set mass-mobility relations
-  rho_eff100 = 900  // set global variable
+  rho_eff100 = 1000  // set global variable
   prop['Dm'] = 3;
-  document.getElementById('Dmnum').value = 3
+  document.getElementById('Dmnum').value = prop['Dm'] = 3;
   document.getElementById('rhonum').value = rho_eff100
 
   // Switch to m + V mode
   document.getElementById('sp-mode').value = "Mass + Voltage"
 
   // Set m and Rm values
-  V = 100
-  m_star = 7.6793e-19
+  V = 10
+  m_star = 0.07675e-18
 
   sp_var1 = "m_star"
   sp_var2 = "V"
@@ -583,7 +585,10 @@ d3.select("#setolfertcollings_a").on("click", function() {
   document.getElementById('var2-name').innerHTML = 'Voltage';
   document.getElementById('var2-units').innerHTML = 'V';
   document.getElementById('RmSlider').value = V.toPrecision(3);
-  document.getElementById('mval').innerHTML = (m_star * 1e18).toPrecision(3);
+  document.getElementById('mSlider').value = (m_star * 1e18).toPrecision(3);
+
+  f1S = true;
+  document.getElementById('f1S').checked = true;
 
   updateData(V, m_star, prop);
 })
@@ -604,7 +609,7 @@ d3.select("#setehara_c").on("click", function() {
   document.getElementById('r2num').min = 0.1 * 100 + 0.005
 
   // Set mass-mobility relations
-  rho_eff100 = 900  // set global variable
+  rho_eff100 = 1000  // set global variable
   prop['Dm'] = 3;
   document.getElementById('Dmnum').value = 3
   document.getElementById('rhonum').value = rho_eff100
@@ -624,8 +629,8 @@ d3.select("#setehara_c").on("click", function() {
   document.getElementById('var1-name').innerHTML = 'Mass setpoint';
   document.getElementById('var2-name').innerHTML = 'Voltage';
   document.getElementById('var2-units').innerHTML = 'V';
-  document.getElementById('RmSlider').value = V.toPrecision(3);
-  document.getElementById('mval').innerHTML = (m_star * 1e18).toPrecision(3);
+  document.getElementById('RmSlider').value = V.toPrecision(4);
+  document.getElementById('mSlider').value = (m_star * 1e18).toPrecision(3);
 
   updateData(V, m_star, prop);
 })
@@ -773,8 +778,7 @@ var updateVals = function() {
     (Math.pow(2 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
   document.getElementById('dmval3').innerHTML =
     (Math.pow(3 * sp['m_star'] / prop['m0'], 1 / prop['Dm'])).toPrecision(4);
-
-  var e = 1.60218e-19;
+  
   document.getElementById('sval1').innerHTML =
     (sp['m_star'] / e).toPrecision(4);
   document.getElementById('sval2').innerHTML =
@@ -803,7 +807,7 @@ function updatePlot(data) {
     .call(d3.axisRight(y).ticks(0))
 
   x4 = d3.scaleLinear()
-    .domain([xMin * m_star * 1e18, xMax * m_star * 1e18])
+    .domain([xMin * m_star / e, xMax * m_star / e])
     .range([0, width]);
   xAxis4.call(d3.axisBottom(x4).ticks(5));
   

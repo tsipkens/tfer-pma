@@ -510,7 +510,6 @@ var tfer_charge = function(d, z) {
 
 var fCharge = 0;
 var parse_fun = function(sp, m, d, z_vec, prop, fun) {
-  console.log(z_vec)
   var Lambda = Array(m.length),
     tCharge = tfer_charge(d, z_vec); // unused as y-scale becomes challenging
   for (ii in m) { // loop over particle mass
