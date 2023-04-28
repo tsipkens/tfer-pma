@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Sipkens"
+  given-names: "Timothy"
+  orcid: "https://orcid.org/0000-0003-1719-7105"
+title: "Tools for PMA transfer function evaluation"
+url: "https://github.com/tsipkens/tfer-pma"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Sipkens"
+    given-names: "Timothy A."
+    orcid: "https://orcid.org/0000-0003-1719-7105"
+  - family-names: "Olfert"
+    given-names: "Jason S."
+    orcid: "https://orcid.org/0000-0002-9681-5428"
+  - family-names: "Rogak"
+    given-names: "Steven N."
+    orcid: "https://orcid.org/0000-0002-4418-517X"
+  doi: "10.1080/02786826.2019.1680794"
+  journal: "Aerosol Science and Technology"
+  month: 10
+  start: 111
+  end: 127
+  title: "New approaches to calculate the transfer function of particle mass analyzers"
+  issue: 1
+  volume: 54
+  year: 2019
