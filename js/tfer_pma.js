@@ -402,7 +402,7 @@ var parse_inputs = function(sp, m, d, z, prop) {
     var B = __left0__[0];
   }
   var tau = B * m;
-  var D = prop['D'](B) * z;
+  var D = prop['D'](B);
   var C0 = (sp['V'] * q) / Math.log(1 / prop['r_hat']);
 
   // Note: Whether to pick the +ive of -ive root for rs is chosen based on a
