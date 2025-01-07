@@ -54,8 +54,10 @@
       // Update background color
       if (dark) {
         document.querySelector(':root').style.setProperty('--background-color', '#0D1117');
+        document.querySelector(':root').style.setProperty('--line-color2', 'white');
       } else {
         document.querySelector(':root').style.setProperty('--background-color', '#FDFDFD');
+        document.querySelector(':root').style.setProperty('--line-color2', 'black');
       }
 
       scrollFunction();
@@ -69,31 +71,12 @@
 
   <div id="header">
     <div id="colorbar"></div>
-    <div class="pre-main">
-      <div class="post-header">
-        <div>
-          <a href="#h1" id="header-logo"><b>tfer-pma.</b></a>
-          <a href="https://www.tandfonline.com/doi/full/10.1080/02786826.2019.1680794" id="data-link-a">
-            <span><i class="fa-solid fa-file-lines"></i></span>
-            <span style="padding-left:4px;">Link to paper</span>
-          </a>
-          <a href="https://github.com/tsipkens">
-            <span><i class="fa-brands fa-github"></i></span>
-            <span style="padding-left:4px;">@tsipkens</span>
-          </a>
-        </div>
-        <button onclick="toggleNight()" class="light-dark-toggle" id="light-dark-toggle-bar">
-          <span><i class="fas fa-moon" id="moon"></i></span>
-          <span><i class="fas fa-sun" id="sun"></i></span>
-        </button>
-      </div>
-    </div>
   </div>
 
   <div class="pre-main">
     <div class="main">
 
-      <div style="margin-bottom:20px;" id="light-dark-toggle-inpage">
+      <div id="light-dark-toggle-inpage">
         <button onclick="toggleNight()" class="light-dark-toggle">
            <span><i class="fas fa-moon" id="moon"></i></span>
            <span><i class="fas fa-sun" id="sun"></i></span>
@@ -131,7 +114,7 @@
         is also available
         <a href="https://github.com/tsipkens/mat-tfer-pma">here</a>
         (e.g., this package is imported into
-        <a href="https://github.com/tsipkens/mat-2d-aerosol-inversion">mat-2d-aerosol-inversion</a>).
+        <a href="https://github.com/tsipkens/bidias">bidias</a>).
       </p>
 
       <p align="justify">
@@ -178,7 +161,9 @@
 
 
       <div class="head-div">
-        <h2>Visualization</h2>
+        <div class="h2-container">
+          <h2>Visualization</h2>
+        </div>
       </div>
 
       <h3>Classifier and particle properties</h3>
@@ -349,50 +334,61 @@
 
         <script src="docs/index.js"></script>
 
-        <div class="head-div">
-          <h2>References and resources</h2>
-        </div>
 
-        <ol>
+        <div class="footer">
 
-          <h3>Citing this work</h3>
-          
-          <p>
+          <b>Citing this work</b>
+
+          <div class="footer-note">
             The analytical transfer functions are given in a journal article:
-          </p>
-          
-          <p>
-            <li>
-              T. A. Sipkens, J. S. Olfert, S. N. Rogak. 
-              New approaches to calculate the transfer function of particle mass analyzers. 
-              <i>Aerosol Science and Technology</i> <b>54</b>, 111-127 (2020).
-              <a style="display:inline-block;" href="https://doi.org/10.1080/02786826.2019.1680794">10.1080/02786826.2019.1680794</a>
-            </li>
-          </p>
+          </div>
 
-          <p>
+          <div class="footer-note"  >
+            <span class="num" id="foot1">[1]</span>
+            T. A. Sipkens, J. S. Olfert, S. N. Rogak. 
+            New approaches to calculate the transfer function of particle mass analyzers. 
+            <i>Aerosol Science and Technology</i> <b>54</b>, 111-127 (2020).
+            <a style="display:inline-block;" href="https://doi.org/10.1080/02786826.2019.1680794">10.1080/02786826.2019.1680794</a>
+          </div>
+
+          <div class="footer-note">
             This paper should be cited when referring to the underlying functions.
-          </p>
+          </div>
 
-          <p>
+          <div class="footer-note">
             Code supporting this viz is open source and available in an
             <a href="https://github.com/tsipkens/tfer-pma">associated repository</a> on GitHub.
-          </p>
+          </div>
 
-          <h3>Other resources</h3>
+          <div class="footer-note">
+            Other code:
+            <a href="https://github.com/tsipkens">
+              <i class="fa-brands fa-github"></i>
+              @tsipkens
+            </a>
+          </div>
 
-          <p>
-            <li>
-              K. Ehara, C. Hagwood, K. J. Coakley. 
-              Novel method to classify aerosol particles according to their mass-to-charge ratio—aerosol particle mass analyser. 
-              <i>Journal of Aerosol Science</i> <b>27</b>, 217-234 (1996). 
-              <a style="display:inline-block;" href="https://doi.org/10.1016/0021-8502(95)00562-5">10.1016/0021-8502(95)00562-5</a>
-            </li>
-          </p>
+          <br>
 
-        </ol>
+          <b>Other reference</b>
 
-      </div>
+          <div class="footer-note">
+            <span class="num" id="foot1">[2]</span>
+            K. Ehara, C. Hagwood, K. J. Coakley. 
+            Novel method to classify aerosol particles according to their mass-to-charge ratio—aerosol particle mass analyser. 
+            <i>Journal of Aerosol Science</i> <b>27</b>, 217-234 (1996). 
+            <a style="display:inline-block;" href="https://doi.org/10.1016/0021-8502(95)00562-5">10.1016/0021-8502(95)00562-5</a>
+          </div>
+
+          <div class="footer-note">
+            <span class="num" id="foot1">[3]</span>
+            J. S. Olfert, N. Collings.
+            New method for particle mass classification—the Couette centrifugal particle mass analyzer. 
+            <i>Journal of Aerosol Science</i> <b>36</b>, 1338-1352 (2005).
+            <a style="display:inline-block;" href="https://doi.org/10.1016/j.jaerosci.2005.03.006">10.1016/j.jaerosci.2005.03.006</a>
+          </div>
+
+          <!-- <img src="imgs/CAAR.logo.v2.svg" style="width:30%;min-width:100px;"/>  -->
     </div>
 
 </body>

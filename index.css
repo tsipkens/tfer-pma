@@ -4,6 +4,7 @@
   color-scheme: light dark;
   /* both supported */
   --background-color: #FDFDFD;
+  --line-color2: black;
   --c1: #0969DA;
   --c2: #48DEB1;
   --c5: #FF5733;
@@ -12,6 +13,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #0D1117;
+    --line-color2: white;
   }
 }
 
@@ -74,7 +76,7 @@ div.pre-main {
 h2 {
   font-size: 28pt;
   padding-bottom: 15px;
-  padding-top: 120px;
+  padding-top: 40px;
   font-family: 'Gotham';
   font-weight: 600;
 }
@@ -210,6 +212,11 @@ div.post-header a.head-first {
 
 
 /*--- For light/dark toggle ---*/
+#light-dark-toggle-inpage {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 button.light-dark-toggle {
   font-family: inherit;
   font-size: 16pt;
@@ -240,18 +247,12 @@ body.dark-theme #moon {
   display: inline-block;
   color: var(--c1);
 }
-
-@media screen and (min-width: 600px) {
-  #light-dark-toggle-inpage {
-    display: none;
-  }
-}
 /*-----------------------------*/
 
 
 /*----- Site specific ------*/
 h1.title {
-  margin-top: 90px;
+  margin-top: 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
   font-size: 48pt;
@@ -262,6 +263,10 @@ body.dark-theme h1.title {
   color: #48DEB1;
 }
 
+h2 {
+  padding: 6px 0px;  /* override above */
+}
+
 h2.subtitle {
   margin-bottom: 50px;
   text-align: center;
@@ -270,6 +275,11 @@ h2.subtitle {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   padding-top: 0pt;
+}
+.h2-container {
+  padding: 5px 0px;
+  margin: 50px 0px 15px 0px;
+  border-bottom: solid 2px var(--line-color2);
 }
 
 #header-logo {
@@ -304,26 +314,9 @@ a.anchor {
   font-size: 9.5pt;
 }
 
-.footer sup {
-  font-size: 5.5pt;
-}
-
-.footer p {
+.footer-note {
   padding-top: 3px;
   padding-bottom: 3px;
-}
-
-
-#data-link-a img:nth-child(2) {
-  display: none;
-}
-
-#data-link-a:hover img:nth-child(2) {
-  display: block;
-}
-
-#data-link-a:hover img:first-child {
-  display: none;
 }
 
 .imgwrap {
